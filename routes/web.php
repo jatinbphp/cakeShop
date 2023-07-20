@@ -32,4 +32,4 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Auth::routes();
 });
 
-Route::get('/', 'Website\HomeController@index')->name('home');
+//Route::get('/', 'Website\HomeController@index')->name('home');

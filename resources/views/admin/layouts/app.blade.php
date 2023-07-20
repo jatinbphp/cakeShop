@@ -260,6 +260,6 @@
         }
     });
 </script>
-
+@yield('jquery')
 </body>
 </html>
