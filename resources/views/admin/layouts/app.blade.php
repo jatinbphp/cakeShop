@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/ladda/ladda-themeless.min.css')}}">
     <style>
         a.disabled {
             pointer-events: none;
@@ -76,16 +77,23 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('admin/') }}" class="nav-link @if($menu=='Dashboard') active @endif">
-                            <i class="nav-icon fa fa-dashboard"></i>
+                        <a href="{{ route('dashboard') }}" class="nav-link @if($menu=='Dashboard') active @endif">
+                            <i class="nav-icon fa fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('admin/customers') }}" class="nav-link @if($menu=='Customers') active @endif">
+                        <a href="{{ route('customers.index') }}" class="nav-link @if($menu=='Customers') active @endif">
                             <i class="nav-icon fa fa-users"></i>
                             <p>Customers</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('category.index') }}" class="nav-link @if($menu=='Customers') active @endif">
+                            <i class="nav-icon fa fa-sitemap"></i>
+                            <p>Category</p>
                         </a>
                     </li>
                 </ul>
@@ -123,7 +131,6 @@
 <script src="{{ URL('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
 <script src="{{ URL('assets/dist/js/adminlte.js')}}"></script>
 <script src="{{ URL('assets/dist/js/demo.js')}}"></script>
-<script src="{{ URL('assets/dist/js/custom.js')}}"></script>
 <script src="{{ URL('assets/dist/js/pages/dashboard.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
@@ -218,10 +225,8 @@
                 });
             }});
         $( "#sortable" ).disableSelection();
-    } );
 
-    /*SUMMER NOTE CODE*/
-    $(function (){
+        /*SUMMER NOTE CODE*/
         $("textarea[id=description]").summernote({
             height: 350,
             toolbar: [

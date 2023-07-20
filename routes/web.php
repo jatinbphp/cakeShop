@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +24,21 @@ use App\Http\Controllers\Admin\CustomerController;
 Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::get('logout', [LoginController::class,'logout']);
     Route::auth();
-    Route::get('/', [DashboardController::class,'index']);
+    Route::get('/', [DashboardController::class,'index'])->name('dashboard');
+
     /*IMAGE UPLOAD IN SUMMER NOTE*/
     Route::post('image/upload', [ImageController::class,'upload_image']);
-    /* USER MANAGEMENT */
+
     Route::resource('profile_update', ProfileUpdateController::class);
+
+    /* CUSTOMER MANAGEMENT */
     Route::resource('customers', CustomerController::class);
+
+    /* CATEGORY MANAGEMENT */
+    Route::post('category/assign', [CategoryController::class,'assign'])->name('category.assign');
+    Route::post('category/unassign', [CategoryController::class,'unassign'])->name('category.unassign');
+    Route::resource('category', CategoryController::class);
+
     Auth::routes();
 });
 
