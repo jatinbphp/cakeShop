@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                             <li class="breadcrumb-item active">{{$menu}}</li>
                         </ol>
                     </div>
@@ -28,7 +28,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <!-- <a href="{{ url('users/create') }}"><button class="btn btn-info float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-plus pr-1"></i> Add New</button></a> -->
+                                    <a href="{{ route('customers.create') }}"><button class="btn btn-info float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-plus pr-1"></i> Add New</button></a>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
             var roleId = $(this).attr("data-id");
             swal({
                     title: "Are you sure?",
-                    text: "To delete this user",
+                    text: "You want to delete this customer?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#DD6B55',
@@ -92,7 +92,7 @@
             function(isConfirm) {
                 if (isConfirm) {
                     $.ajax({
-                        url: "{{url('customers')}}/"+roleId,
+                        url: "{{url('admin/customers')}}/"+roleId,
                         type: "DELETE",
                         data: {_token: '{{csrf_token()}}' },
                         success: function(data){

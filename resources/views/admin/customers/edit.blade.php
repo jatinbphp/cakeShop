@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @section('content')
     <div class="content-wrapper" style="min-height: 946px;">
         <section class="content-header">
@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{url('users')}}">{{$menu}}</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('customers.index')}}">{{$menu}}</a></li>
                             <li class="breadcrumb-item active">Edit</li>
                         </ol>
                     </div>
@@ -18,18 +18,24 @@
         </section>
 
         <section class="content">
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-info">
                         <div class="card-header">
                             <h3 class="card-title">Edit {{$menu}}</h3>
                         </div>
-                        {!! Form::model($users,['url' => url('users/'.$users->id),'method'=>'patch','id' => 'bannerForm','class' => 'form-horizontal','files'=>true]) !!}
+                        {!! Form::model($customers,['url' => route('customers.update',['customer'=>$customers->id]),'method'=>'patch','id' => 'usersForm','class' => 'form-horizontal','files'=>true]) !!}
                         <div class="card-body">
-                            @include ('users.form')
+                            <div class="callout callout-danger">
+                                <h4><i class="fa fa-info"></i> Note:</h4>
+                                <p>Leave Password and Confirm Password empty if you are not going to change the password.</p>
+                            </div>
+                            
+                            @include ('admin.customers.form')
                         </div>
                         <div class="card-footer">
-                            <a href="{{ url('users') }}" ><button class="btn btn-default" type="button">Back</button></a>
+                            <a href="{{ route('customers.index') }}" ><button class="btn btn-default" type="button">Back</button></a>
                             <button class="btn btn-info float-right" type="submit">Update</button>
                         </div>
                         {!! Form::close() !!}

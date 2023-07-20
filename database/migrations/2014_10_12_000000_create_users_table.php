@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role');
+            $table->string('phone')->nullable();
             $table->string('status')->default('active');
             $table->rememberToken();
             $table->softDeletes();
@@ -30,7 +31,7 @@ return new class extends Migration
             'email' => 'admin@admin.com',
             'password' => bcrypt('123456'),
             'status' =>'active',
-            'role' => '1'
+            'role' => 'admin'
         ]);
     }
 
