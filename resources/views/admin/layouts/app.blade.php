@@ -53,6 +53,7 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item has-treeview @if(isset($menu) && $menu=='User') menu-open  @endif" style="border-bottom: 1px solid #4f5962; margin-bottom: 4.5%;">
+
                         <a href="#" class="nav-link @if(isset($menu) && $menu=='User') active  @endif">
                             <img src=" {{url('assets/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             <p style="padding-right: 6.5%;">
@@ -68,7 +69,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('admin/logout') }}" class="nav-link">
+                                <a href="{{ route('logout') }}" class="nav-link">
                                     <i class="nav-icon fa fa-sign-out"></i><p class="text-danger">Log out</p>
                                 </a>
                             </li>
@@ -76,14 +77,14 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('admin/') }}" class="nav-link @if($menu=='Dashboard') active @endif">
-                            <i class="nav-icon fa fa-dashboard"></i>
+                        <a href="{{ route('dashboard') }}" class="nav-link @if($menu=='Dashboard') active @endif">
+                            <i class="nav-icon fa fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('admin/customers') }}" class="nav-link @if($menu=='Customers') active @endif">
+                        <a href="{{ route('customers.index') }}" class="nav-link @if($menu=='Customers') active @endif">
                             <i class="nav-icon fa fa-users"></i>
                             <p>Customers</p>
                         </a>

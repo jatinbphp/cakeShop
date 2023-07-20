@@ -23,7 +23,7 @@ use App\Http\Controllers\Admin\CustomerController;
 Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::get('logout', [LoginController::class,'logout']);
     Route::auth();
-    Route::get('/', [DashboardController::class,'index']);
+    Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     /*IMAGE UPLOAD IN SUMMER NOTE*/
     Route::post('image/upload', [ImageController::class,'upload_image']);
     /* USER MANAGEMENT */
