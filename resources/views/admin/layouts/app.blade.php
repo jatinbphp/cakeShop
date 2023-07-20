@@ -7,7 +7,7 @@
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/font-awesome/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/AdminLTE.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/bootstrap-tagsinput.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/select2/select2.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/iCheck/flat/blue.css')}}">
@@ -80,6 +80,13 @@
                         <a href="{{ url('admin/') }}" class="nav-link @if($menu=='Dashboard') active @endif">
                             <i class="nav-icon fa fa-dashboard"></i>
                             <p>Dashboard</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url('admin/customers') }}" class="nav-link @if($menu=='Customers') active @endif">
+                            <i class="nav-icon fa fa-users"></i>
+                            <p>Customers</p>
                         </a>
                     </li>
                 </ul>

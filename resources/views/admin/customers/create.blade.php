@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('content')
     <div class="content-wrapper" style="min-height: 946px;">
         <section class="content-header">
@@ -9,8 +9,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{url('admin/users')}}">{{$menu}}</a></li>
-                            <li class="breadcrumb-item active">Edit</li>
+                            <li class="breadcrumb-item"><a href="{{url('users')}}">{{$menu}}</a></li>
+                            <li class="breadcrumb-item active">Add</li>
                         </ol>
                     </div>
                 </div>
@@ -18,19 +18,20 @@
         </section>
 
         <section class="content">
+            @include ('error')
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-info">
                         <div class="card-header">
-                            <h3 class="card-title">Edit {{$menu}}</h3>
+                            <h3 class="card-title">Add {{$menu}}</h3>
                         </div>
-                        {!! Form::model($user,['url' => url('admin/users/'.$user->id),'method'=>'patch' ,'class' => 'form-horizontal','files'=>true]) !!}
+                        {!! Form::open(['url' => url('users'), 'id' => 'usersForm', 'class' => 'form-horizontal','files'=>true]) !!}
                         <div class="card-body">
-                            @include ('admin.users.form')
+                            @include ('users.form')
                         </div>
                         <div class="card-footer">
-                            <a href="{{ url('admin/users') }}" ><button class="btn btn-default" type="button">Back</button></a>
-                            <button class="btn btn-info pull-right" type="submit">Update</button>
+                            <a href="{{ url('users') }}" ><button class="btn btn-default" type="button">Back</button></a>
+                            <button class="btn btn-info float-right" type="submit">Add</button>
                         </div>
                         {!! Form::close() !!}
                     </div>
@@ -39,4 +40,3 @@
         </section>
     </div>
 @endsection
-
