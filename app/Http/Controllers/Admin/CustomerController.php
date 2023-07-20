@@ -60,7 +60,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $data['menu'] = "Add Customer";
+        $data['menu'] = "Customers";
         return view("admin.customers.create",$data);
     }
 
@@ -107,7 +107,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $data['menu']="Edit Customer";
+        $data['menu']="Customers";
         $data['customers'] = User::findorFail($id);
         return view('admin.customers.edit',$data);
     }
