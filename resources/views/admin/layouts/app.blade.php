@@ -65,7 +65,7 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <?php $eid = \Illuminate\Support\Facades\Auth::user()->id; ?>
-                                <a href="{{ url('admin/profile_update/'.$eid.'/edit') }}" class="nav-link @if(isset($menu) && $menu=='User') active @endif">
+                                <a href="{{ route('profile_update.edit',['profile_update'=>$eid]) }}" class="nav-link @if(isset($menu) && $menu=='User') active @endif">
                                     <i class="nav-icon fa fa-pencil"></i><p class="text-warning">Edit Profile</p>
                                 </a>
                             </li>
