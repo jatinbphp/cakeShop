@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use DataTables;
 use DB;
+use Auth;
 
 class CustomerController extends Controller
 {   
@@ -38,7 +39,8 @@ class CustomerController extends Controller
                         return $statusBtn;
                     })
                     ->addColumn('action', function($row){
-                        $btn = '<div class="btn-group btn-group-sm"><a href="'.url('users/'.$row->id.'/edit').'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit User" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
+                        $btn = '<div class="btn-group btn-group-sm"><a href="'.url('admin/customers/'.$row->id.'/edit').'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit User" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
+                        
                         $btn .= '<span data-toggle="tooltip" title="Delete User" data-trigger="hover">
                                     <button class="btn btn-sm btn-danger deleteUser" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
                                 </span>';
@@ -58,7 +60,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        $data['menu'] = "Customers";
+        return view("admin.customers.create",$data);
     }
 
     /**
@@ -69,7 +72,20 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'confirmed|min:6',
+            'phone' =>'required|numeric|nullable',
+            'status' => 'required',
+        ]);
+
+        $input = $request->all();
+        $input['role'] =  'customer';
+        $user = User::create($input);
+
+        \Session::flash('success', 'Customer has been inserted successfully!');
+        return redirect()->route('customers.index');
     }
 
     /**
@@ -91,7 +107,9 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['menu']="Customers";
+        $data['customers'] = User::findorFail($id);
+        return view('admin.customers.edit',$data);
     }
 
     /**
@@ -103,7 +121,24 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id.',id',
+            'password' => 'confirmed|nullable|min:6',
+            'phone' =>'required|numeric|nullable',
+            'status' => 'required',
+        ]);
+
+        if(empty($request['password'])){
+            unset($request['password']);
+        }
+
+        $input = $request->all();
+        $user = User::findorFail($id);
+        $user->update($input);
+
+        \Session::flash('success','User has been updated successfully!');
+        return redirect()->route('customers.index');
     }
 
     /**
@@ -114,6 +149,12 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $users = User::findOrFail($id);
+        if(!empty($users)){
+            $users->delete();
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }
