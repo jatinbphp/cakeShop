@@ -81,6 +81,13 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url('admin/customers') }}" class="nav-link @if($menu=='Customers') active @endif">
+                            <i class="nav-icon fa fa-users"></i>
+                            <p>Customers</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -162,8 +169,6 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass   : 'iradio_flat-green'
         });
-
-        $('.my-colorpicker1').colorpicker();
     });
 </script>
 
