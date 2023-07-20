@@ -6,25 +6,24 @@
     <title>Cake Shop | {{ $menu }}</title>
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/font-awesome/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/adminlte.min.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/bootstrap-tagsinput.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/select2/select2.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/iCheck/flat/blue.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/iCheck/all.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/colorpicker/bootstrap-colorpicker.min.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/daterangepicker/daterangepicker.css')}}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/summernote/summernote.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/drag_drop/jquery-ui.css')}}">
-    <!-- CHECKBOX STYLE CSS  -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/checkbox.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/radio2.css') }}">
-
-    <!-- LIGHT BOX CSS  -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/dist/lightbox/css/jquery.magnify.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/jqvmap/jqvmap.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/custom.css') }}">
     <style>
         a.disabled {
             pointer-events: none;
@@ -93,38 +92,42 @@
         <strong>Cake Shop Admin</strong>
     </footer>
 </div>
-<script src="{{ URL::asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/jQuery/jquery.min.js')}}"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script>$.widget.bridge('uibutton', $.ui.button)</script>
-<script src="{{ URL::asset('assets/plugins/drag_drop/jquery-1.12.4.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/drag_drop/jquery-ui.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<script src="{{ URL('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/jszip/jszip.min.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="{{ URL::asset('assets/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/knob/jquery.knob.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/datatables/dataTables.bootstrap4.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/moment/moment.min.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/colorpicker/bootstrap-colorpicker.min.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/fastclick/fastclick.js')}}"></script>
-<script src="{{ URL::asset('assets/dist/js/adminlte.js')}}"></script>
-<script src="{{ URL::asset('assets/dist/js/pages/dashboard.js')}}"></script>
-<script src="{{ URL::asset('assets/dist/js/demo.js')}}"></script>
+<script src="{{ URL('assets/plugins/chart.js/Chart.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/sparklines/sparkline.js')}}"></script>
+<script src="{{ URL('assets/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/moment/moment.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{ URL('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/summernote/summernote-bs4.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+<script src="{{ URL('assets/dist/js/adminlte.js')}}"></script>
+<script src="{{ URL('assets/dist/js/demo.js')}}"></script>
 <script src="{{ URL('assets/dist/js/custom.js')}}"></script>
-<script src="{{ URL('assets/dist/lightbox/js/jquery.magnify.js')}}"></script>
-<script src="{{ URL('assets/dist/js/bootstrap-tagsinput.min.js')}}"></script>
+<script src="{{ URL('assets/dist/js/pages/dashboard.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/iCheck/icheck.min.js')}}"></script>
-<link rel="stylesheet" href="{{ URL::asset('assets/plugins/ladda/ladda-themeless.min.css')}}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="{{ URL::asset('assets/plugins/ladda/spin.min.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/ladda/ladda.min.js')}}"></script>
-<!--jQuery Validation-->
 <script src="{{ URL('assets/dist/js/jquery.validate.js')}}"></script>
-<script src="{{ URL('assets/dist/js/additional-methods.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/jSignature/libs/jSignature.min.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/jSignature/libs/modernizr.js')}}"></script>
 
 <script>Ladda.bind( 'input[type=submit]' );</script>
 <script>
