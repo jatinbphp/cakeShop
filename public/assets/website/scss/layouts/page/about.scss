@@ -1,0 +1,163 @@
+/* Time Open Section  */
+.time-open-section.time-open-about {
+ background: #fff;
+}
+/* End Time Open Section  */
+
+/* Our Story Section */
+.about-story-section.section-box {
+	padding-bottom: 116px;
+}
+.about-story-section {
+	background: #f2f2f2;
+	.story-content {
+		text-align: center;
+		.special-heading-1 {
+			padding-bottom: 28px;
+		}
+		p {
+			font-size: 16px;
+			margin: 0 auto 36px;
+    		width: 60%;
+		}
+	}
+}
+/* End Our Story Section */
+
+/* About Us Section */
+.about-us-section.section-box {
+	padding-top: 120px;
+}
+.about-us-section {
+	.about-video {
+		padding-right: 10px;
+		.video {
+			.vimeo {
+				position: relative;
+				cursor: pointer;
+				.btn-play {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					@include transform(translate(-50%,-50%));
+				}
+			}
+		}
+	}
+	.about-content {
+	    padding: 33px 0 0 45px;
+		.special-heading,
+		.special-heading-1 {
+			text-align: left;
+		}
+		.special-heading-1 {
+			padding-bottom: 23px;
+		}
+		p {
+			font-size: 16px;
+		}
+	}
+}
+/* End About Us Section */
+
+/* Our Team Section */
+.our-team-section.our-team-about.section-box {
+	padding-top: 118px;
+}
+.our-team-section.our-team-about {
+	background-position: center center;
+	background-repeat: no-repeat;
+	@include background-size(cover);
+	.special-heading-1 {
+		color: #fff;
+	}
+	.our-team-content {
+		.member-info {
+			background: #fff;
+		}
+	}
+}
+/* End Our Team Section */
+
+/* Testimonials Section */
+.about-testimonials.section-box {
+	padding-bottom: 108px;
+}
+.about-testimonials {
+	.special-heading-1 {
+		padding-bottom: 17px;
+	}
+	.owl-carousel {
+		.owl-thumbs,
+		.owl-nav {
+			display: none;
+		}
+		.owl-dots {
+			.owl-dot {
+				@include outline(none);
+				span {
+					background: rgba(51,51,51,0.1);
+				}
+				&:hover {
+					span {
+						background: #333;
+					}
+				}
+			}
+			.owl-dot.active {
+				span {
+					background: #333;
+				}
+			}
+		}
+		.owl-item {
+			p {
+				font-size: 18px;
+				font-style: italic;
+				margin-top: -18px;
+			}
+			.client {
+				overflow: hidden;
+			    margin: 26px 0 55px;
+				img {
+					height: 70px;
+					width: 70px;
+					float: left;
+				}
+				.info {
+					margin: 10px 0 0 95px;
+					span {
+						display: block;
+					}
+					.name {
+						font-family: 'Josefin Sans', sans-serif;
+						font-size: 16px;
+						font-weight: 700;
+						color: #333;
+						padding-bottom: 1px;
+					}
+					.job {
+						font-size: 14px;
+					}
+				}
+			}
+			.icon {
+			    @extend display-flex;
+			    @include justify-content(space-between);
+			    @include align-items(center);
+			    .quote {
+			    	font-size: 55px;
+			    	color: rgba(51,51,51,0.3);
+			    }
+			    .star {
+			    	color: #f2c029;
+			    	font-size: 20px;
+			    	span {
+			    		color: #ccc;
+			    	}
+			    }
+			}
+		}
+	}
+}
+/* End Testimonials Section */

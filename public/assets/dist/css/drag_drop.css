@@ -1,0 +1,118 @@
+@media (min-width: 1200px) {
+    .container {
+        width:1080px;
+    }
+}
+
+.item-container-right {
+    height: 491px;
+    overflow: auto;
+    border: solid 1px #ccc;
+    margin-top: 5px;
+    background-color: #ecf0f5;
+}
+
+.item-container-right > div {
+    padding: 20px 20px 10px 10px;
+    overflow: auto;
+    border-bottom: solid 1px #ddd;
+    cursor: pointer;
+    position: relative;
+    height: 60px;
+}
+
+.item-container-right > div label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.item-container-right > div small {
+    color: #aaa;
+    display: block;
+    overflow: hidden;
+    font-weight: normal;
+    line-height: 1.4em;
+}
+
+.item-container-right > div:hover {
+    background: #f3f3f3;
+}
+
+.item-container-right > .sortable-placeholder {
+    height: 70px; /* Same as the drag item height */
+    border: 1px solid #fcefa1;
+    background-color: #fbf9ee;
+}
+
+/*-------------------------------------------------------------*/
+.item-container {
+    height: 450px;
+    overflow: auto;
+    border: solid 1px #ccc;
+    margin-top: 5px;
+    background-color: #ecf0f5;
+}
+
+.item-container > div {
+    padding: 8px 20px 10px 10px;
+    /*overflow: auto;*/
+    border-bottom: solid 1px #ddd;
+    cursor: pointer;
+    position: relative;
+    height: 40px;
+}
+
+.item-container > div label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.item-container > div small {
+    color: #aaa;
+    display: block;
+    overflow: hidden;
+    font-weight: normal;
+    line-height: 1.4em;
+}
+
+.item-container > div:hover {
+    background: #f3f3f3;
+}
+
+#item-available > div::after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: .255em;
+    float: right;
+    margin-top: 1%;
+    content: "";
+    border-top: .3em solid transparent;
+    border-right: 0;
+    border-bottom: .3em solid transparent;
+    border-left: .3em solid  ;
+}
+
+#item-selected > div::after {
+    font-family: FontAwesome;
+    content: '\f1f8';
+    display: block;
+    position: absolute;
+    right: 10px;
+    color: #ff0000;
+    top: 8px;
+}
+
+#item-available > div.selected {
+    display: none !important;
+}
+
+.item-container > .sortable-placeholder {
+    height: 70px; /* Same as the drag item height */
+    border: 1px solid #fcefa1;
+    background-color: #fbf9ee;
+}

@@ -1,0 +1,167 @@
+/* Events Section Of Events Page */
+.events-section.section-box {
+	padding-bottom: 90px;
+}
+.events-section {
+	.events-content {
+		border: 1px solid #e5e5e5;
+		margin-bottom: 30px;
+		overflow: hidden;
+		.image {
+		    float: left;
+		    width: 35.3%;
+		}
+		.events-detail {
+		    padding: 40px 40px 40px 45px;
+		    margin-left: 35.3%;
+		    .time {
+		    	font-size: 13px;
+		    	i {
+	    		    font-size: 18px;
+				    padding-right: 10px;
+				    margin-top: 1px;
+				    float: left;
+		    	}
+		    }
+		    h4 {
+	    	    padding: 15px 0 10px;
+		    }
+		    .more-link {
+		    	padding-top: 8px;
+		    }
+		}
+		&:hover {
+			border: none;
+			@include box-shadow(0px 0px 10px 0px rgba(0, 0, 0, 0.1));
+		}
+	}
+}
+/* End Events Section Of Events Page */
+
+/* Map Section of Events Details Pages */
+.map-section.map-events-details {
+	.google-map-section {
+		.js-map-holder {
+			height: 450px;
+		}
+	}
+}
+/* End Map Section of Events Details Pages */
+
+/* Events Section of Events Details Pages */
+.events-details-section.section-box {
+	padding: 120px 0 95px;
+}
+.events-details-section {
+	.events-content {
+		.owl-theme{
+			.owl-dots,
+			.owl-thumbs {
+				display: none;
+			}
+			.owl-nav {
+				.owl-prev,
+				.owl-next {
+					font-size: 30px;
+					color: rgba(255,255,255,0.2);
+					position: absolute;
+					top: 50%;
+					@include transform(translateY(-50%));
+				}
+				.owl-prev {
+					left: 2.5%;
+				}
+				.owl-next {
+					right: 2.5%;
+				}
+			}
+			.owl-nav [class*=owl-] {
+				background: transparent;
+				@include outline(none);
+			}
+		}
+		h2 {
+			font-size: 25px;
+			padding: 48px 0 26px;
+		}
+		p {
+			font-size: 14px;
+			margin-bottom: 18px;
+		}
+	}
+	.video {
+		.vimeo,
+		.youtube {
+			position: relative;
+			cursor: pointer;
+			.btn-play {
+			    position: absolute;
+			    top: 50%;
+			    left: 50%;
+			    @include transform(translate(-50%,-50%));
+			}
+		}
+	}
+	.events-info {
+		.contact {
+			padding-right: 30px;
+			h2 {
+				font-size: 25px;
+				padding: 58px 0 25px;
+			}
+			.contact-inner {
+				padding-bottom: 20px;
+				i {
+					font-size: 20px;
+					color: #dabc95;
+				    float: left;
+   					margin-top: 3px;
+				}
+				.contact-detail {
+				    margin-left: 40px;
+				    a {
+				    	font-family: 'Josefin Sans', sans-serif;
+				    	font-size: 18px;
+				    }
+				    p {
+				    	font-family: 'Josefin Sans', sans-serif;
+				    	font-size: 18px;
+				    	color: #333;
+				    	margin-bottom: 0;
+				    	span {
+				    		font-size: 17px;
+				    		font-weight: 700;
+				    		padding-right: 22px;
+				    	}
+				    }
+				}
+				.contact-address {
+					a {
+						font-size: 14px;
+						padding-top: 9px;
+						display: block;
+						i {
+							color: #333;
+							float: none;
+							font-size: 14px;
+						}
+						&:hover {
+							i {
+								color: #dabc95;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+#modal-video {
+	.modal-dialog {
+		max-width: 70%;
+		margin: 150px auto;
+	}
+}
+/* End Events Section of Events Details Pages */
+
+
