@@ -1,5 +1,28 @@
+/*!
+ * 
+ * Super simple WYSIWYG editor v0.8.20
+ * https://summernote.org
+ *
+ *
+ * Copyright 2013- Alan Hong and contributors
+ * Summernote may be freely distributed under the MIT license.
+ *
+ * Date: 2021-10-14T21:15Z
+ *
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
 // Starsoft Mongolia LLC Temuujin Ariunbold
-
 (function ($) {
   $.extend($.summernote.lang, {
     'mn-MN': {
@@ -29,11 +52,13 @@
         shapeThumbnail: 'Хүрээ: Хураангуй',
         shapeNone: 'Хүрээгүй',
         dragImageHere: 'Зургийг энд чирч авчирна уу',
+        dropImage: 'Drop image or Text',
         selectFromFiles: 'Файлуудаас сонгоно уу',
         maximumFileSize: 'Файлын дээд хэмжээ',
         maximumFileSizeError: 'Файлын дээд хэмжээ хэтэрсэн',
         url: 'Зургийн URL',
-        remove: 'Зургийг устгах'
+        remove: 'Зургийг устгах',
+        original: 'Original'
       },
       video: {
         video: 'Видео',
@@ -52,7 +77,14 @@
         openInNewWindow: 'Шинэ цонхонд нээх'
       },
       table: {
-        table: 'Хүснэгт'
+        table: 'Хүснэгт',
+        addRowAbove: 'Add row above',
+        addRowBelow: 'Add row below',
+        addColLeft: 'Add column left',
+        addColRight: 'Add column right',
+        delRow: 'Delete row',
+        delCol: 'Delete column',
+        delTable: 'Delete table'
       },
       hr: {
         insert: 'Хэвтээ шугам оруулах'
@@ -103,7 +135,37 @@
         textFormatting: 'Бичвэрийг хэлбэржүүлэх',
         action: 'Үйлдэл',
         paragraphFormatting: 'Догол мөрийг хэлбэржүүлэх',
-        documentStyle: 'Бичиг баримтын хэв загвар'
+        documentStyle: 'Бичиг баримтын хэв загвар',
+        extraKeys: 'Extra keys'
+      },
+      help: {
+        'insertParagraph': 'Insert Paragraph',
+        'undo': 'Undoes the last command',
+        'redo': 'Redoes the last command',
+        'tab': 'Tab',
+        'untab': 'Untab',
+        'bold': 'Set a bold style',
+        'italic': 'Set a italic style',
+        'underline': 'Set a underline style',
+        'strikethrough': 'Set a strikethrough style',
+        'removeFormat': 'Clean a style',
+        'justifyLeft': 'Set left align',
+        'justifyCenter': 'Set center align',
+        'justifyRight': 'Set right align',
+        'justifyFull': 'Set full align',
+        'insertUnorderedList': 'Toggle unordered list',
+        'insertOrderedList': 'Toggle ordered list',
+        'outdent': 'Outdent on current paragraph',
+        'indent': 'Indent on current paragraph',
+        'formatPara': 'Change current block\'s format as a paragraph(P tag)',
+        'formatH1': 'Change current block\'s format as H1',
+        'formatH2': 'Change current block\'s format as H2',
+        'formatH3': 'Change current block\'s format as H3',
+        'formatH4': 'Change current block\'s format as H4',
+        'formatH5': 'Change current block\'s format as H5',
+        'formatH6': 'Change current block\'s format as H6',
+        'insertHorizontalRule': 'Insert horizontal rule',
+        'linkDialog.show': 'Show Link Dialog'
       },
       history: {
         undo: 'Буцаах',
@@ -116,3 +178,8 @@
     }
   });
 })(jQuery);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=summernote-mn-MN.js.map

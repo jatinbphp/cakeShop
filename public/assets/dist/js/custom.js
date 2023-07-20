@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('.assign').click(function(){
+        alert('in');
         var user_id = $(this).attr('uid');
         var url = $(this).attr('url');
         var l = Ladda.create(this);
@@ -17,6 +18,7 @@ $(document).ready(function(){
         });
     });
     $('.unassign').click(function(){
+        alert('out');
         var user_id = $(this).attr('ruid');
         var url = $(this).attr('url');
         var l = Ladda.create(this);
