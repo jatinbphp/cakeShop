@@ -1,0 +1,225 @@
+/* Time Open Section of RF-1 Page */
+.time-open-section.section-box {
+ 	padding: 89px 0 87px;
+
+}
+.time-open-section {
+	background: #f2f2f2;
+	.time-content {
+		text-align: center;
+		h4 {
+			font-size: 25px;
+			padding-bottom: 9px;
+		}
+		span {
+			font-size: 14px;
+		}
+	}
+}
+/* End Time Open Section of RF-1 Page */
+
+/* Reservation Section of RF-1 Page */
+.reservation-section.section-box {
+	padding-top: 120px;
+}
+.reservation-section {
+	.reservation-content {
+		padding: 48px 70px 55px 0;
+		.special-heading,
+		.special-heading-1 {
+			text-align: left;
+		}
+		.special-heading-1 {
+			padding-bottom: 13px;
+		}
+		p {
+			font-size: 16px;
+			margin-bottom: 12px;
+		}
+		.last {
+			margin-bottom: 43px;
+		}
+		.form-group {
+		    margin-bottom: 0;
+		    display: flex;
+		    margin: 0 -10px;
+			.form-row {
+				margin: 0 0 20px 0;
+				width: 50%;
+			    padding: 0 10px;
+			    position: relative;
+			    input,
+			    select {
+			    	height: auto;
+			    	padding: 11.5px 25px;
+			    }
+			    input[type="submit"] {
+				    width: 100%;
+				}
+				input {
+					&.btn-medium {
+					    height: 50px;
+					    line-height: 55px;
+					    padding: 0 25px;
+					}
+				}
+				select {
+					position: relative;
+					z-index: 1;
+					background: 0 0;
+					cursor: pointer;
+				}
+			    .ui-datepicker-trigger {
+				    position: absolute;
+				    border: none;
+				    background: transparent;
+				    @include outline(none);
+				    top: 22%;
+				    right: 8%;
+				    color: #666;
+				    cursor: pointer;
+				}
+				.select-btn {
+				    position: absolute;
+				    top: 20%;
+				    right: 10%;
+				    z-index: 0;
+				}
+				.au-btn {
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
+/* End Reservation Section of RF-1 Page */
+
+/* Book Table Section Of RF-3 Page */
+.book-table-hp-1.book-table-rf3.section-box {
+	padding-bottom: 80px;
+}
+.book-table-hp-1.book-table-rf3 {
+	background: #fff; 
+	p {
+		width: 60%;
+	}
+	.form-detail {
+		.form-group {
+			padding: 0 30px;
+			.form-row {
+			    width: 25.4%;
+			    margin-right: 24px;
+			    select,
+			    input {
+			    	margin-right: 23px;
+			    }
+			    &:last-child {
+			    	margin-right: 0;
+			    }
+			}
+			.form-row.form-row-1 {
+			    width: 24.7%;
+			}
+			.form-row.form-row-2 {
+			    width: 21.3%;
+			    select {
+				    margin-right: 6px;
+				}
+			}
+			.form-row.form-row-3 {
+			    width: 20.7%;
+			}
+		}
+	}
+}
+/* End Book Table Section Of RF-3 Page */
+
+/* Book With Phone Section Of RF-3 Page */
+.book-phone-section.section-box {
+	padding: 0 0 102px;
+}
+.book-phone-section {
+	.book-phone-content {
+		border-top: 1px solid #e5e5e5;
+		padding-top: 57px;
+	}
+	.book-phone-detail {
+		h4 {
+			font-size: 22px;
+			padding-bottom: 25px;
+		}
+		p {
+			margin-bottom: 11px;
+		}
+	}
+}
+/* End Book With Phone Section Of RF-3 Page */
+
+/* Reservation Section Of RF-2 Page */
+.reservation-section.reservation-section-3 {
+	.reservation-detail {
+		@include box-shadow(0px 0px 10px 0px rgba(0, 0, 0, 0.1));
+	}
+	.reservation-content {
+		margin-right: -30px;
+		padding: 80px 60px 50px 60px;
+		.special-heading,
+		.special-heading-1 {
+			text-align: center;
+		}
+		.special-heading-1 {
+			padding-bottom: 44px;
+		}
+		.form-group-1 {
+			text-align: center;
+			.form-row {
+				width: 100%;
+				margin-top: 30px;
+			}
+			input[type="submit"] {
+			    width: auto;
+			    padding: 0px 43.5px;
+			    margin: 0 auto;
+			    height: 50px;
+				line-height: 55px;
+			}
+		}
+	}
+	.reservation-contact {
+		.contact-info {
+			text-align: center;
+			background: #3a424e;
+			padding: 58px 45px 62px;
+			h4 {
+				color: #fff;
+				font-size: 25px;
+				padding-bottom: 24px;
+			}
+			i {
+				color: #f2f2f2;
+				font-size: 25px;
+				display: block;
+			}
+			p {
+				color: #ccc;
+				margin: 9px 0 20px;
+			}
+			a {
+				font-family: 'Josefin Sans', sans-serif;
+				font-size: 20px;
+				color: #f2f2f2;
+				margin-top: 7px;
+				&:hover {
+					color: #dabc95;
+				}
+			}
+		}
+	}
+}
+.reservation-section-3.map-section {
+    .js-map-holder {
+    	height: 200px;
+    }
+}
+/* End Reservation Section Of RF-2 Page */
+

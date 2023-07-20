@@ -1,0 +1,434 @@
+/* Header Desktop hp-1 */
+.header-hp-1 {
+    background: transparent;
+    width: 100%;
+    top: 0;
+    position: absolute;
+    z-index: 999;
+	.menu-desktop-inner {
+    	@extend display-flex;
+    	@include justify-content(space-between);
+    	position: relative;
+    	.logo {
+        	padding: 46px 0 10px;
+    	}
+	    .main-menu {
+	        .menu-item {
+	            float: left;
+	            font-family: 'Josefin Sans', sans-serif;
+	            font-weight: 400;
+	            font-size: 15px;
+	            padding: 60px 0px 25px 0;
+	            position: relative;
+	            &:before {
+	            	position: absolute;
+	            	content: '';
+	            	background: rgba(255,255,255,0.2);
+	            	height: 1px;
+	            	width: 20px;
+	            	left: 50%;
+	            	top: 80%;
+	            	@include transform(translateX(-50%));
+	            	opacity: 0;
+	            }
+	            .current {
+	            	position: relative;
+	            	&:before {
+		            	position: absolute;
+		            	content: '';
+		            	background: rgba(255,255,255,0.2);
+		            	height: 1px;
+		            	width: 20px;
+		            	left: 50%;
+		            	top: 110%;
+		            	@include transform(translateX(-50%));
+		            	opacity: 1;
+	            	}
+	            }
+	            > a {
+	            	color: #fff;
+	                padding: 0 12px;
+	                position: relative;
+	            }
+	            &:last-child {
+	                > a {
+	                    padding-right: 0;
+	                }
+	            }
+	            &:hover {
+	            	&:before {
+	            		opacity: 1;
+	            	}
+	                > .sub-menu {
+	                    display: block;
+	                }
+	            }
+	            .sub-menu {
+	                display: none;
+	                position: absolute;
+	                left: 12px;
+	                -webkit-padding-start: 0px;
+	                width: 200px;
+	                z-index: 99999;
+	                top: 100%;
+	                margin-top: 0;
+	                color: #333;
+	                background: #fff;
+	                @include box-shadow(0px 3px 10px 0px rgba(0, 0, 0, 0.1));
+	                li {
+	                    float: none;
+	                    position: relative;
+	                    border-bottom: 1px solid #e5e5e5;
+	                    &:last-child {
+	                    	border-bottom: none;
+	                    }
+	                    &:hover {
+	                    	.menu-levels {
+	                    		display: block;
+	                    		left: 200px;
+	                    		top: 0;
+	                    	}
+                            a {
+                                color: #333;
+                            }
+	                    }
+	                }
+	                a {
+	                    font-weight: 400;
+	                    font-size: 14px;
+	                    color: #333;
+	                    padding: 9px 20px;
+	                    display: block;
+	                    &:hover {
+	                        background: #e5e5e5;
+	                    }
+	                }
+	            }
+	        }
+	    }
+  	}
+}
+/* End Header Desktop hp-1 */
+
+/* Header Desktop hp-2 */
+.header-hp-1 {
+    .top-header {
+        background: #a68f71;
+        padding: 12px 0;
+        .top-header-inner {
+            @extend display-flex;
+            @include justify-content(space-between);
+            @include align-items(center);
+            .top-header-right {
+                color: #f2f2f2;
+                font-size: 13px;
+                @extend display-flex;
+                @include justify-content(space-between);
+                @include align-items(center);
+                .inner {
+                    margin-right: 20px;
+                    i {
+                        float: left;
+                        margin-top: 2px;
+                        font-size: 16px;
+                    }
+                    .text {
+                        margin-left: 18px;
+                        a {
+                            color: #f2f2f2;
+                        }
+                    }
+                }
+            }
+            .header-socials {
+                a {
+                    color: #f2f2f2;
+                    font-size: 16px;
+                    margin-right: 12px;
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+.header-hp-1.header-hp-2 {
+    position: relative;
+    .menu-desktop-inner {
+        .logo {
+            padding: 30px 0;
+        }
+        .main-menu {
+            margin-left: 30%;
+            .menu-item {
+                padding: 55px 0px 50px 0;
+                &:before {
+                    background: rgba(51, 51, 51, 0.5);
+                    top: 64%;
+                }
+                .current {
+                    &:before {
+                        background: rgba(51, 51, 51, 0.5);
+                    }
+                }
+                > a {
+                    color: #333;
+                    &:hover {
+                        color: #000;
+                    }
+                }
+            }
+        }
+        .header-reservation {
+            padding-top: 40px;
+            .btn-small {
+                padding: 17.5px 26.5px;
+            }
+        }
+    }
+}
+/* End Header Desktop hp-2 */
+
+/* Header Desktop hp-3 */
+.header-hp-1.header-hp-3 {
+    .menu-desktop-inner {
+        .logo {
+            padding: 38px 0 10px;
+        }
+        .main-menu {
+            .menu-item {
+                padding: 55px 0px 25px 0;
+            }
+        }
+    }
+
+}
+/* End Header Desktop hp-3 */
+
+/* Header Desktop hp-4 */
+.header-hp-1.header-hp-4 {
+    .menu-desktop-inner {
+        @include justify-content(center);
+        .main-menu {
+            .menu-item {
+                padding: 65px 0px 25px 0;
+            }
+            .menu-item.menu-item-1 {
+                &:hover {
+                    &:before {
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+        .logo {
+            padding: 0px 47px 10px;
+            margin-top: -19px;
+        }
+    }
+}
+/* End Header Desktop hp-4 */
+
+/* Header Scroll hp-1*/
+.header-hp-1 {
+    .menu-desktop.fixed {
+        z-index: 999999;
+        position: fixed;
+        width: 100%;
+        @include box-shadow(0px 1px 3px 0px rgba(0, 0, 0, 0.1));
+        background: #000;
+        top: 0;
+        .menu-desktop-inner {
+			.logo {
+				padding: 16px 0 17px;
+			}
+			.main-menu {
+				.menu-item {
+					padding: 30px 0px 32px 0;
+					&:before {
+						top: 67%;
+					}
+				}
+			}
+        }
+    }
+}
+/* End Header Scroll */
+
+/* Header Scroll hp-2*/
+.header-hp-1.header-hp-2 {
+    .menu-desktop.fixed {
+        background: #fff;
+        .menu-desktop-inner {
+            .logo {
+                padding: 8px 0 9px;
+            }
+            .header-reservation {
+                padding-top: 18px;
+            }
+        }
+    }
+}
+/* End Header Scroll hp-2*/
+
+/* Header Scroll hp-4*/
+.header-hp-1.header-hp-4 {
+    .menu-desktop.fixed {
+        .menu-desktop-inner {
+            .logo {
+                padding: 0px 47px 0px;
+                margin-top: -15px;
+            }
+            .main-menu {
+                .menu-item.menu-item-1 {
+                    padding: 30px 0px 18px 0;
+                }
+            }
+        }
+    }
+}
+/* End Header Scroll hp-4*/
+
+/* Header Mobile */
+.show-mobile-header {
+    position: relative;
+}
+.mobile-top-header {
+    padding: 15px 30px;
+    .logo-mobile {
+        display: inline-block;
+    }
+    /* Hamburger Button */
+    .hamburger {
+        background: none;
+        border: none;
+        padding-top: 18px;
+        float: right;
+        &:focus {
+            outline: none;
+        }
+        .hamburger-box {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 24px;
+            background: none;
+            border: none;
+        }
+    }
+    .hamburger--spin {
+        .hamburger-inner {
+            transition-timing-function: cubic-bezier(.55, .055, .675, .19);
+            transition-duration: .3s;
+            position: absolute;
+            width: 40px;
+            height: 4px;
+            transition-property: transform;
+            @include border-radius(4px);
+            background-color: #000;
+            top: 50%;
+            display: block;
+            margin-top: -2px;
+            &:before,
+            &:after {
+                position: absolute;
+                width: 40px;
+                height: 4px;
+                transition-property: transform;
+                @include border-radius(4px);
+                background-color: #000;
+                content: '';
+                display: block;
+            }
+            &:before {
+                top: -10px;
+            }
+            &:after {
+                top: 10px;
+            }
+        }
+    }
+    .hamburger--spin.is-active {
+        .hamburger-inner {
+            @include transition-delay(.14s);
+            transition-timing-function: cubic-bezier(.215, .61, .315, 1);
+            @include transform(rotate(225deg));
+            &:before {
+                top: 0;
+                @include transition((top .1s ease-out,opacity .1s ease-out .14s));
+                opacity: 0;
+            }
+            &:after {
+                top: 0;
+                bottom: 0;
+                @include transition((bottom .1s ease-out,transform .3s cubic-bezier(.215,.61,.355,1) .14s));
+                @include transform(rotate(-90deg));
+            }
+        }
+    }
+    /* End Hamburger Button */
+}
+.mobile-top-header.style-mobile-top-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99999;
+    background: #fff;
+}
+.au-navbar-mobile.style-au-navbar-mobile {
+    width: 100%;
+    z-index: 999999;
+    position: absolute;
+    top: calc(100% + 100px);
+}
+.au-navbar-mobile {
+    display: none;
+    width: 100%;
+    z-index: 999999;
+    .au-navbar-menu {
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 0;
+            li {
+                border-top: 1px solid #e9e9e9;
+                a {
+                    background-color: #fff;
+                    display: block;
+                    height: 46px;
+                    padding: 13px 30px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+            }
+            li.drop {
+                position: relative;
+                z-index: 999999;
+                .arrow {
+                    @include transition(0.3s);
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    font-size: 23px;
+                    cursor: pointer;
+                    padding: 7px 20px;
+                }
+                .drop-menu {
+                    display: none;
+                    li {
+                        a {
+                            padding: 13px 50px;
+                            background: #f2f2f2;
+                        }
+                        a.drop-menu-inner {
+                        	padding: 13px 80px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/* End Header Mobile */

@@ -1,0 +1,104 @@
+/* Footer hp-1 */
+.footer-section.section-box {
+	padding: 76px 0 0;
+}
+.footer-section {
+	background: #3a424e;
+	.footer-content{
+		padding-bottom: 70px;
+	}
+	.footer-item {
+		h5 {
+			color: #fff;
+		    padding: 25px 0 36px;
+		}
+		p {
+			color: #f2f2f2;
+			font-size: 14px;
+		    margin: 29px 0 31px;
+		}
+		.socials {
+			a {
+				font-size: 20px;
+				color: rgba(255,255,255,0.15);
+				padding-right: 15px;
+				&:hover {
+					color: #fff;
+				}
+			}
+		}
+		.insta-content {
+			overflow: hidden;
+    		margin: 0 -7.5px; 
+    		.insta-image {
+			    float: left;
+			    width: 33.33%;
+			    padding: 0 7.5px 15px;
+			}
+		}
+		.widget_recent_entries {
+			ul {
+				margin-top: -19px;
+			}
+			li {
+				border-bottom: 1px solid rgba(255,255,255,0.1);
+    			padding: 11px 0 9px;
+				a {
+					color: #999;
+					font-size: 16px;
+				    font-family: 'Josefin Sans', sans-serif;
+				    &:hover {
+				    	color: #fff;
+				    }
+				}
+			}
+		}
+		.contact-content {
+		    margin-top: -3px;
+		}
+		.contact-inner {
+			color: #f2f2f2;
+			padding-bottom: 10px;
+			i {
+				font-size: 18px;
+				float: left;
+    			margin-top: 2px;
+			}
+			.text {
+				font-size: 14px;
+			    margin-left: 30px;
+			    .address {
+			    	padding-right: 20px;
+			    }
+			    a {
+			    	color: #f2f2f2;
+			    }
+			    .text-inner {
+				    @extend display-flex;
+				    @include justify-content(space-between);
+				    @include align-items(center);
+				    padding-bottom: 6px;
+				}
+				.text-2 {
+					font-size: 13px;
+					color: #ccc;
+				}
+			}
+		}
+	}
+	.sub-footer {
+		text-align: center;
+		border-top: 1px solid rgba(255,255,255,0.1);
+		color: #999;
+		font-family: 'Josefin Sans', sans-serif;
+		padding: 20px 0 16px;
+		a {
+			color: #fff;
+			&:hover {
+				color: #dabc95;
+			}
+		}
+	}
+}
+/* End Footer hp-1 */
+

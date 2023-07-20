@@ -1,0 +1,117 @@
+/* Our Story Section */
+.story-hp-3.section-box {
+	padding: 98px 0 113px;
+}
+.story-hp-3 {
+	.story-content {
+		text-align: center;
+		.special-heading-1 {
+			padding-bottom: 28px;
+		}
+		img {
+			width: 65px;
+			height: 65px;
+			@include border-radius(50%);
+		}
+		p {
+			font-size: 18px;
+			font-style: italic;
+			color: #999;
+		    width: 55%;
+    		margin: 0 auto 31px;
+		}
+		.info {
+			span {
+				display: block;
+			}
+			.name {
+				color: #333;
+				font-size: 18px;
+				font-weight: 700;
+				font-family: 'Josefin Sans', sans-serif;
+				padding-top: 20px;
+				margin-bottom: -1px;
+			}
+			.job {
+				font-size: 14px;
+			}
+		}
+	}
+}
+/* End Our Story Section */
+
+/* Categories Section */
+.categories-section {
+	.container-fluid {
+		padding: 0;
+	}
+	.categories-content {
+		padding: 0 15px;
+		cursor: pointer;
+		.categories-detail {
+			margin: 0 -15px;
+			position: relative;
+			.image {
+				position: relative;
+				.overlay {
+					background: rgba(0,0,0,0.4);
+					opacity: 1;
+				}
+			}
+			.shape {
+			    position: absolute;
+			    top: 50%;
+			    left: 50%;
+			    @include transform(translate(-50%,-50%));
+			    z-index: 9;
+			    width: 80%;
+			}
+			h4 {
+				position: absolute;
+			    top: 44%;
+			    left: 50%;
+			    @include transform(translateX(-50%));
+			    z-index: 99;
+			    color: #fff;
+			    font-size: 28px;
+			}
+			.more-link {
+				opacity: 0;
+			    position: absolute;
+			    left: 50%;
+			    @include transform(translateX(-50%));
+			    bottom: 7%;
+			    color: #fff;
+			    z-index: 9;
+			    i {
+			    	padding-left: 10px;
+			    }
+			    &:hover {
+			    	color: #dabc95;
+			    }
+			}
+			&:hover {
+				.overlay {
+					background: rgba(0,0,0,0.6);
+				}
+				.more-link {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+/* End Categories Section */
+
+/* Slider Revolution Section */
+.style-home-slider-hp-1.style-home-slider-hp-3 {
+	.slide-caption-title-1 {
+		font-family: 'Josefin Sans', sans-serif;
+		font-weight: 700;
+	}
+	.slide-caption-title-2 {
+		font-family: 'Josefin Sans', sans-serif;
+		font-weight: 400;
+	}
+}
+/* End Slider Revolution Section */
