@@ -92,7 +92,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('category.index') }}" class="nav-link @if($menu=='Customers') active @endif">
+                        <a href="{{ route('category.index') }}" class="nav-link @if($menu=='Category') active @endif">
                             <i class="nav-icon fa fa-sitemap"></i>
                             <p>Category</p>
                         </a>
