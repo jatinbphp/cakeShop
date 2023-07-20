@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProfileUpdateController;
+use App\Http\Controllers\Admin\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::post('image/upload', [ImageController::class,'upload_image']);
     /* USER MANAGEMENT */
     Route::resource('profile_update', ProfileUpdateController::class);
+    Route::resource('customers', CustomerController::class);
     Auth::routes();
 });
 
