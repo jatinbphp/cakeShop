@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,10 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::post('products/assign', [ProductController::class,'assign'])->name('products.assign');
     Route::post('products/unassign', [ProductController::class,'unassign'])->name('products.unassign');
     Route::resource('products', ProductController::class);
+
+    /* SETTING MANAGEMENT */
+    Route::resource('settings', SettingController::class);
+    Route::post('delete_settings_image', [SettingController::class,'deleteSettingsImage']);
 
     Auth::routes();
 });
