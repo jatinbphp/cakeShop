@@ -15,21 +15,16 @@
 
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-            <label class="col-md-12 control-label" for="title">Image <span class="text-red">*</span></label>
-            <div class="col-md-6">
-                @if(isset($settings->image) && !empty($settings->image))
-                    {!! Form::hidden('image', null, ['class' => 'form-control', 'placeholder' => 'Image', 'id' => 'image']) !!}
-                    <div class="img-wrap settings-image">
-                        <span class="close"><button type="button" class="btn delete-settings-image" data-id="{{ $settings->id }}" data-name="{{ $settings->image }}"><i class="fa fa-trash" style="color: red;"></i></i></button></span>
-                        <img src="{{ url('uploads/logo/'.$settings->image) }}" alt="" width="90%" height="100%">
-                    </div>
-                @else
-                    {!! Form::file('image', null, ['class' => 'form-control', 'placeholder' => 'Choose The logo']) !!}
+            <label class="col-md-12 control-label" for="image">Image<span class="text-red">*</span></label>
+            <div class="col-md-12">
+                <div class="fileError">
+                    {!! Form::file('image', ['class' => '', 'id'=> 'image','accept'=>'image/*', 'onChange'=>'AjaxUploadImage(this)']) !!}
+                </div>
 
-                @endif
+                <img id="DisplayImage" @if(!empty($settings->image)) src="{{ url('storage/'.$settings->image)}}" style="margin-top: 1%; padding-bottom:5px; display: block;" @else src="" style="padding-bottom:5px; display: none;" @endif width="150">
 
                 @if ($errors->has('image'))
-                    <span class="text-danger">
+                    <span class="help-block">
                         <strong>{{ $errors->first('image') }}</strong>
                     </span>
                 @endif

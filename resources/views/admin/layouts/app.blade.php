@@ -86,7 +86,7 @@
 
                     
                     <li class="nav-item">
-                        <a href="{{ url('admin/settings') }}" class="nav-link @if($menu=='Settings') active @endif">
+                        <a href="{{ route('settings.index') }}" class="nav-link @if($menu=='Settings') active @endif">
                             <i class="nav-icon fa fa-cog"></i>
                             <p>Settings</p>
                         </a>
