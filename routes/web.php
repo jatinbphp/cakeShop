@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SettingController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +41,13 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::post('category/assign', [CategoryController::class,'assign'])->name('category.assign');
     Route::post('category/unassign', [CategoryController::class,'unassign'])->name('category.unassign');
     Route::resource('category', CategoryController::class);
+
+
+    /* SETTING MANAGEMENT */
+    Route::resource('settings', SettingController::class);
+    Route::post('delete_settings_image', [SettingController::class,'deleteSettingsImage']);
+
+    
 
     Auth::routes();
 });
