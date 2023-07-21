@@ -37,7 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Email</th>                                        
+                                        <th>Email</th>
                                         <th style="width: 15%;">Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -103,6 +103,45 @@
                     });
                 } else {
                     swal("Cancelled", "Your data safe!", "error");
+                }
+            });
+        });
+
+        $('#usersTable tbody').on('click', '.assign', function (event) {
+            event.preventDefault();
+            var user_id = $(this).attr('uid');
+            var url = $(this).attr('url');
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {'id': user_id},
+                headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                success: function(data){
+                    l.stop();
+                    $('#assign_remove_'+user_id).show();
+                    $('#assign_add_'+user_id).hide();
+                    table.draw(false);
+                }
+            });
+        });
+
+        $('#usersTable tbody').on('click', '.unassign', function (event) {
+            event.preventDefault();
+            var user_id = $(this).attr('ruid');
+            var url = $(this).attr('url');
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {'id': user_id,'_token' : $('meta[name=_token]').attr('content') },
+                success: function(data){
+                    l.stop();
+                    $('#assign_remove_'+user_id).hide();
+                    $('#assign_add_'+user_id).show();
+                    table.draw(false);
                 }
             });
         });
