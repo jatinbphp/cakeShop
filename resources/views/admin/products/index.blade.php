@@ -72,7 +72,7 @@
             ]
         });
 
-        $('#productsTable tbody').on('click', '.deleteproducts', function (event) {
+        $('#productsTable tbody').on('click', '.deleteProduct', function (event) {
             event.preventDefault();
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');

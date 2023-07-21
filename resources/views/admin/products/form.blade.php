@@ -41,7 +41,17 @@
         <div class="form-group{{ $errors->has('images') ? ' has-error' : '' }}">
             <label class="control-label" for="images">Images <span class="text-red mr-2">*</span></label>
             <small class="text-primary">[You can select multiple images]</small><br>
-            {!! Form::file('images[]', ['multiple', 'id' => 'images']) !!}
+            {!! Form::file('images[]', ['multiple', 'id' => 'images']) !!}<br>
+            @if(isset($product) && !empty($product['ProductImages']))
+                <div class="row mt-3">
+                    @foreach($product['ProductImages'] as $img)
+                        <div class="col-md-2 border mr-2 text-center" id="img_{{$img['id']}}">
+                            <div style="background-image: url({{url('storage/'.$img->image)}}); background-position: center; background-repeat: no-repeat; height: 150px; width: 150px; background-size: contain"></div>
+                            <button type="button" class="btn btn-danger btn-sm my-1 delImg" data-id="{{$img['id']}}"><i class="fa fa-trash"></i></button>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
             @if ($errors->has('images'))
                 <span class="text-danger">
                     <strong>{{ $errors->first('images') }}</strong>
@@ -83,3 +93,41 @@
         </div>
     </div>
 </div>
+
+@section('jquery')
+    <script type="text/javascript">
+        $('.delImg').on('click', function(){
+            var imgId = $(this).attr('data-id');
+                swal({
+                title: "Are you sure?",
+                text: "To delete this image",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonText: "No, cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: "{{route('products.deleteProductImg')}}/",
+                        type: "DELETE",
+                        data: {imgId:imgId, _token: '{{csrf_token()}}' },
+                        success: function(data){
+                            if(data == 1){
+                                $('#img_'+imgId).remove();
+                                swal("Deleted", "Your data successfully deleted!", "success");
+                            }else{
+                                swal("Error", "Something is wrong!", "error");
+                            }
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your data safe!", "error");
+                }
+            });
+        });
+    </script>
+    @endsection
