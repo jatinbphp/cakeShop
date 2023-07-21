@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,11 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::post('category/assign', [CategoryController::class,'assign'])->name('category.assign');
     Route::post('category/unassign', [CategoryController::class,'unassign'])->name('category.unassign');
     Route::resource('category', CategoryController::class);
+
+    /* PRODUCT MANAGEMENT */
+    Route::post('products/assign', [ProductController::class,'assign'])->name('products.assign');
+    Route::post('products/unassign', [ProductController::class,'unassign'])->name('products.unassign');
+    Route::resource('products', ProductController::class);
 
     Auth::routes();
 });

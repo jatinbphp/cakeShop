@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $data['menu']="Category";
+        $data['menu'] = "Category";
         $data['search'] = $request['search'];
 
         if ($request->ajax()) {
@@ -84,7 +84,7 @@ class CategoryController extends Controller
 
     public function edit(string $id)
     {
-        $data['menu']="Category";
+        $data['menu'] = "Category";
         $data['category'] = Category::findorFail($id);
         return view('admin.category.edit',$data);
     }
