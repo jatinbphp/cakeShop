@@ -31,6 +31,8 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::resource('profile_update', ProfileUpdateController::class);
 
     /* CUSTOMER MANAGEMENT */
+    Route::post('customers/assign', [CustomerController::class,'assign'])->name('customers.assign');
+    Route::post('customers/unassign', [CustomerController::class,'unassign'])->name('customers.unassign');
     Route::resource('customers', CustomerController::class);
 
     /* CATEGORY MANAGEMENT */
