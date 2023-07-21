@@ -15,14 +15,10 @@ class Controller extends BaseController
     public function image($photo, $path){
         $root = storage_path('app/public/uploads/'.$path);
         $name = Str::random(20).".".$photo->getClientOriginalExtension();
-        $mimetype = $photo->getMimeType();
-        $explode = explode("/",$mimetype);
-        $type = $explode[0];
-
         if (!file_exists($root)) {
             mkdir($root, 0777, true);
         }
         $photo->move($root,$name);
-        return $path = 'uploads/'.$path."/".$name;
+        return 'uploads/'.$path."/".$name;
     }
 }

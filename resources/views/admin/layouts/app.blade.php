@@ -85,14 +85,6 @@
                         </a>
                     </li>
 
-                    
-                    <li class="nav-item">
-                        <a href="{{ route('settings.index') }}" class="nav-link @if($menu=='Settings') active @endif">
-                            <i class="nav-icon fa fa-cog"></i>
-                            <p>Settings</p>
-                        </a>
-                    </li>
-
                     <li class="nav-item">
                         <a href="{{ route('customers.index') }}" class="nav-link @if($menu=='Customers') active @endif">
                             <i class="nav-icon fa fa-users"></i>
@@ -111,6 +103,13 @@
                         <a href="{{ route('products.index') }}" class="nav-link @if($menu=='Products') active @endif">
                             <i class="nav-icon fa fa-parking"></i>
                             <p>Products</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('settings.index') }}" class="nav-link @if($menu=='Settings') active @endif">
+                            <i class="nav-icon fa fa-cog"></i>
+                            <p>Settings</p>
                         </a>
                     </li>
                 </ul>

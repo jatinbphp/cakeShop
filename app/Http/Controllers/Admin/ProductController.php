@@ -52,7 +52,7 @@ class ProductController extends Controller
                 ->addColumn('action', function($row){
                     $btn = '<div class="btn-group btn-group-sm"><a href="'.route('products.edit',['product'=>$row->id]).'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit Stock" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
                     $btn .= '<span data-toggle="tooltip" title="Delete Stock" data-trigger="hover">
-                                    <button class="btn btn-sm btn-danger deleteCategory" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger deleteProduct" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
                                 </span>';
                     return $btn;
                 })
@@ -88,8 +88,6 @@ class ProductController extends Controller
                 $in['image'] = $this->image($imagefile, 'products');
                 ProductImages::create($in);
             }
-        }else{
-            return 'out';
         }
 
         \Session::flash('success', 'Product has been inserted successfully!');
@@ -104,7 +102,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $data['menu'] = "Products";
-        $data['product'] = Products::findorFail($id);
+        $data['product'] = Products::with('ProductImages')->findorFail($id);
         $data['category'] = Category::where('status','active')->pluck('name','id')->prepend('Please Select','');
         return view('admin.products.edit',$data);
     }
@@ -121,6 +119,15 @@ class ProductController extends Controller
         $input = $request->all();
         $product = Products::findorFail($id);
         $product->update($input);
+
+        if(!empty($request['images'])) {
+            foreach ($request->file('images') as $imagefile) {
+                $in['product_id'] = $product['id'];
+                $in['image'] = $this->image($imagefile, 'products');
+                ProductImages::create($in);
+            }
+        }
+
         \Session::flash('success','Product has been updated successfully!');
         return redirect()->route('products.index');
     }
@@ -148,5 +155,19 @@ class ProductController extends Controller
         $product = Products::findorFail($request['id']);
         $product['status'] = "inactive";
         $product->update($request->all());
+    }
+
+    public function deleteProductImg(Request $request){
+        $proImage = ProductImages::where('id',$request['imgId'])->first();
+        if(!empty($proImage)){
+            $file_path=storage_path('app/public/'.$proImage->image);
+            if (!empty($proImage->image) && file_exists($file_path)) {
+                unlink($file_path);
+            }
+            $proImage->delete();
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

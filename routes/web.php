@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::post('products/assign', [ProductController::class,'assign'])->name('products.assign');
     Route::post('products/unassign', [ProductController::class,'unassign'])->name('products.unassign');
     Route::resource('products', ProductController::class);
+    Route::delete('deleteProductImg', [ProductController::class,'deleteProductImg'])->name('products.deleteProductImg');
 
     /* SETTING MANAGEMENT */
     Route::resource('settings', SettingController::class);
