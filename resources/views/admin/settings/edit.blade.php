@@ -19,18 +19,19 @@
 
         <!-- Main content -->
         <section class="content">
+            @include ('admin.error')
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-info">
                         <div class="card-header">
                             <h3 class="card-title">Add {{$menu}}</h3>
                         </div>
-                        {!! Form::model($settings,['url' => route('settings.update',['setting'=>$settings->id]),'method'=>'patch','id' => 'settingsForm','class' => 'form-horizontal','files'=>true]) !!}
+                        {!! Form::model($settings,['url' => route('settings.update',['setting'=>1]),'method'=>'patch','id' => 'settingsForm','class' => 'form-horizontal','files'=>true]) !!}
                         <div class="card-body">
                            @include ('admin.settings.form')
                         </div>
                         <div class="card-footer">
-                            <a href="{{ route('settings.index') }}" ><button class="btn btn-default" type="button">Back</button></a>
+                            <a href="{{ route('dashboard') }}" ><button class="btn btn-default" type="button">Back</button></a>
                             <button class="btn btn-info float-right" type="submit">Update</button>
                         </div>
                         {!! Form::close() !!}
