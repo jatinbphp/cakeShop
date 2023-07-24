@@ -10,7 +10,7 @@ class Orders extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable= ['customer_id','customer_name','customer_email','customer_phone','order_date','order_time','short_notes','payment_type','transaction_id','order_total','order_status'];
+    protected $fillable= ['customer_id','customer_name','customer_email','customer_phone','address','order_date','order_time','short_notes','payment_type','transaction_id','order_total','status'];
 
     const STATUS_PENDING = 'pending';
     const STATUS_PAID = 'paid';
@@ -21,6 +21,14 @@ class Orders extends Model
         self::STATUS_PAID => 'Paid',
         self::STATUS_REJECT => 'Reject',
     ];
+
+    public function User(){
+        return $this->belongsTo('App\Models\User','customer_id');
+    }
+
+    public function OrderItems(){
+        return $this->hasMany('App\Models\OrderItems','order_id');
+    }
 }
 
 

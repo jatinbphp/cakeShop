@@ -12,6 +12,14 @@ class Products extends Model
 
     protected $fillable = ['category','name','description','price','status'];
 
+    const STATUS_ACTIVE = 'active';
+    const STATUS_INACTIVE = 'inactive';
+
+    public static $status = [
+        self::STATUS_ACTIVE => 'Active',
+        self::STATUS_INACTIVE => 'In Active',
+    ];
+
     public function Category(){
         return $this->belongsTo('App\Models\Category','category');
     }
