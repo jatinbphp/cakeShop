@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,12 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::post('products/unassign', [ProductController::class,'unassign'])->name('products.unassign');
     Route::resource('products', ProductController::class);
     Route::delete('deleteProductImg', [ProductController::class,'deleteProductImg'])->name('products.deleteProductImg');
+
+    /* ORDER MANAGEMENT */
+    Route::post('orders/assign', [OrderController::class,'assign'])->name('orders.assign');
+    Route::post('orders/unassign', [OrderController::class,'unassign'])->name('orders.unassign');
+    Route::resource('orders', OrderController::class);
+    Route::post('get_product_price',[OrderController::class,'getProductPrice'])->name('orders.getProductPrice');
 
     /* SETTING MANAGEMENT */
     Route::resource('settings', SettingController::class);

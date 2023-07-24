@@ -19,13 +19,14 @@ class CreateOrdersTable extends Migration
             $table->string('customer_name')->nullable();
             $table->string('customer_email')->nullable();
             $table->string('customer_phone')->nullable();
+            $table->text('address')->nullable();
             $table->date('order_date')->nullable();
             $table->time('order_time')->nullable();
             $table->text('short_notes')->nullable();
             $table->enum('payment_type',['cod','paypal','gcash'])->nullable();
             $table->string('transaction_id')->nullable();
             $table->double('order_total')->nullable();
-            $table->enum('order_status',['pending','paid','reject'])->default('pending');
+            $table->enum('status',['pending','paid','reject'])->default('pending');
             $table->softDeletes();
             $table->timestamps();
         });
