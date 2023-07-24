@@ -58,7 +58,7 @@
             <div class="col-md-2">
                 <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                     @if($key==0)
-                    <label class="control-label" for="name">Price (<i class="fa fa-ruble-sign pr-2"></i>) :<span class="text-red">*</span></label>
+                    <label class="control-label" for="name">Price (<i class="fa fa-ruble-sign"></i>) :<span class="text-red">*</span></label>
                     @endif
                     {!! Form::text('price['.$key.']', $OrderItems['price'], ['class' => 'form-control', 'id' => 'price_'.$key, 'readonly' => true, $key==0?'required':'']) !!}
                     @if ($errors->has('price'))
@@ -74,7 +74,7 @@
                     @if($key==0)
                     <label class="control-label" for="name">Quantity :<span class="text-red">*</span></label>
                     @endif
-                    {!! Form::number('quantity['.$key.']', $OrderItems['quantity'], ['class' => 'form-control', 'id' => 'quantity_'.$key, 'min' => 1, $key==0?'required':'','onkeyup' => 'getTotalPrice(this.value, '.$key.')']) !!}
+                    {!! Form::number('quantity['.$key.']', $OrderItems['quantity'], ['class' => 'form-control', 'id' => 'quantity_'.$key, 'min' => 1, $key==0?'required':'', 'onchange' => 'getTotalPrice(this.value, '.$key.')', 'onkeyup' => 'getTotalPrice(this.value, '.$key.')']) !!}
                     @if ($errors->has('quantity'))
                         <span class="text-danger">
                             <strong>{{ $errors->first('quantity') }}</strong>
@@ -86,7 +86,7 @@
             <div class="col-md-2">
                 <div class="form-group{{ $errors->has('ordertotal') ? ' has-error' : '' }}">
                     @if($key==0)
-                    <label class="control-label" for="name">Sub Total (<i class="fa fa-ruble-sign pr-2"></i>) :<span class="text-red">*</span></label>
+                    <label class="control-label" for="name">Sub Total (<i class="fa fa-ruble-sign"></i>) :<span class="text-red">*</span></label>
                     @endif
                     {!! Form::number('ordertotal['.$key.']', number_format(($OrderItems['quantity']*$OrderItems['price']), 2, '.', ''), ['class' => 'form-control', 'id' => 'ordertotal_'.$key, 'readonly' => true]) !!}
                 </div>
@@ -118,7 +118,7 @@
 
         <div class="col-md-2">
             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                <label class="control-label" for="name">Price (<i class="fa fa-ruble-sign pr-2"></i>) :<span class="text-red">*</span></label>
+                <label class="control-label" for="name">Price (<i class="fa fa-ruble-sign"></i>) :<span class="text-red">*</span></label>
                 {!! Form::text('price[0]', '0.00', ['class' => 'form-control', 'id' => 'price_0', 'readonly' => true, 'required']) !!}
                 @if ($errors->has('price'))
                     <span class="text-danger">
@@ -131,7 +131,7 @@
         <div class="col-md-2">
             <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
                 <label class="control-label" for="name">Quantity :<span class="text-red">*</span></label>
-                {!! Form::number('quantity[0]', 1, ['class' => 'form-control', 'id' => 'quantity_0', 'min' => 1, 'required','onkeyup' => 'getTotalPrice(this.value, 0)']) !!}
+                {!! Form::number('quantity[0]', 1, ['class' => 'form-control', 'id' => 'quantity_0', 'min' => 1, 'required', 'onkeyup' => 'getTotalPrice(this.value, 0)', 'onchange' => 'getTotalPrice(this.value, 0)']) !!}
                 @if ($errors->has('quantity'))
                     <span class="text-danger">
                         <strong>{{ $errors->first('quantity') }}</strong>
@@ -142,7 +142,7 @@
 
         <div class="col-md-2">
             <div class="form-group{{ $errors->has('ordertotal') ? ' has-error' : '' }}">
-                <label class="control-label" for="name">Sub Total (<i class="fa fa-ruble-sign pr-2"></i>) :<span class="text-red">*</span></label>
+                <label class="control-label" for="name">Sub Total (<i class="fa fa-ruble-sign"></i>) :<span class="text-red">*</span></label>
                 {!! Form::number('ordertotal[0]', '0.00', ['class' => 'form-control', 'id' => 'ordertotal_0', 'readonly' => true]) !!}
             </div>
         </div>
@@ -233,7 +233,7 @@
 
             '<div class="col-md-2">'+
                 '<div class="form-group">'+
-                    '<input type="number" name="quantity['+counter+']" class="form-control" id="quantity_'+counter+'"  value="1" min="1" onkeyup="getTotalPrice(this.value, '+counter+')">'+
+                    '<input type="number" name="quantity['+counter+']" class="form-control" id="quantity_'+counter+'"  value="1" min="1" onkeyup="getTotalPrice(this.value, '+counter+')" onchange="getTotalPrice(this.value, '+counter+')">'+
                 '</div>'+
             '</div>'+
 
