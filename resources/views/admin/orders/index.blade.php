@@ -39,10 +39,11 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Customer</th>
+                                        <th>Items</th>
                                         <th style="width: 12%;">Status</th>
                                         <th style="width: 12%;">Total</th>
                                         <th style="width: 18%;" >Order Date</th>
-                                        <th style="width: 18%;" >Fullfillment Date</th>
+                                        <!-- <th style="width: 18%;" >Fullfillment Date</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -72,11 +73,12 @@
             ajax: "{{ route('orders.index') }}",
             columns: [
                 {data: 'unique_id', name: 'unique_id'},
-                {data: 'customer_name', name: 'customer_name'},
-                {data: 'status', name: 'status'},
+                {data: 'customer_name', name: 'customer_name', orderable: false},
+                {data: 'order_items', name: 'order_items', orderable: false},
+                {data: 'status', name: 'status', orderable: false},
                 {data: 'order_total', name: 'order_total'},
                 {data: 'created_at', name: 'created_at'},
-                {data: 'order_date', name: 'order_date'},
+                /*{data: 'order_date', name: 'order_date'},*/
                 {data: 'action', "width": "10%", name: 'action', orderable: false, searchable: false},
             ]
         });
