@@ -37,7 +37,6 @@
                             <table id="ordersTable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Unique ID</th>
                                         <th>Customer</th>
                                         <th style="width: 12%;">Status</th>
@@ -72,7 +71,6 @@
             ],
             ajax: "{{ route('orders.index') }}",
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, width: '10%' },
                 {data: 'unique_id', name: 'unique_id'},
                 {data: 'customer_name', name: 'customer_name'},
                 {data: 'status', name: 'status'},

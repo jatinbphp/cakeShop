@@ -24,7 +24,7 @@ class OrderController extends Controller
         $data['search'] = $request['search'];
 
         if ($request->ajax()) {
-            $data = Orders::select();
+            $data = Orders::orderBy('id','DESC')->select();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('created_at', function($row){
