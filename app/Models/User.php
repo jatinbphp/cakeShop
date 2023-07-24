@@ -38,4 +38,8 @@ class User extends Authenticatable
         self::STATUS_ACTIVE => 'Active',
         self::STATUS_INACTIVE => 'In Active',
     ];
+
+    public function Orders(){
+        return $this->hasMany('App\Models\Orders','customer_id');
+    }
 }

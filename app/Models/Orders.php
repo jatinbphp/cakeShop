@@ -10,7 +10,7 @@ class Orders extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable= ['customer_id','customer_name','customer_email','customer_phone','address','order_date','order_time','short_notes','payment_type','transaction_id','order_total','status'];
+    protected $fillable= ['unique_id','customer_id','customer_name','customer_email','customer_phone','address','order_date','order_time','short_notes','payment_type','transaction_id','order_total','status'];
 
     const STATUS_PENDING = 'pending';
     const STATUS_PAID = 'paid';
