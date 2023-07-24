@@ -88,28 +88,28 @@
                     <li class="nav-item">
                         <a href="{{ route('customers.index') }}" class="nav-link @if($menu=='Customers') active @endif">
                             <i class="nav-icon fa fa-users"></i>
-                            <p>Customers</p>
+                            <p>Manage Customers</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('category.index') }}" class="nav-link @if($menu=='Category') active @endif">
                             <i class="nav-icon fa fa-sitemap"></i>
-                            <p>Category</p>
+                            <p>Manage Categories</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('products.index') }}" class="nav-link @if($menu=='Products') active @endif">
                             <i class="nav-icon fa fa-parking"></i>
-                            <p>Products</p>
+                            <p>Manage Products</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('orders.index') }}" class="nav-link @if($menu=='Orders') active @endif">
                             <i class="nav-icon fa fa-shopping-cart"></i>
-                            <p>Orders</p>
+                            <p>Manage Orders</p>
                         </a>
                     </li>
 
