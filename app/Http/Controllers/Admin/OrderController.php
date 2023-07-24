@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ExportOrders;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Products;
@@ -9,14 +10,14 @@ use App\Models\User;
 use App\Models\Orders;
 use App\Models\OrderItems;
 use DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(Request $request){
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $data['menu'] = "Orders";
@@ -28,9 +29,6 @@ class OrderController extends Controller
                 ->addIndexColumn()
                 ->addColumn('created_at', function($row){
                     return $row['created_at']->format('d-m-Y h:i:s');
-                })
-                ->addColumn('customer_id', function($row){
-                    return $row['User']['name'];
                 })
                 ->addColumn('order_total', function($row){
                     return '<i class="fa fa-ruble-sign pr-2"></i>'.number_format($row['order_total'], 2, '.', '');
@@ -60,11 +58,6 @@ class OrderController extends Controller
         return view('admin.orders.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $data['menu'] = "Orders";
@@ -73,12 +66,6 @@ class OrderController extends Controller
         return view("admin.orders.create",$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -90,13 +77,16 @@ class OrderController extends Controller
         ]);
 
         $input = $request->all();
-        $userDetails = User::where('id',$input['customer_id'])->first();
+        $userDetails = User::with('Orders')->where('id',$input['customer_id'])->first();
         $input['customer_name'] = $userDetails['name'];
         $input['customer_email'] = $userDetails['email'];
-        $input['customer_phone'] = $userDetails['phone']; 
+        $input['customer_phone'] = $userDetails['phone'];
         $input['payment_type'] = 'cod';
+
+        $totalOrder = count($userDetails['Orders']);
+        $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder+1;
         $order = Orders::create($input);
-            
+
         $orderTotal = 0;
         $orderItems = [];
         if(!empty($input['product_id'])){
@@ -119,28 +109,16 @@ class OrderController extends Controller
 
         $order_total['order_total'] = $orderTotal;
         Orders::updateOrCreate(['id' => $order['id']], $order_total);
-        
+
         \Session::flash('success', 'Order has been inserted successfully!');
         return redirect()->route('orders.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $data['menu'] = "Orders";
@@ -150,13 +128,6 @@ class OrderController extends Controller
         return view("admin.orders.edit",$data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -171,7 +142,7 @@ class OrderController extends Controller
         $userDetails = User::where('id',$input['customer_id'])->first();
         $input['customer_name'] = $userDetails['name'];
         $input['customer_email'] = $userDetails['email'];
-        $input['customer_phone'] = $userDetails['phone']; 
+        $input['customer_phone'] = $userDetails['phone'];
         $input['payment_type'] = 'cod';
         $order = Orders::findorFail($id);
         $order->update($input);
@@ -206,12 +177,6 @@ class OrderController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $order = Orders::findOrFail($id);
@@ -227,5 +192,57 @@ class OrderController extends Controller
     public function getProductPrice(Request $request){
         $product = Products::where('id',$request['product_id'])->where('status','active')->first();
         return number_format($product['price'], 2, '.', '');
+    }
+
+    public function exportOrder(){
+        $fileName = 'order'.time().'.csv';
+        $orders = Orders::with('OrderItems')->select('id','customer_name','customer_email','customer_phone','address',
+            'order_date','order_time','short_notes','payment_type','order_total','status')->get();
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $columns = array(
+            '#',
+            'Customer Name',
+            'Customer Email',
+            'Customer Phone',
+            'Customer Address',
+            'Order Date',
+            'Order Time',
+            'Short Notes',
+            'Payment Type',
+            'Order Total',
+            'Order Status',
+        );
+
+        $callback = function() use($orders, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($orders as $order) {
+                $row['#'] = $order['id'];
+                $row['Customer Name'] = $order['customer_name'];
+                $row['Customer Email'] = $order['customer_email'];
+                $row['Customer Phone'] = $order['customer_phone'];
+                $row['Customer Address'] = $order['address'];
+                $row['Order Date'] = $order['order_date'];
+                $row['Order Time'] = $order['order_time'];
+                $row['Short Notes'] = $order['short_notes'];
+                $row['Payment Type'] = $order['payment_type'];
+                $row['Order Total'] = $order['order_total'];
+                $row['Order Status'] = $order['status'];
+
+                fputcsv($file, array($row['#'],$row['Customer Name'],$row['Customer Email'],$row['Customer Phone'],$row['Customer Address'],$row['Order Date'],$row['Order Time'],$row['Short Notes'],$row['Payment Type'],$row['Order Total'],$row['Order Status']));
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

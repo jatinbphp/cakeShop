@@ -28,6 +28,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12">
+                                    <a href="{{ route('orders.export') }}"><button class="btn btn-warning float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-file-export pr-1"></i> Export to CSV</button></a>
                                     <a href="{{ route('orders.create') }}"><button class="btn btn-info float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-plus pr-1"></i> Add New</button></a>
                                 </div>
                             </div>
@@ -36,7 +37,8 @@
                             <table id="ordersTable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Order ID</th>
+                                        <th>#</th>
+                                        <th>Unique ID</th>
                                         <th>Customer</th>
                                         <th style="width: 12%;">Status</th>
                                         <th style="width: 12%;">Total</th>
@@ -61,10 +63,17 @@
         var table = $('#ordersTable').DataTable({
             processing: true,
             serverSide: true,
+            buttons: [
+                {
+                    text: 'csv',
+                    extend: 'csvHtml5',
+                },
+            ],
             ajax: "{{ route('orders.index') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, width: '10%' },
-                {data: 'customer_id', name: 'customer_id'},
+                {data: 'unique_id', name: 'unique_id'},
+                {data: 'customer_name', name: 'customer_name'},
                 {data: 'status', name: 'status'},
                 {data: 'order_total', name: 'order_total'},
                 {data: 'created_at', name: 'created_at'},

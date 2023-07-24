@@ -50,6 +50,7 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::delete('deleteProductImg', [ProductController::class,'deleteProductImg'])->name('products.deleteProductImg');
 
     /* ORDER MANAGEMENT */
+    Route::get('orders/export', [OrderController::class,'exportOrder'])->name('orders.export');
     Route::post('orders/assign', [OrderController::class,'assign'])->name('orders.assign');
     Route::post('orders/unassign', [OrderController::class,'unassign'])->name('orders.unassign');
     Route::resource('orders', OrderController::class);
