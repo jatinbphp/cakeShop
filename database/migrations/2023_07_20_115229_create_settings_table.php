@@ -19,6 +19,10 @@ class CreateSettingsTable extends Migration
             $table->string('image')->nullable();
             $table->timestamps();
         });
+        \Illuminate\Support\Facades\DB::table('settings')->insert([
+            'name' => '',
+            'image' => '',
+        ]);
     }
 
     /**
