@@ -40,7 +40,8 @@
                                         <th>Customer</th>
                                         <th style="width: 12%;">Status</th>
                                         <th style="width: 12%;">Total</th>
-                                        <th style="width: 18%;" >Date Added</th>
+                                        <th style="width: 18%;" >Order Date</th>
+                                        <th style="width: 18%;" >Fullfillment Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -68,6 +69,7 @@
                 {data: 'status', name: 'status'},
                 {data: 'order_total', name: 'order_total'},
                 {data: 'created_at', name: 'created_at'},
+                {data: 'order_date', name: 'order_date'},
                 {data: 'action', "width": "10%", name: 'action', orderable: false, searchable: false},
             ]
         });
