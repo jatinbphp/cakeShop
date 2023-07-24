@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('order_date') ? ' has-error' : '' }}">
-            <label class="control-label" for="name">Order Date :<span class="text-red">*</span></label>
+            <label class="control-label" for="name">Fullfillment Date :<span class="text-red">*</span></label>
             {!! Form::date('order_date', null, ['class' => 'form-control']) !!}
             @if ($errors->has('order_date'))
                 <span class="text-danger">
