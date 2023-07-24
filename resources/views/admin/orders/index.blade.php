@@ -37,7 +37,7 @@
                             <table id="ordersTable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Unique ID</th>
+                                        <th>ID</th>
                                         <th>Customer</th>
                                         <th style="width: 12%;">Status</th>
                                         <th style="width: 12%;">Total</th>
