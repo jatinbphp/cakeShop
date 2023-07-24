@@ -49,8 +49,8 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::delete('deleteProductImg', [ProductController::class,'deleteProductImg'])->name('products.deleteProductImg');
 
     /* SETTING MANAGEMENT */
-    Route::resource('settings', SettingController::class);
     Route::post('delete_settings_image', [SettingController::class,'deleteSettingsImage']);
+    Route::resource('settings', SettingController::class);
 
     Auth::routes();
 });
