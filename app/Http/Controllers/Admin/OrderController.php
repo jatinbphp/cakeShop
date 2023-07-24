@@ -216,6 +216,7 @@ class OrderController extends Controller
     {
         $order = Orders::findOrFail($id);
         if(!empty($order)){
+            OrderItems::where('order_id', $id)->delete();
             $order->delete();
             return 1;
         }else{
