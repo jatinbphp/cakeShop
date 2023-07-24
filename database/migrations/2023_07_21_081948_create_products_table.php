@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('category');
             $table->string('name');
+            $table->string('sku');
             $table->longText('description')->nullable();
             $table->double('price');
             $table->string('status')->default('active');
