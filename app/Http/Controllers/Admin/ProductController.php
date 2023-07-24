@@ -81,6 +81,8 @@ class ProductController extends Controller
         ]);
 
         $input = $request->all();
+        $allPros = Products::count();
+        $input['sku'] = substr($input['name'],0,4).$allPros+1;
         $product = Products::create($input);
         if(!empty($request['images'])) {
             foreach ($request->file('images') as $imagefile) {

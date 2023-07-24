@@ -37,8 +37,9 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
                                         <th>Category</th>
+                                        <th>Name</th>
+                                        <th>SKU</th>
                                         <th>Price</th>
                                         <th style="width: 15%;">Status</th>
                                         <th>Action</th>
@@ -64,8 +65,9 @@
             ajax: "{{ route('products.index') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, width: '10%' },
-                {data: 'name', name: 'name'},
                 {data: 'category', name: 'category'},
+                {data: 'name', name: 'name'},
+                {data: 'sku', name: 'sku'},
                 {data: 'price', name: 'price'},
                 {data: 'status', "width": "15%", name: 'status'},
                 {data: 'action', "width": "10%", name: 'action', orderable: false, searchable: false},

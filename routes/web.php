@@ -56,8 +56,8 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::post('get_product_price',[OrderController::class,'getProductPrice'])->name('orders.getProductPrice');
 
     /* SETTING MANAGEMENT */
-    Route::resource('settings', SettingController::class);
     Route::post('delete_settings_image', [SettingController::class,'deleteSettingsImage']);
+    Route::resource('settings', SettingController::class);
 
     Auth::routes();
 });

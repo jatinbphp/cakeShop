@@ -10,7 +10,7 @@ class Products extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['category','name','description','price','status'];
+    protected $fillable = ['category','name','sku','description','price','status'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';
