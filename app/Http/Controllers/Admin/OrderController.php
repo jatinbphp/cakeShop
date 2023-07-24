@@ -142,11 +142,14 @@ class OrderController extends Controller
         ]);
 
         $input = $request->all();
-        $userDetails = User::where('id',$input['customer_id'])->first();
+        $userDetails = User::with('Orders')->where('id',$input['customer_id'])->first();
         $input['customer_name'] = $userDetails['name'];
         $input['customer_email'] = $userDetails['email'];
         $input['customer_phone'] = $userDetails['phone'];
         $input['payment_type'] = 'cod';
+        $totalOrder = count($userDetails['Orders']);
+        $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder+1;
+
         $order = Orders::findorFail($id);
         $order->update($input);
 
