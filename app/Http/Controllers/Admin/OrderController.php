@@ -27,7 +27,10 @@ class OrderController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('created_at', function($row){
-                    return $row['created_at']->format('d-m-Y h:i:s');
+                    return $row['created_at']->format('M d, Y h:i A');
+                })
+                ->addColumn('order_date', function($row){
+                    return date('M d, Y', strtotime($row['order_date'])).' '.date('h:i A', strtotime($row['order_time']));
                 })
                 ->addColumn('customer_id', function($row){
                     return $row['User']['name'];
@@ -53,7 +56,7 @@ class OrderController extends Controller
                                 </span>';
                     return $btn;
                 })
-                ->rawColumns(['user','order_total','status','action'])
+                ->rawColumns(['user','order_total','status','action','order_date'])
                 ->make(true);
         }
 
