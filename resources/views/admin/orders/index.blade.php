@@ -36,6 +36,11 @@
 
                         <div class="card-header">
                             <div class="row">
+                                <div class="col-md-12">
+                                    <h4 for="status" style="border-bottom: 3px solid #17a2b8;" class="form-label w-100">Filters :</h4>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-3">
                                     <label for="status" class="form-label">Status :</label>
                                     <select id="status" onChange="showData();" class="form-control">
