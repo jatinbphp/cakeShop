@@ -35,7 +35,7 @@
                     </tr>
                     <tr class="information">
                         <td colspan="5">
-                            <table style="border: 1px solid #dee2e6;">
+                            <table>
                                 <tr>
                                     <td>
                                         {{ $orderData['customer_name'] }}<br />
