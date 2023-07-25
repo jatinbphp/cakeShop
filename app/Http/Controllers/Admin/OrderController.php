@@ -114,8 +114,8 @@ class OrderController extends Controller
         $input['customer_phone'] = $userDetails['phone'];
         $input['payment_type'] = 'cod';
 
-        $totalOrder = count($userDetails['Orders']);
-        $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder+1;
+        $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
+        $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder;
         $order = Orders::create($input);
 
         $orderTotal = 0;
@@ -175,8 +175,8 @@ class OrderController extends Controller
         $input['customer_email'] = $userDetails['email'];
         $input['customer_phone'] = $userDetails['phone'];
         $input['payment_type'] = 'cod';
-        $totalOrder = count($userDetails['Orders']);
-        $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder+1;
+        $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders'])+1 : 1;
+        $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder;
 
         $order = Orders::findorFail($id);
         $order->update($input);
