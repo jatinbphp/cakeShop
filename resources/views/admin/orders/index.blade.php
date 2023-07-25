@@ -33,6 +33,33 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="status" class="form-label">Status :</label>
+                                    <select id="status" onChange="showData();" class="form-control">
+                                        <option value="">Select</option>
+                                        @foreach (\App\Models\Orders::$status as $key => $value)
+                                            <option value="{{$value}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="customer" class="form-label">Customer :</label>
+                                    <input type="text" id="customer" onKeyup="showData();" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="start_date" class="form-label">Start Date :</label>
+                                    <input type="date" id="start_date" onChange="showData();" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="end_date" class="form-label">End Date :</label>
+                                    <input type="date" id="end_date" onChange="showData();" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="card-body table-responsive">
                             <table id="ordersTable" class="table table-bordered table-striped">
                                 <thead>
@@ -60,105 +87,126 @@
 
 @section('jquery')
 <script type="text/javascript">
-    $(function () {
-        var table = $('#ordersTable').DataTable({
-            processing: true,
-            serverSide: true,
-            buttons: [
-                {
-                    text: 'csv',
-                    extend: 'csvHtml5',
-                },
-            ],
-            ajax: "{{ route('orders.index') }}",
-            columns: [
-                {data: 'unique_id', name: 'unique_id'},
-                {data: 'customer_name', name: 'customer_name', orderable: false},
-                {data: 'order_items', name: 'order_items', orderable: false},
-                {data: 'status', name: 'status', orderable: false},
-                {data: 'order_total', name: 'order_total'},
-                {data: 'created_at', name: 'created_at'},
-                /*{data: 'order_date', name: 'order_date'},*/
-                {data: 'action', "width": "10%", name: 'action', orderable: false, searchable: false},
-            ]
-        });
+jQuery(document).ready(function () {
+    datatables();
+});
 
-        $('#ordersTable tbody').on('click', '.deleteOrder', function (event) {
-            event.preventDefault();
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
+function showData(){
+    $("#ordersTable").dataTable().fnDestroy();
+    datatables();
+}
+
+function datatables(){
+    
+    var table = $('#ordersTable').DataTable({
+        processing: true,
+        serverSide: true,
+        buttons: [
+            {
+                text: 'csv',
+                extend: 'csvHtml5',
+            },
+        ],
+        ajax: {
+            url: "{{ route('orders.index') }}",
+            data: function (d) {
+                d.status = $('#status').val();
+                d.customer = $('#customer').val();
+                d.start_date = $('#start_date').val();
+                d.end_date = $('#end_date').val();
+                d._token = '{{ csrf_token() }}';
             }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
+        },
+        columns: [
+            {data: 'unique_id', name: 'unique_id'},
+            {data: 'customer_name', name: 'customer_name', orderable: false},
+            {data: 'order_items', name: 'order_items', orderable: false},
+            {data: 'status', name: 'status', orderable: false},
+            {data: 'order_total', name: 'order_total'},
+            {data: 'created_at', name: 'created_at'},
+            /*{data: 'order_date', name: 'order_date'},*/
+            {data: 'action', "width": "10%", name: 'action', orderable: false, searchable: false},
+        ]
+    });
+}
+
+$(function () {
+    $('#ordersTable tbody').on('click', '.deleteOrder', function (event) {
+        event.preventDefault();
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        var cId = $(this).attr("data-id");
+        swal({
+                title: "Are you sure?",
+                text: "To delete this order",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonText: "No, cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+        function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "{{url('admin/orders')}}/"+cId,
+                    type: "DELETE",
+                    data: {_token: '{{csrf_token()}}' },
+                    success: function(data){
+                        table.row('.selected').remove().draw(false);
+                        swal("Deleted", "Your data successfully deleted!", "success");
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your data safe!", "error");
             }
-            var cId = $(this).attr("data-id");
-            swal({
-                    title: "Are you sure?",
-                    text: "To delete this order",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Yes, Delete',
-                    cancelButtonText: "No, cancel",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-            function(isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        url: "{{url('admin/orders')}}/"+cId,
-                        type: "DELETE",
-                        data: {_token: '{{csrf_token()}}' },
-                        success: function(data){
-                            table.row('.selected').remove().draw(false);
-                            swal("Deleted", "Your data successfully deleted!", "success");
-                        }
-                    });
-                } else {
-                    swal("Cancelled", "Your data safe!", "error");
-                }
-            });
-        });
-
-        $('#ordersTable tbody').on('click', '.assign', function (event) {
-            event.preventDefault();
-            var user_id = $(this).attr('uid');
-            var url = $(this).attr('url');
-            var l = Ladda.create(this);
-            l.start();
-            $.ajax({
-                url: url,
-                type: "post",
-                data: {'id': user_id},
-                headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
-                success: function(data){
-                    l.stop();
-                    $('#assign_remove_'+user_id).show();
-                    $('#assign_add_'+user_id).hide();
-                    table.draw(false);
-                }
-            });
-        });
-
-        $('#ordersTable tbody').on('click', '.unassign', function (event) {
-            event.preventDefault();
-            var user_id = $(this).attr('ruid');
-            var url = $(this).attr('url');
-            var l = Ladda.create(this);
-            l.start();
-            $.ajax({
-                url: url,
-                type: "post",
-                data: {'id': user_id,'_token' : $('meta[name=_token]').attr('content') },
-                success: function(data){
-                    l.stop();
-                    $('#assign_remove_'+user_id).hide();
-                    $('#assign_add_'+user_id).show();
-                    table.draw(false);
-                }
-            });
         });
     });
-  </script>
+
+    $('#ordersTable tbody').on('click', '.assign', function (event) {
+        event.preventDefault();
+        var user_id = $(this).attr('uid');
+        var url = $(this).attr('url');
+        var l = Ladda.create(this);
+        l.start();
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {'id': user_id},
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data){
+                l.stop();
+                $('#assign_remove_'+user_id).show();
+                $('#assign_add_'+user_id).hide();
+                table.draw(false);
+            }
+        });
+    });
+
+    $('#ordersTable tbody').on('click', '.unassign', function (event) {
+        event.preventDefault();
+        var user_id = $(this).attr('ruid');
+        var url = $(this).attr('url');
+        var l = Ladda.create(this);
+        l.start();
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {'id': user_id,'_token' : $('meta[name=_token]').attr('content') },
+            success: function(data){
+                l.stop();
+                $('#assign_remove_'+user_id).hide();
+                $('#assign_add_'+user_id).show();
+                table.draw(false);
+            }
+        });
+    });
+});
+</script>
 @endsection
