@@ -125,7 +125,7 @@ function datatables(){
             {data: 'order_total', name: 'order_total'},
             {data: 'created_at', name: 'created_at'},
             /*{data: 'order_date', name: 'order_date'},*/
-            {data: 'action', "width": "10%", name: 'action', orderable: false, searchable: false},
+            {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false},
         ]
     });
 }

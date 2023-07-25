@@ -9,8 +9,10 @@ use App\Models\Products;
 use App\Models\User;
 use App\Models\Orders;
 use App\Models\OrderItems;
+use App\Models\Setting;
 use DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -76,10 +78,17 @@ class OrderController extends Controller
                     return $statusBtn;
                 })
                 ->addColumn('action', function($row){
-                    $btn = '<div class="btn-group btn-group-sm"><a href="'.route('orders.edit',['order'=>$row->id]).'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit Stock" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
+                    $btn = '<div class="btn-group btn-group-sm"><a href="'.route('orders.edit',['order'=>$row->id]).'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit Order" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
                     $btn .= '<span data-toggle="tooltip" title="Delete Stock" data-trigger="hover">
-                                    <button class="btn btn-sm btn-danger deleteOrder" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
-                                </span>';
+                                <button class="btn btn-sm btn-danger deleteOrder" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
+                            </span>';
+                    $btn .= '<div class="btn-group btn-group-sm">
+                                <a href="'.route('orders.print',['id'=>$row->id]).'">
+                                    <button class="btn btn-sm btn-success tip" data-toggle="tooltip" title="Generate Invoice" data-trigger="hover" type="submit" >
+                                        <i class="fa fa-download"></i>
+                                    </button>
+                                </a>
+                            </div>';
                     return $btn;
                 })
                 ->rawColumns(['user','order_total','status','action','order_date', 'order_items'])
@@ -278,5 +287,17 @@ class OrderController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function invoicePrint($id)
+    {
+
+        $orderData = Orders::with('OrderItems')->findorFail($id);
+        $settingsData = Setting::findorFail(1);
+        $invoice['logo'] = $settingsData['image'];
+        //return view('admin.orders.invoice', compact('invoice', 'orderData'));
+
+        $pdf = PDF::loadView('admin.orders.invoice', compact('invoice', 'orderData'));
+        return $pdf->download($orderData['unique_id'].'-INVOICE.pdf');
     }
 }
