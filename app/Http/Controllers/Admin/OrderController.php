@@ -24,7 +24,24 @@ class OrderController extends Controller
         $data['search'] = $request['search'];
 
         if ($request->ajax()) {
-            $data = Orders::orderBy('id','DESC')->select();
+            $whereInfo = [];
+            if(!empty($request->status)){
+                $whereInfo[] = ['status', '=', strtolower($request->status)];
+            }
+
+            if(!empty($request->customer)){
+                $whereInfo[] = ['customer_name', 'like', '%'.$request->customer.'%'];
+            }
+
+            if($request->start_date != ''){
+                $whereInfo[] = ['created_at', '>=', $request->start_date.' 00:00:00'];
+            }
+
+            if($request->end_date != ''){
+                $whereInfo[] = ['created_at', '<=', $request->end_date.' 23:59:59'];
+            }
+
+            $data = Orders::orderBy('id','DESC')->select()->where($whereInfo);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('created_at', function($row){
