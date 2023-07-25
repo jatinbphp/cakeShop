@@ -13,6 +13,7 @@ use App\Models\Setting;
 use DataTables;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -289,13 +290,25 @@ class OrderController extends Controller
         return response()->stream($callback, 200, $headers);
     }
 
-    public function invoicePrint($id)
+    public function invoicePrint(Request $request, $id)
     {
-
         $orderData = Orders::with('OrderItems')->findorFail($id);
         $settingsData = Setting::findorFail(1);
         $invoice['logo'] = $settingsData['image'];
         //return view('admin.orders.invoice', compact('invoice', 'orderData'));
+
+
+        /*\Mail::send('admin/mailtemplates/order_email',
+        array(
+            'name' => $orderData['customer_name'],
+            'email' => $orderData['customer_email'],
+        ), function($message) use ($request)
+        {
+            $message->from('cakshop@ysabelles.ph');
+            $message->to($orderData['customer_email']);
+            $message->subject("Your order has been placed!");
+            $message->attach(url('storage/'.$orderData['unique_id'].'-INVOICE.pdf'));
+        });*/
 
         $pdf = PDF::loadView('admin.orders.invoice', compact('invoice', 'orderData'));
         return $pdf->download($orderData['unique_id'].'-INVOICE.pdf');
