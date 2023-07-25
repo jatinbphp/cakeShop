@@ -154,7 +154,7 @@
 <script src="{{ URL('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
 <script src="{{ URL('assets/dist/js/adminlte.js')}}"></script>
 <script src="{{ URL('assets/dist/js/demo.js')}}"></script>
-<script src="{{ URL('assets/dist/js/pages/dashboard.js')}}"></script>
+<!-- <script src="{{ URL('assets/dist/js/pages/dashboard.js')}}"></script> -->
 <script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
