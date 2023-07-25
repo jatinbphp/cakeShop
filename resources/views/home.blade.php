@@ -7,7 +7,7 @@
     }
 
     .bgimg {
-        background-image: url('https://www.w3schools.com/w3images/forestbridge.jpg');
+        background-image: url('{{url('assets/website/images/homeBg.jpg')}}');
         height: 100%;
         background-position: center;
         background-size: cover;
