@@ -36,6 +36,17 @@ class OrderController extends Controller
                 ->addColumn('order_total', function($row){
                     return '<i class="fa fa-ruble-sign pr-2"></i>'.number_format($row['order_total'], 2, '.', '');
                 })
+                ->addColumn('order_items', function($row){
+                    $data = OrderItems::select('*')->where('order_id', $row['id'])->get();
+
+                    $orderItems = [];
+                    if(!empty($data)){
+                        foreach ($data as $key => $value) {
+                            $orderItems[] = $value['name'];
+                        }
+                    }
+                    return implode('<hr style="margin: 5px;">', $orderItems);
+                })
                 ->addColumn('status', function($row){
                     $statusBtn = '';
                     if ($row->status == "paid") {
@@ -54,7 +65,7 @@ class OrderController extends Controller
                                 </span>';
                     return $btn;
                 })
-                ->rawColumns(['user','order_total','status','action','order_date'])
+                ->rawColumns(['user','order_total','status','action','order_date', 'order_items'])
                 ->make(true);
         }
 
