@@ -1,83 +1,163 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('website/images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ asset('website/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('website/css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('website/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('website/css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('website/css/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('website/css/stellarnav.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('website/css/style.css?v=123') }}">
+    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <header>
+        <div class="header-area">
+            <div class="main-header header-sticky">
+                <div class="container">
+                    <div class="menu-wrapper d-flex align-items-center justify-content-between">
+                        <div class="left-content d-flex align-items-center">
+                            <div class="logo">
+                                <a href="{{ route('home') }}"><img src="{{ asset('website/images/logo-transparent.png') }}" alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="main-menu">
+                            <nav class="stellarnav">
+                                <ul>
+                                    @if (Route::has('home'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                                        </li>
+                                    @endif
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('home') }}">{{ __('Contact us') }}</a>
+                                    </li>
 
-                    </ul>
+                                    @guest
+                                        
+                                        @if (Route::has('login'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                            </li>
+                                        @endif
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+                                    @else
+                                        <!-- <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                {{ Auth::user()->name }}
+                                            </a>
+                                        </li> -->
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('logout') }}">{{ __('Logout') }}</a>
+                                        </li>
+                                    @endguest                                    
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </header>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    <main>
+        @yield('content')
+    </main>
+
+    <footer>
+        <div class="footer-wrapper">
+            <div class="footer-area footer-padding">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
+                            <div class="single-footer-caption">
+                                <div class="single-footer-caption">
+                                    <div class="footer-logo">
+                                        <a href="{{ route('home') }}"><img src="{{ asset('website/images/logo-transparent.png') }}" alt=""></a>
+                                    </div>
+                                    <div class="footer-tittle">
+                                        <div class="footer-pera">
+                                            <p>Land behold it created good saw after she'd Our set living. Signs midst dominion creepeth.</p>
+                                        </div>
+                                        <div class="footer-social">
+                                            <a href="#"><i class="fab fa-twitter-square"></i></a>
+                                            <a href="#"><i class="fab fa-facebook-square"></i></a>
+                                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                                            <a href="#"><i class="fab fa-pinterest-square"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6">
+                            <div class="single-footer-caption">
+                                <div class="footer-tittle">
+                                    <h4>Quick Links</h4>
+                                    <ul>
+                                        <li><a href="{{ route('home') }}">Home</a></li>
+                                        <li><a href="{{ route('home') }}">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-8 col-sm-6">
+                            <div class="single-footer-caption">
+                                <div class="footer-tittle">
+                                    <h4>Cakes</h4>
+                                    <ul>
+                                        <li><a href="#">Blackforest</a></li>
+                                        <li><a href="#">Bodhubon</a></li>
+                                        <li><a href="#">Rongdhonu</a></li>
+                                        <li><a href="#">Meghrong</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-8">
+                            <div class="single-footer-caption">
+                                <div class="footer-tittle">
+                                    <h4>Contact Us</h4>
+                                    <p>76/A, Green Lane, Dhanmondi, NYC</p>
+                                </div>
+                                <ul>
+                                    <li class="number"><a href="#">+10 (78) 738-9083</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom-area">
+                <div class="container">
+                    <div class="footer-border">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="footer-copy-right text-center">
+                                    <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with by <a href="index.html" target="_blank" rel="nofollow noopener">Nxsol</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ asset('website/js/modernizr-3.5.0.min.js') }}"></script>
+    <script src="{{ asset('website/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('website/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('website/js/stellarnav.min.js') }}"></script>
+    <script src="{{ asset('website/js/wow.min.js') }}"></script>
+    <script src="{{ asset('website/js/slick.min.js') }}"></script>
+    <script src="{{ asset('website/js/main.js') }}"></script>
 </body>
 </html>
