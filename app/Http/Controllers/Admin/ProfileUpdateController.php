@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
 class ProfileUpdateController extends Controller
@@ -35,7 +35,7 @@ class ProfileUpdateController extends Controller
     public function edit($id)
     {
         $data['menu']="User";
-        $data['user'] = User::findorFail($id);
+        $data['user'] = Admin::findorFail($id);
         return view('admin.users.profile_edit',$data);
     }
 
@@ -52,9 +52,9 @@ class ProfileUpdateController extends Controller
         }
 
         $input = $request->all();
-        $user = User::findorFail($id);
+        $user = Admin::findorFail($id);
         $user->update($input);
-        \Session::flash('success','User has been updated successfully!');
+        \Session::flash('success','Profile has been updated successfully!');
         return redirect('admin/profile_update/'.$id."/edit");
     }
 

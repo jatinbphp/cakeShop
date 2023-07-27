@@ -59,13 +59,15 @@
                         <a href="#" class="nav-link @if(isset($menu) && $menu=='User') active  @endif">
                             <img src=" {{url('assets/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             <p style="padding-right: 6.5%;">
-                                {{ ucfirst(Auth::user()->name) }}
+                                <!-- {{ ucfirst(Auth::user()->name) }} -->
+                                {{ ucfirst(Auth::guard('admin')->user()->name) }}
                                 <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <?php $eid = \Illuminate\Support\Facades\Auth::user()->id; ?>
+                                <!-- <?php $eid = \Illuminate\Support\Facades\Auth::user()->id; ?> -->
+                                <?php $eid = \Illuminate\Support\Facades\Auth::guard('admin')->user()->id; ?>
                                 <a href="{{ route('profile_update.edit',['profile_update'=>$eid]) }}" class="nav-link @if(isset($menu) && $menu=='User') active @endif">
                                     <i class="nav-icon fa fa-pencil"></i><p class="text-warning">Edit Profile</p>
                                 </a>
