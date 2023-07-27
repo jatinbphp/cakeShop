@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +24,14 @@ use App\Http\Controllers\Admin\OrderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group(['prefix' => 'admin',  'admin/home'], function () {
-    Route::get('logout', [LoginController::class,'logout']);
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
+//Route::group(['prefix' => 'admin',  'admin/home'], function () {
+    /*Route::get('logout', [LoginController::class,'logout']);
     Route::auth();
-    Route::get('/', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class,'index'])->name('dashboard');*/
+
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+
     /*IMAGE UPLOAD IN SUMMER NOTE*/
     Route::post('image/upload', [ImageController::class,'upload_image']);
 
@@ -62,6 +66,15 @@ Route::group(['prefix' => 'admin',  'admin/home'], function () {
     Route::resource('settings', SettingController::class);
 
     Auth::routes();
+});
+
+Route::get('/admin',[LoginController::class,'showAdminLoginForm'])->name('admin.login-view');
+Route::post('/admin',[LoginController::class,'adminLogin'])->name('admin.login');
+
+Route::group(['middleware' => 'web'], function () {
+    Route::get('logout', [LoginController::class,'logout']);
+    Route::auth();
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 Route::get('/', [HomeController::class,'index'])->name('home');
