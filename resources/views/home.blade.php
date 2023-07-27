@@ -1,55 +1,90 @@
-<!DOCTYPE html>
-<html>
-<style>
-    body, html {
-        height: 100%;
-        margin: 0;
-    }
+@extends('layouts.app')
 
-    .bgimg {
-        background-image: url('{{url('assets/website/images/homeBg.jpg')}}');
-        height: 100%;
-        background-position: center;
-        background-size: cover;
-        position: relative;
-        color: white;
-        font-family: "Courier New", Courier, monospace;
-        font-size: 25px;
-    }
-
-    .topleft {
-        position: absolute;
-        top: 0;
-        left: 16px;
-    }
-
-    .bottomleft {
-        position: absolute;
-        bottom: 0;
-        left: 16px;
-    }
-
-    .middle {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-    }
-
-    hr {
-        margin: auto;
-        width: 40%;
-    }
-</style>
-<body>
-
-<div class="bgimg">
-    <div class="middle">
-        <h1>COMING SOON</h1>
-        <hr>
+@section('content')
+<div class="slider-area slider-bg1">
+    <div class="slider-active">
+        <div class="single-slider d-flex align-items-center slider-height ">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-xl-6 col-lg-7 col-md-8 ">
+                        <div class="hero__caption">
+                            <div class="shop-tittle">
+                                <h2>Delicious</h2>
+                            </div>
+                            <h1 data-animation="fadeInUp" data-delay=".6s ">Delicious Cake For Everyone</h1>
+                            <p data-animation="fadeInUp" data-delay=".8s">Land behold it created good saw after she'd Our set
+                                living. Signs midst dominion creepeth morning
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-shape bounce-animate">
+        <img src="images/hero-shape.png" alt="">
     </div>
 </div>
 
-</body>
-</html>
+<section class="popular-items section-padding40">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-8 col-md-10 col-sm-10">
+                <div class="section-tittle text-center mb-60">
+                    <h2>Our Exclusive Cakes</h2>
+                </div>
+            </div>
+        </div>
+        <div class="popular-active">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                <div class="single-items text-center mb-30">
+                    <div class="items-top">
+                        <img src="images/items1.png" alt="">
+                    </div>
+                    <div class="items-bottom">
+                        <h4><a href="#">Chocolate </a></h4>
+                        <p>Land behold it created good saw after she'd our set.</p>
+                        <a href="#" class="btn order-btn">$20 | Order Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                <div class="single-items text-center mb-30">
+                    <div class="items-top">
+                        <img src="images/items2.png" alt="">
+                    </div>
+                    <div class="items-bottom">
+                        <h4><a href="#">Sweetheart</a></h4>
+                        <p>Land behold it created good saw after she'd our set.</p>
+                        <a href="#" class="btn order-btn">$20 | Order Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                <div class="single-items text-center mb-30">
+                    <div class="items-top">
+                        <img src="images/items3.png" alt="">
+                    </div>
+                    <div class="items-bottom">
+                        <h4><a href="#">Blackforest </a></h4>
+                        <p>Land behold it created good saw after she'd our set.</p>
+                        <a href="#" class="btn order-btn">$20 | Order Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                <div class="single-items text-center mb-30">
+                    <div class="items-top">
+                        <img src="images/items2.png" alt="">
+                    </div>
+                    <div class="items-bottom">
+                        <h4><a href="#">Chocolate </a></h4>
+                        <p>Land behold it created good saw after she'd our set.</p>
+                        <a href="#" class="btn order-btn">$20 | Order Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
