@@ -3286,7 +3286,7 @@ input[type="checkbox"] {
     height: 16px;
     line-height: 16px;
     border-radius: 3px;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #ced4da;
     background: #f9f9ff;
 }
 input[type=checkbox]:before {
@@ -3326,7 +3326,7 @@ input[type="radio"] {
     outline: none;
     content: none;
     cursor: pointer;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #ced4da;
     background: #f9f9ff;
     position: relative;
     border-radius: 100%;
@@ -3471,7 +3471,8 @@ input[type="radio"]:checked:before {
 .login-main .card p a {
     color: #f04924;
 }
-.login-main form .form-group input[type="checkbox"]{
+.login-main form .form-group input[type="checkbox"], 
+.orderProcess .form-group input[type="checkbox"] {
     margin-right: 8px;
 }
 /* rescalendar */
@@ -3491,3 +3492,58 @@ input[type="radio"]:checked:before {
 .rescalendar td .hasEvent{background:#ff0}
 .error_wrapper{width:100px;text-align:center;background:red;color:#fff;padding:15px}
 
+.form-group .order_time {
+    width: 100%;
+}
+.rescalendar table {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.rescalendar table thead, 
+.rescalendar table tbody {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.rescalendar table tr.rescalendar_day_cells td:empty {
+    display: none;
+}
+.rescalendar table td {
+    background-color: #f9f9ff;
+    color: #212529;
+    width: 15%;
+    padding: 16px 5px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 3px;
+}
+.rescalendar_day_cells td:hover {
+    background-color: #f04924;
+    cursor: pointer;
+    color: #ffffff;
+}
+.rescalendar table td span {
+    width: auto;
+    padding: 0;
+    text-align: center;
+}
+.rescalendar table td .dia_semana, 
+.rescalendar table td .mes {
+    font-size: 1.35rem;
+    line-height: 1;
+    text-transform: uppercase;
+}
+.rescalendar table td .dia_semana {
+    font-weight: lighter;
+}
+.rescalendar table td .mes {
+    font-weight: bold;
+}
+.rescalendar table td .dia {
+    font-size: 4rem;
+    line-height: 1;
+    letter-spacing: -2px;
+}
