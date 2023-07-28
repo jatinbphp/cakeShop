@@ -86,13 +86,6 @@
 
             $('#contactTable tbody').on('click', '.deleteContact', function (event) {
                 event.preventDefault();
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
                 var cId = $(this).attr("data-id");
                 swal({
                     title: "Are you sure?",

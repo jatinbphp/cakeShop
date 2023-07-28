@@ -102,7 +102,6 @@ function showData(){
 }
 
 function datatables(){
-    
     var table = $('#ordersTable').DataTable({
         processing: true,
         serverSide: true,
@@ -138,25 +137,18 @@ function datatables(){
 $(function () {
     $('#ordersTable tbody').on('click', '.deleteOrder', function (event) {
         event.preventDefault();
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
         var cId = $(this).attr("data-id");
         swal({
-                title: "Are you sure?",
-                text: "To delete this order",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes, Delete',
-                cancelButtonText: "No, cancel",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
+            title: "Are you sure?",
+            text: "To delete this order",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, Delete',
+            cancelButtonText: "No, cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
         function(isConfirm) {
             if (isConfirm) {
                 $.ajax({
@@ -164,7 +156,8 @@ $(function () {
                     type: "DELETE",
                     data: {_token: '{{csrf_token()}}' },
                     success: function(data){
-                        table.row('.selected').remove().draw(false);
+                        $("#ordersTable").dataTable().fnDestroy();
+                        datatables();
                         swal("Deleted", "Your data successfully deleted!", "success");
                     }
                 });
@@ -212,6 +205,45 @@ $(function () {
             }
         });
     });
+
+    $('#ordersTable tbody').on('change', '.orderStatus', function (event) {
+        event.preventDefault();
+        var order_id = $(this).attr('data-id');
+        var status = $(this).val();
+        swal({
+            title: "Are you sure?",
+            text: "To update status of this order",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#17a2b8',
+            confirmButtonText: 'Yes, Sure',
+            cancelButtonText: "No, cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "{{route('orders.status')}}",
+                    type: "post",
+                    data: {'id': order_id, status:status, '_token' : $('meta[name=_token]').attr('content') },
+                    success: function(data){
+                        if(data == 1){
+                            $("#ordersTable").dataTable().fnDestroy();
+                            datatables();
+                            swal("Success", "Order status is updated", "success");
+                        }else{
+                            swal("Error", "Something is wrong!", "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your data safe!", "error");
+            }
+        });
+    });
+
+
 });
 </script>
 @endsection
