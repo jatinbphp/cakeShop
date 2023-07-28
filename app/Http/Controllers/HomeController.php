@@ -15,4 +15,13 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function contact_us()
+    {
+        return view('contact_us');
+    }
+
+    public function storeContactInfo(Request $request)
+    {
+        
+    }
 }
