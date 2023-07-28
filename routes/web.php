@@ -61,6 +61,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     /* ORDER MANAGEMENT */
     Route::get('orders/print/{id}', [OrderController::class,'invoicePrint'])->name('orders.print');
     Route::get('orders/export', [OrderController::class,'exportOrder'])->name('orders.export');
+    Route::post('orders/status', [OrderController::class,'statusUpdate'])->name('orders.status');
     Route::post('orders/assign', [OrderController::class,'assign'])->name('orders.assign');
     Route::post('orders/unassign', [OrderController::class,'unassign'])->name('orders.unassign');
     Route::resource('orders', OrderController::class);

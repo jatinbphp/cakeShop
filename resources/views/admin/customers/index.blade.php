@@ -70,13 +70,6 @@
 
         $('#usersTable tbody').on('click', '.deleteUser', function (event) {
             event.preventDefault();
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
             var roleId = $(this).attr("data-id");
             swal({
                     title: "Are you sure?",

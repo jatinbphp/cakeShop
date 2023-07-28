@@ -68,15 +68,33 @@ class OrderController extends Controller
                     return implode('<hr style="margin: 5px;">', $orderItems);
                 })
                 ->addColumn('status', function($row){
-                    $statusBtn = '';
+                    $orderPaid = '';
+                    $orderPending = '';
+                    $orderRejected = '';
+                    if($row->status == 'paid'){
+                        $orderPaid = 'selected';
+                    }
+                    if ($row->status == 'pending'){
+                        $orderPending = 'selected';
+                    }
+                    if($row->status == 'rejected'){
+                        $orderRejected = 'selected';
+                    }
+                    $select = '<select class="form-control select2 orderStatus" data-id="'.$row->id.'" >
+                                    <option value="paid" '.$orderPaid.'>Paid</option>
+                                    <option value="pending" '.$orderPending.'>Pending</option>
+                                    <option value="rejected" '.$orderRejected.'>Rejected</option>
+                                </select>';
+
+                    /*$statusBtn = '';
                     if ($row->status == "paid") {
                         $statusBtn .= '<span class="btn btn-success" type="button" style="padding:0 12px">'.ucwords($row->status).'</span>';
                     } else if ($row->status == "pending") {
                         $statusBtn .= '<span class="btn btn-warning" type="button" style="padding:0 12px">'.ucwords($row->status).'</span>';
                     } else if ($row->status == "reject") {
                         $statusBtn .= '<span class="btn btn-danger" type="button" style="padding:0 12px">'.ucwords($row->status).'</span>';
-                    }
-                    return $statusBtn;
+                    }*/
+                    return $select;
                 })
                 ->addColumn('action', function($row){
                     $btn = '<div class="btn-group btn-group-sm"><a href="'.route('orders.edit',['order'=>$row->id]).'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit Order" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
@@ -312,5 +330,16 @@ class OrderController extends Controller
 
         $pdf = PDF::loadView('admin.orders.invoice', compact('invoice', 'orderData'));
         return $pdf->download($orderData['unique_id'].'-INVOICE.pdf');
+    }
+
+    public function statusUpdate(Request $request){
+        $order = Orders::where('id',$request['id'])->first();
+        if(!empty($order)){
+            $input['status'] = $request['status'];
+            $order->update($input);
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

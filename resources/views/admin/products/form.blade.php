@@ -25,13 +25,25 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
             <label class="control-label" for="description">Description <span class="text-red"></span></label>
-            {!! Form::textarea('description', null, ['class' => 'form-control summernote', 'placeholder' => 'Enter Description', 'id' => 'description']) !!}
+            {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description']) !!}
             @if ($errors->has('description'))
                 <span class="text-danger">
                     <strong>{{ $errors->first('description') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+            <label class="control-label" for="price">Price <span class="text-red">*</span></label>
+            {!! Form::number('price', null, ['class' => 'form-control', 'step'=>'0.01', 'placeholder' => 'Enter Price', 'id' => 'price']) !!}
+            @if ($errors->has('price'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('price') }}</strong>
                 </span>
             @endif
         </div>
@@ -62,17 +74,6 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-            <label class="control-label" for="price">Price <span class="text-red">*</span></label>
-            {!! Form::number('price', null, ['class' => 'form-control', 'step'=>'0.01', 'placeholder' => 'Enter Price', 'id' => 'price']) !!}
-            @if ($errors->has('price'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('price') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
             <label class="col-md-12 control-label" for="status">Status <span class="text-red">*</span></label>
