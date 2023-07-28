@@ -51,26 +51,33 @@
                                         </label>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="form-group" style="text-align: right;">
+                                        @if (Route::has('password.request'))
+                                            <p>
+                                                <a href="{{ route('password.request') }}">
+                                                    {{ __('Forgot Your Password?') }}
+                                                </a>
+                                            </p>
+                                        @endif
+                                    </div>
+                                        
+                                </div>
                             </div>
 
                             <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
+                                <div class="col-md-10 offset-md-4">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">
                                             {{ __('Login') }}
                                         </button>
 
-                                        @if (Route::has('password.request'))
-                                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                {{ __('Forgot Your Password?') }}
-                                            </a>
-                                        @endif
+                                        <span>OR</span>
 
-                                        <div class="flex items-center justify-end mt-4">
-                                            <a class="ml-1 btn btn-link" href="{{ url('auth/facebook') }}" style="margin-top: 0px !important;background: blue;color: #ffffff;padding: 5px;border-radius:7px;" id="btn-fblogin">
-                                                <i class="fa fa-facebook-square" aria-hidden="true"></i> Login with Facebook
-                                            </a>
-                                        </div>
+                                        <a class="btn btn-link" href="{{ url('auth/facebook') }}" style="background: blue;" id="btn-fblogin">
+                                            <i class="fab fa-facebook-square" aria-hidden="true"></i> Login with Facebook
+                                        </a>
                                     </div>
                                 </div>
                             </div>
