@@ -123,7 +123,7 @@
                                     <h4>Quick Links</h4>
                                     <ul>
                                         <li><a href="{{ route('home') }}">Home</a></li>
-                                        <li><a href="{{ route('home') }}">Contact</a></li>
+                                        <li><a href="{{ route('contact_us') }}">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>
