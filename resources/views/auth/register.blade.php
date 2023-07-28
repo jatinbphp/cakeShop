@@ -69,9 +69,11 @@
                             </div>
                             
                             @if (Route::has('login'))
-                                <div class="row mb-0">
-                                    <div class="col-md-8 offset-md-4">
-                                        <p>If you already have an account with us, please login at the <a href="{{ route('login') }}">{{ __('Login') }} here</a>.</p>
+                                <div class="row mb-3">
+                                    <div class="col-xl-12">
+                                        <div class="form-group mb-3">
+                                            <p>If you already have an account with us, please login at the <a href="{{ route('login') }}">{{ __('Login') }} here</a>.</p>
+                                        </div>
                                     </div>
                                 </div>
                             @endif

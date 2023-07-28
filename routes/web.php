@@ -78,3 +78,5 @@ Route::group(['middleware' => 'web'], function () {
 });
 
 Route::get('/', [HomeController::class,'index'])->name('home');
+Route::get('/contact-us', [HomeController::class,'contact_us'])->name('contact_us');
+Route::post('storeContactInfo',[HomeController::class,'storeContactInfo']);

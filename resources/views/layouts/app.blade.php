@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="{{ asset('website/css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('website/css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('website/css/stellarnav.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('website/css/style.css?v=123') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"/>
+    <link rel="stylesheet" href="{{ asset('website/css/style.css?v='.time()) }}">
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
 <body>
@@ -38,7 +39,7 @@
                                     @endif
 
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('home') }}">{{ __('Contact us') }}</a>
+                                        <a class="nav-link" href="{{ route('contact_us') }}">{{ __('Contact us') }}</a>
                                     </li>
 
                                     @guest
@@ -59,6 +60,24 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ route('logout') }}">{{ __('Logout') }}</a>
                                         </li>
+
+                                        <!-- <li class="nav-item dropdown">
+                                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                                <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
+                                            </a>
+
+                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                                   onclick="event.preventDefault();
+                                                                 document.getElementById('logout-form').submit();">
+                                                    {{ __('Logout') }}
+                                                </a>
+
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </li> -->
                                     @endguest                                    
                                 </ul>
                             </nav>
@@ -158,6 +177,21 @@
     <script src="{{ asset('website/js/stellarnav.min.js') }}"></script>
     <script src="{{ asset('website/js/wow.min.js') }}"></script>
     <script src="{{ asset('website/js/slick.min.js') }}"></script>
-    <script src="{{ asset('website/js/main.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <script src="{{ asset('website/js/main.js?v='.time()) }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+    <script src="{{ asset('website/js/rescalendar.js?v='.time()) }}"></script>
+    <script>
+        $(function(){
+            $('#my_calendar_calSize').rescalendar({
+                id: 'my_calendar_calSize',
+                dateFormat: "yy-mm-dd",
+                jumpSize: -2,
+                calSize: 5,
+                dataKeyField: 'name',
+                dataKeyValues: ['']
+            });
+        });
+    </script>
 </body>
 </html>
