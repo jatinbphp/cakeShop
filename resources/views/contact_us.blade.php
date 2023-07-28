@@ -25,6 +25,7 @@
 <div class="contact-section">
     <div class="container">
         <div class="row">
+            @include('error')
             <div class="col-12">
                 <h2 class="contact-title">Get in Touch</h2>
             </div>
@@ -77,7 +78,7 @@
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        {{ Form::submit('Send', ['class' => 'button button-contactForm boxed-btn']) }}
+                        <button type="submit" class="btn btn-primary">Send</button>
                     </div>
                 {!! Form::close() !!}
             </div>

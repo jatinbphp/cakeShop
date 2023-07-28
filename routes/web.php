@@ -32,6 +32,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 
+    Route::get('/contactUs', [DashboardController::class,'contactUs'])->name('contactUs');
+    Route::delete('/contactUs/{id}', [DashboardController::class,'contactUs_destroy'])->name('contactUsDelete');
+
     /*IMAGE UPLOAD IN SUMMER NOTE*/
     Route::post('image/upload', [ImageController::class,'upload_image']);
 
