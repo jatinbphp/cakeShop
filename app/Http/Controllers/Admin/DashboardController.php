@@ -55,13 +55,19 @@ class DashboardController extends Controller
             $data = ContactUs::select();
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function($row){
-                    $btn = '<span data-toggle="tooltip" title="Delete ContactUs" data-trigger="hover">
-                                    <button class="btn btn-sm btn-danger deleteContact" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
+                ->addColumn('message', function($row){
+                    $btn = '<span data-toggle="tooltip" title="Show Message" data-trigger="hover">
+                                    <button class="btn btn-sm btn-info showMsg" data-id="'.$row->id.'" type="button"><i class="fa fa-comment"></i></button>
                                 </span>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('action', function($row){
+                    $btn = '<span data-toggle="tooltip" title="Delete ContactUs" data-trigger="hover">
+                                <button class="btn btn-sm btn-danger showMsg" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
+                            </span>';
+                    return $btn;
+                })
+                ->rawColumns(['message','action'])
                 ->make(true);
         }
         return view('admin.contactUs', $data);
@@ -75,5 +81,15 @@ class DashboardController extends Controller
         }else{
             return 0;
         }
+    }
+
+    public function contactUsMsg(Request $request){
+        $contact = ContactUs::where('id',$request['id'])->first();
+        $data = [];
+        if(!empty($contact)){
+            $data['name'] = $contact['name'];
+            $data['msg'] = $contact['message'];
+        }
+        return $data;
     }
 }
