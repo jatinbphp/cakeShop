@@ -121,6 +121,13 @@
                             <p>Settings</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('contactUs') }}" class="nav-link @if($menu=='Contact Us') active @endif">
+                            <i class="nav-icon fa fa-phone-volume"></i>
+                            <p>Contact Us</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

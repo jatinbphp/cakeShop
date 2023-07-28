@@ -44,8 +44,8 @@ class CategoryController extends Controller
                     return $statusBtn;
                 })
                 ->addColumn('action', function($row){
-                    $btn = '<div class="btn-group btn-group-sm"><a href="'.route('category.edit',['category'=>$row->id]).'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit Stock" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
-                    $btn .= '<span data-toggle="tooltip" title="Delete Stock" data-trigger="hover">
+                    $btn = '<div class="btn-group btn-group-sm"><a href="'.route('category.edit',['category'=>$row->id]).'"><button class="btn btn-sm btn-info tip" data-toggle="tooltip" title="Edit Category" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
+                    $btn .= '<span data-toggle="tooltip" title="Delete Category" data-trigger="hover">
                                     <button class="btn btn-sm btn-danger deleteCategory" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
                                 </span>';
                     return $btn;
@@ -105,9 +105,9 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        $stocks = Category::findOrFail($id);
-        if(!empty($stocks)){
-            $stocks->delete();
+        $category = Category::findOrFail($id);
+        if(!empty($category)){
+            $category->delete();
             return 1;
         }else{
             return 0;
