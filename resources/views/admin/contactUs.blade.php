@@ -46,6 +46,25 @@
             </div>
         </section>
     </div>
+
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Name: <span id="msgName"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="msgBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('jquery')
@@ -57,10 +76,10 @@
                 ajax: "{{ route('contactUs') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, width: '10%' },
-                    {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
-                    {data: 'subject', "width": "20%", name: 'subject'},
-                    {data: 'message', "width": "40%", name: 'message'},
+                    {data: 'name', "width": "20%", name: 'name'},
+                    {data: 'email', "width": "40%",name: 'email'},
+                    {data: 'subject', "width": "40%", name: 'subject'},
+                    {data: 'message', "width": "10%", name: 'message', orderable: false, searchable: false},
                     {data: 'action', "width": "10%", name: 'action', orderable: false, searchable: false},
                 ]
             });
@@ -99,6 +118,23 @@
                         });
                     } else {
                         swal("Cancelled", "Your data safe!", "error");
+                    }
+                });
+            });
+
+            $('#contactTable tbody').on('click', '.showMsg', function (event) {
+                event.preventDefault();
+                var cId = $(this).attr("data-id");
+                $.ajax({
+                    url: "{{route('contactUsMsg')}}",
+                    type: "get",
+                    data: {id:cId,_token: '{{csrf_token()}}' },
+                    success: function(data){
+                        if(data != ""){
+                            $('#msgName').html(data.name);
+                            $('#msgBody').html(data.msg);
+                            $('#messageModal').modal('show');
+                        }
                     }
                 });
             });
