@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('website/images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('website/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('website/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('website/css/fontawesome-all.min.css') }}">
