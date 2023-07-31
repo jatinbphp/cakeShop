@@ -83,6 +83,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
+Route::post('addToCart',[HomeController::class,'addToCart'])->name('addToCart');
+Route::post('getProduct',[HomeController::class,'getProduct'])->name('getProduct');
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/contact-us', [HomeController::class,'contact_us'])->name('contact_us');
 Route::post('storeContactInfo',[HomeController::class,'storeContactInfo']);
