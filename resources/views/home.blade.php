@@ -26,6 +26,7 @@
     </div>
 </div>
 
+@if(isset($products) && !empty($products))
 <section class="popular-items section-padding40">
     <div class="container">
         <div class="row justify-content-center">
@@ -36,59 +37,29 @@
             </div>
         </div>
         <div class="popular-active">
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                <div class="single-items text-center mb-30">
-                    <div class="items-top">
-                        <img src="{{ asset('website/images/items1.png') }}" alt="">
-                    </div>
-                    <div class="items-bottom">
-                        <h4><a href="#">Chocolate </a></h4>
-                        <p>Land behold it created good saw after she'd our set.</p>
-                        <a href="#" class="btn order-btn">$20 | Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                <div class="single-items text-center mb-30">
-                    <div class="items-top">
-                        <img src="{{ asset('website/images/items2.png') }}" alt="">
-                    </div>
-                    <div class="items-bottom">
-                        <h4><a href="#">Sweetheart</a></h4>
-                        <p>Land behold it created good saw after she'd our set.</p>
-                        <a href="#" class="btn order-btn">$20 | Order Now</a>
+            @foreach ($products as $list)
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-items text-center mb-30">
+                        <div class="items-top">
+                            <img src="{{url('storage/'.$list['ProductImages'][0]->image)}}" alt="">
+                        </div>
+                        <div class="items-bottom">
+                            <h4><a href="#">{{$list['name']}} </a></h4>
+                            <p>{{$list['description']}}</p>
+                            <a href="#" class="btn order-btn">
+                                <i class="fa fa-ruble-sign" style="margin-right: 0px;"></i>
+                                {{$list['price']}} | Order Now
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                <div class="single-items text-center mb-30">
-                    <div class="items-top">
-                        <img src="{{ asset('website/images/items3.png') }}" alt="">
-                    </div>
-                    <div class="items-bottom">
-                        <h4><a href="#">Blackforest </a></h4>
-                        <p>Land behold it created good saw after she'd our set.</p>
-                        <a href="#" class="btn order-btn">$20 | Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                <div class="single-items text-center mb-30">
-                    <div class="items-top">
-                        <img src="{{ asset('website/images/items2.png') }}" alt="">
-                    </div>
-                    <div class="items-bottom">
-                        <h4><a href="#">Chocolate </a></h4>
-                        <p>Land behold it created good saw after she'd our set.</p>
-                        <a href="#" class="btn order-btn">$20 | Order Now</a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
+@endif
 
-<section class="popular-items section-padding40">
+<section class="popular-items section-padding40" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -122,7 +93,7 @@
         </div>
     </div>
 </section>
-<section class="popular-items section-padding40">
+<section class="popular-items section-padding40" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -143,7 +114,7 @@
         </div>
     </div>
 </section>
-<section class="popular-items section-padding40">
+<section class="popular-items section-padding40" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -169,7 +140,7 @@
         </div>
     </div>
 </section>
-<section class="popular-items section-padding40">
+<section class="popular-items section-padding40" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -191,7 +162,7 @@
         </div>
     </div>
 </section>
-<section class="popular-items section-padding40">
+<section class="popular-items section-padding40" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -213,7 +184,7 @@
     </div>
 </section>
 
-<section class="popular-items section-padding40">
+<section class="popular-items section-padding40" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">

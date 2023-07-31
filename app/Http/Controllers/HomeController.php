@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactUs;
+use App\Models\ProductImages;
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +15,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('home');
+        $data['products'] = Products::with('ProductImages')->where('status', 'active')->get()->all();
+
+        return view('home',$data);
     }
 
     public function contact_us()
