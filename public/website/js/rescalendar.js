@@ -281,7 +281,7 @@ Copyright (c) 2019 César Chas
 
                     '<div class="rescalendar ' , id , '_wrapper">',
 
-                        '<div class="rescalendar_controls">',
+                        '<div class="rescalendar_controls" style="display:none">',
 
                             '<button class="move_to_last_month"> << </button>',
                             '<button class="move_to_yesterday"> < </button>',
