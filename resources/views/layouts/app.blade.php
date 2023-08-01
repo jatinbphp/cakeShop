@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"/>
     <link rel="stylesheet" href="{{ asset('website/css/style.css?v='.time()) }}">
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </head>
 <body>
     <header>
@@ -178,23 +179,12 @@
     <script src="{{ asset('website/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('website/js/stellarnav.min.js') }}"></script>
     <script src="{{ asset('website/js/wow.min.js') }}"></script>
-    <script src="{{ asset('website/js/slick.min.js') }}"></script>
+    <!-- <script src="{{ asset('website/js/slick.min.js') }}"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
     <script src="{{ asset('website/js/main.js?v='.time()) }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
     <script src="{{ asset('website/js/rescalendar.js?v='.time()) }}"></script>
-    <script>
-        $(function(){
-            $('#my_calendar_calSize').rescalendar({
-                id: 'my_calendar_calSize',
-                dateFormat: "yy-mm-dd",
-                jumpSize: -2,
-                calSize: 5,
-                dataKeyField: 'name',
-                dataKeyValues: ['']
-            });
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
     @yield('jQuery')
 </body>

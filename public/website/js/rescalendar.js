@@ -220,12 +220,15 @@ Copyright (c) 2019 César Chas
             var day_cell = targetObj.find('td.day_cell');
 
             day_cell.on('click', function(e){
+
+                $('.day_cell').removeClass('active');
+                $(this).addClass('active');
             
                 var cellDate = e.currentTarget.attributes['data-cellDate'].value;
 
                 targetObj.find('input.refDate').val( cellDate );
 
-                setDayCells( targetObj, moment(cellDate, settings.format) );
+                //setDayCells( targetObj, moment(cellDate, settings.format) );
 
             });
 
@@ -278,7 +281,7 @@ Copyright (c) 2019 César Chas
 
                     '<div class="rescalendar ' , id , '_wrapper">',
 
-                        '<div class="rescalendar_controls" style="display:none">',
+                        '<div class="rescalendar_controls">',
 
                             '<button class="move_to_last_month"> << </button>',
                             '<button class="move_to_yesterday"> < </button>',

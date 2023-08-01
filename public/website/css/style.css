@@ -3878,7 +3878,7 @@ input[type="radio"]:checked:before {
     flex-wrap: wrap;
     gap: 2px;
 }
-.rescalendar_day_cells td:hover {
+.rescalendar_day_cells td:hover, .rescalendar_day_cells .active {
     background-color: #f04924;
     cursor: pointer;
     color: #ffffff;
@@ -3909,3 +3909,4 @@ input[type="radio"]:checked:before {
 @media screen and (max-width:575px) {
   .rescalendar table td .dia {font-size: 3.3rem;}
 }
+#datepickerContainer .table-condensed{width: 450px; height:450px;}
