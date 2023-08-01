@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="slider-area slider-bg1">
+<div class="slider-area slider-bg1" style="display:none">
     <div class="slider-active">
         <div class="single-slider d-flex align-items-center slider-height ">
             <div class="container">
@@ -27,7 +27,8 @@
 </div>
 
 @if(isset($products) && !empty($products))
-<section class="popular-items section-padding40">
+<!-- <section class="popular-items section-padding40"> -->
+<section class="popular-items">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-8 col-md-10 col-sm-10">
@@ -37,23 +38,25 @@
             </div>
         </div>
         <div class="popular-active">
-            @foreach ($products as $list)
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-items text-center mb-30">
-                        <div class="items-top">
-                            <img src="{{url('storage/'.$list['ProductImages'][0]->image)}}" alt="">
-                        </div>
-                        <div class="items-bottom">
-                            <h4><a href="#">{{$list['name']}} </a></h4>
-                            <p>{{$list['description']}}</p>
-                            <a href="javascript:void(0)" class="btn order-btn addToCart" data-id="{{$list['id']}}">
-                                <i class="fa fa-ruble-sign" style="margin-right: 0px;"></i>
-                                {{$list['price']}} | Order Now
-                            </a>
+            <div class="row">
+                @foreach ($products as $list)
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-items text-center mb-30">
+                            <div class="items-top">
+                                <img src="{{url('storage/'.$list['ProductImages'][0]->image)}}" alt="">
+                            </div>
+                            <div class="items-bottom">
+                                <h4><a href="#">{{$list['name']}} </a></h4>
+                                <p>{{$list['description']}}</p>
+                                <a href="javascript:void(0)" class="btn order-btn addToCart" data-id="{{$list['id']}}">
+                                    <i class="fa fa-ruble-sign" style="margin-right: 0px;"></i>
+                                    {{$list['price']}} | Order Now
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
 </section>
@@ -61,13 +64,10 @@
 <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add To Cart</h5>
+            <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-            <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12" style="width: 100%; padding: 0 15px;">
                         <img src="" id="proImg" style="width: 100%;">
@@ -85,7 +85,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="addToCart">Add To Cart</button>
             </div>
         </div>
@@ -93,13 +92,13 @@
 </div>
 @endif
 
-<section class="popular-items section-padding40" style="display: none;">
+<section class="popular-items section-padding40">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                 <div class="section-tittle mb-60">
                     <h2>When do you want your order?</h2>
-                    <p>Showing next available dates <a style="color:#000;float: right;" href="javascript:void(0)">More dates</a></p>
+                    <p>Showing next available dates <a style="color:#000;float: right;" href="javascript:void(0)" data-toggle="modal" data-target="#datepickerModal">More dates</a></p>
                 </div>
             </div>
         </div>
@@ -111,7 +110,8 @@
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="form-group">
                         <label>Times shown in Asia/Manila time</label>
-                        <select class="order_time" name="order_time">
+                        <select class="order_time" name="order_time" id="order_time">
+                            <option value="">Pick a time</option>
                             <option value="09:00">09:00 AM</option>
                             <option value="10:00">10:00 AM</option>
                             <option value="13:00">01:00 PM</option>
@@ -127,6 +127,19 @@
         </div>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="datepickerModal" tabindex="-1" role="dialog" aria-labelledby="datepickerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="datepickerContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal end -->
+
 <section class="popular-items section-padding40" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
@@ -252,6 +265,17 @@
 @endsection
 @section('jQuery')
     <script>
+        $(function(){
+            $('#my_calendar_calSize').rescalendar({
+                id: 'my_calendar_calSize',
+                dateFormat: "yy-mm-dd",
+                jumpSize: -1,
+                calSize: 5,
+                dataKeyField: 'name',
+                dataKeyValues: ['']
+            });
+        });
+
         $('.addToCart').on('click', function(){
             var pId = $(this).attr('data-id');
             $.ajax({
@@ -299,5 +323,24 @@
                 }
             });
         });
+
+        //datepicker js code
+        function initializeDatepicker() {
+            $('#datepickerContainer').datepicker({
+                format: 'yyyy-mm-dd', // Customize the date format as needed
+                todayBtn: true,
+                autoclose: true,
+                startDate: '-0m'
+            });
+        }
+
+        $('#datepickerModal').on('shown.bs.modal', function () {
+            initializeDatepicker();
+        });
+
+        $('#datepickerModal').on('hidden.bs.modal', function () {
+            $('#datepickerContainer').datepicker('destroy');
+        });
+
     </script>
 @endsection

@@ -1,6 +1,8 @@
 (function ($)
   { "use strict"
 
+    $('select').niceSelect();
+    
   /* sticky And Scroll UP */
     $(window).on('scroll', function () {
       var scroll = $(window).scrollTop();
@@ -84,10 +86,10 @@
         });
       }
     }
-    mainSlider();
+    //mainSlider();
 
 // popular items product
-    $('.popular-active').slick({
+    /*$('.popular-active').slick({
       dots: false,
       infinite: true,
       autoplay: true,
@@ -133,7 +135,7 @@
           }
         },
       ]
-    });
+    });*/
 
   /*data-background */
     $("[data-background]").each(function () {
