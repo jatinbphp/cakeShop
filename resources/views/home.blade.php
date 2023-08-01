@@ -328,11 +328,33 @@
         function initializeDatepicker() {
             $('#datepickerContainer').datepicker({
                 format: 'yyyy-mm-dd', // Customize the date format as needed
-                todayBtn: true,
                 autoclose: true,
-                startDate: '-0m'
+                startDate: '+1d',
+                minDate : 1,
+                onSelect: function(dateText, inst) {
+                  // Close the datepicker after date selection
+                  $(this).datepicker("hide");
+                }
             });
         }
+
+        $('#datepickerContainer').on('changeDate', function() {
+
+            $('#my_calendar_calSize').rescalendar({
+                id: 'my_calendar_calSize',
+                dateFormat: "yy-mm-dd",
+                jumpSize: 0,
+                calSize: 5,
+                dataKeyField: 'name',
+                dataKeyValues: ['']
+            });
+
+            var customDate = $('#datepickerContainer').datepicker('getFormattedDate');
+            $(".refDate").val(customDate);
+            $('#datepickerModal').modal('toggle');
+            $('.move_to_tomorrow').trigger("click");
+            $('.move_to_yesterday').trigger("click");            
+        });
 
         $('#datepickerModal').on('shown.bs.modal', function () {
             initializeDatepicker();
