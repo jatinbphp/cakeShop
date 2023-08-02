@@ -255,7 +255,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="form-group">
-                        <input type="text" name="whatsYourEmailField" id="whatsYourEmailField" placeholder="coco@gmail.com" class="form-control">
+                        <input type="email" name="whatsYourEmailField" id="whatsYourEmailField" placeholder="coco@gmail.com" class="form-control">
                         <p id="whatsYourEmailFieldError" class="error"></p>
                     </div>
                     <div class="form-group d-flex align-items-center">
@@ -282,7 +282,8 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="form-group">
-                        <input type="text" name="whatsYourPhoneField" id="whatsYourPhoneField" placeholder="081234 56789" class="form-control">
+                        <input type="number" name="whatsYourPhoneField" id="whatsYourPhoneField" placeholder="081234 56789" class="form-control">
+                        <p id="whatsYourPhoneFieldError" class="error"></p>
                     </div>
                     <button type="button" class="btn btn-primary" id="btnwhatsYourPhone">Next</button>
                 </div>
@@ -290,7 +291,7 @@
         </div>
     </div>
 </section>
-<section class="popular-items section-padding40" style="display: none;">
+<section class="popular-items section-padding40" id="whatsYourNotes"style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -303,23 +304,16 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="form-group">
-                        <input type="text" name="" placeholder="Enter Here" class="form-control">
+                        <input type="text" name="whatsYourNotesField" id="whatsYourNotesField" placeholder="Enter Here" class="form-control">
                     </div>
-                    <button class="btn btn-primary">Next</button>
+                    <button type="button" class="btn btn-primary" id="btnwhatsYourNotes">Skip</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<input type="text" name="hidden_order_date" id="hidden_order_date">
-<input type="text" name="hidden_order_time" id="hidden_order_time">
-<input type="text" name="hidden_customer_name" id="hidden_customer_name">
-<input type="text" name="hidden_customer_email" id="hidden_customer_email">
-<input type="text" name="hidden_customer_phone" id="hidden_customer_phone">
-<input type="text" name="hidden_short_notes" id="hidden_short_notes">
-
-<section class="popular-items section-padding40" style="display: none;">
+<section class="popular-items section-padding40" id="paymentDiv" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -350,6 +344,14 @@
         </div>
     </div>
 </section>
+
+<input type="text" name="hidden_order_date" id="hidden_order_date">
+<input type="text" name="hidden_order_time" id="hidden_order_time">
+<input type="text" name="hidden_customer_name" id="hidden_customer_name">
+<input type="text" name="hidden_customer_email" id="hidden_customer_email">
+<input type="text" name="hidden_customer_phone" id="hidden_customer_phone">
+<input type="text" name="hidden_short_notes" id="hidden_short_notes">
+
 @endsection
 @section('jQuery')
     <script>
@@ -609,7 +611,6 @@
             if(whatsYourNameField!=''){
 
                 $("#hidden_customer_name").val(whatsYourNameField);
-
                 $("#whatsYourEmail").css("display", "");
 
                 $("html, body").animate({
@@ -617,7 +618,7 @@
                 }, 1000);
 
                 $("#whatsYourNameFieldError").text('');
-                
+
             } else {
                 $("#whatsYourNameFieldError").text('Please fill in a value.');
             }
@@ -628,18 +629,65 @@
 
             if(whatsYourEmailField!=''){
 
-                $("#hidden_customer_email").val(whatsYourEmailField);
+                var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;    
+                if(!regex.test(whatsYourEmailField)){   
+                    $("#whatsYourEmailFieldError").text('Please fill in a valid value.');
+                } else{
+                    
+                    $("#hidden_customer_email").val(whatsYourEmailField);
+                    $("#whatsYourPhone").css("display", "");
 
-                $("#whatsYourPhone").css("display", "");
+                    $("html, body").animate({
+                        scrollTop: $("#whatsYourPhone").offset().top-100
+                    }, 1000);
 
-                $("html, body").animate({
-                    scrollTop: $("#whatsYourPhone").offset().top-100
-                }, 1000);
-
-                $("#whatsYourEmailFieldError").text('');
+                    $("#whatsYourEmailFieldError").text('');
+                }
             } else {
                 $("#whatsYourEmailFieldError").text('Please fill in a valid value.');
             }
         });
+
+        $('#btnwhatsYourPhone').on('click', function(){
+            var whatsYourPhoneField = $('#whatsYourPhoneField').val();
+
+            if(whatsYourPhoneField!=''){
+
+                $("#hidden_customer_phone").val(whatsYourPhoneField);
+                $("#whatsYourNotes").css("display", "");
+
+                $("html, body").animate({
+                    scrollTop: $("#whatsYourNotes").offset().top-100
+                }, 1000);
+
+                $("#whatsYourPhoneFieldError").text('');
+            } else {
+                $("#whatsYourPhoneFieldError").text('Please fill in a valid value.');
+            }
+        });
+
+        $('#whatsYourNotesField').keyup(function() { 
+            if ($('#whatsYourNotesField').val() != '') {
+                $("#btnwhatsYourNotes").text('Next');
+                $("#hidden_short_notes").val($('#whatsYourNotesField').val());
+            } else {
+                $("#btnwhatsYourNotes").text('Skip');
+            }
+        });
+
+        $('#btnwhatsYourNotes').on('click', function(){
+            var whatsYourNotesField = $('#whatsYourNotesField').val();
+
+            if(whatsYourNotesField!=''){
+                $("#hidden_short_notes").val(whatsYourNotesField);
+            }
+
+            $("#paymentDiv").css("display", "");
+
+            $("html, body").animate({
+                scrollTop: $("#paymentDiv").offset().top-100
+            }, 1000);
+        });
+        
     </script>
 @endsection
