@@ -17,7 +17,17 @@ class HomeController extends Controller
 
     public function index()
     {
-        $data['products'] = Products::with('ProductImages')->where('status', 'active')->get()->all();
+        $data['products'] = Products::with('ProductImages')->where('status', 'active')->get();
+
+        $data['cart_products'] = [];
+        if(Auth::check()){
+            $user = Auth::user()->id;
+            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get();
+
+            $data['cart_total'] = Cart::where('user_id', $user)->sum('sub_total');
+
+        }
+
         return view('home',$data);
     }
 
@@ -50,7 +60,7 @@ class HomeController extends Controller
             }
             $data['id'] = $product['id'];
             $data['name'] = $product['name'];
-            $data['price'] = '<i class="fa fa-ruble-sign"></i>'.number_format($product['price'],2);
+            $data['price'] = '<i class="fa fa-ruble-sign"></i>'.number_format($product['price'],2, '.', '');
             $data['image'] = $product['image'];
         }
         return $data;
@@ -73,6 +83,54 @@ class HomeController extends Controller
             }
             return 1;
         }else{
+            return 0;
+        }
+    }
+
+    public function updateToCart(Request $request){
+        if(Auth::check()){
+            $user = Auth::user()->id;
+            $product = Products::where('id',$request['pId'])->first();
+
+            if($request['qty']==0){
+                Cart::where('user_id',$user)->where('product_id',$request['pId'])->delete();
+            } else {
+                $input['product_id'] = $product['id'];
+                $input['price'] = $product['price'];
+                $input['quantity'] = $request['qty'];
+                $input['sub_total'] = $product['price'] * $request['qty'];
+                $existCart = Cart::where('user_id',$user)->where('product_id',$request['pId'])->first();
+                if(!empty($existCart)){
+                    $existCart->update($input);
+                }
+            }
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    public function getCartProducts(Request $request){
+        if(Auth::check()){
+            $user = Auth::user()->id;
+            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get()->all();
+
+            $data['cart_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+            return view('cart',$data);
+        }else{
+            return 0;
+        }
+    }
+
+    public function getCartTotal()
+    {
+        if(Auth::check()){
+            $user = Auth::user()->id;
+            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get();
+
+            return number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+
+        } else {
             return 0;
         }
     }
