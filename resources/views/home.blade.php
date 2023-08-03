@@ -393,6 +393,8 @@
         });
 
         $('.addToCart').on('click', function(){
+
+            $("#proQty").val(1);
             var pId = $(this).attr('data-id');
             $.ajax({
                 url: "{{route('getProduct')}}",
@@ -699,9 +701,9 @@
 
                         } else {
 
-                            $("#errorMsgDate").css("display", "");
+                            /*$("#errorMsgDate").css("display", "");
 
-                            $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
+                            $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');*/
                             
                             
                             $("html, body").animate({
