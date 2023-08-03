@@ -364,20 +364,20 @@
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                 <div class="section-tittle">
-                    <button type="button" class="btn btn-primary w-100" id="confirmOrder">Order Placed</button>
+                    Order Placed
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<input type="text" name="hidden_order_date" id="hidden_order_date">
-<input type="text" name="hidden_order_time" id="hidden_order_time">
-<input type="text" name="hidden_customer_name" id="hidden_customer_name" @if(!empty($user->name)) value="{{$user->name}}" @endif>
-<input type="text" name="hidden_customer_email" id="hidden_customer_email" @if(!empty($user->email)) value="{{$user->email}}" @endif>
-<input type="text" name="hidden_customer_phone" id="hidden_customer_phone" @if(!empty($user->phone)) value="{{$user->phone}}" @endif>
-<input type="text" name="hidden_short_notes" id="hidden_short_notes">
-<input type="text" name="hidden_payment_type" id="hidden_payment_type">
+<input type="hidden" name="hidden_order_date" id="hidden_order_date">
+<input type="hidden" name="hidden_order_time" id="hidden_order_time">
+<input type="hidden" name="hidden_customer_name" id="hidden_customer_name" @if(!empty($user->name)) value="{{$user->name}}" @endif>
+<input type="hidden" name="hidden_customer_email" id="hidden_customer_email" @if(!empty($user->email)) value="{{$user->email}}" @endif>
+<input type="hidden" name="hidden_customer_phone" id="hidden_customer_phone" @if(!empty($user->phone)) value="{{$user->phone}}" @endif>
+<input type="hidden" name="hidden_short_notes" id="hidden_short_notes">
+<input type="hidden" name="hidden_payment_type" id="hidden_payment_type">
 
 @endsection
 @section('jQuery')
@@ -888,6 +888,14 @@
 
                             $("html, body").animate({
                                 scrollTop: $("#orderPlacedDiv").offset().top
+                            }, 1000);
+                        } else if(data == 3){
+                            $("#paymentDiv").css("display", "");
+
+                            $("#whatsYourPaymentFieldError").text('for now, Only Cod payment method implemented.');
+
+                            $("html, body").animate({
+                                scrollTop: $("#paymentDiv").offset().top-100
                             }, 1000);
                         }
                     }
