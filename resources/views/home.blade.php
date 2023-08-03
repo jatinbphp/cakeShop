@@ -99,7 +99,7 @@
 </div>
 @endif
 
-<section class="popular-items section-padding40" id="cartMainListDiv" @if($cart_products->count()==0) style="display:none" @endif>
+<section class="popular-items section-padding40" id="cartMainListDiv" @if(count($cart_products)==0) style="display:none" @endif>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -113,7 +113,7 @@
 
     <div id="cartListDiv" class="mt-40 container" style="display: none;">
 
-        @if(isset($cart_products) && $cart_products->count()>0)
+        @if(isset($cart_products) && count($cart_products)>0)
 
         
             <div class="">
@@ -327,16 +327,16 @@
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="radio-group-list">
                         <div class="radio-group-item">
-                            <input type="radio" id="html" name="fav_language" value="HTML">
-                            <label for="html">Credit/Debit Card</label>
+                            <input type="radio" id="payment_type" name="payment_type" value="cod">
+                            <label for="html">Cash On Delivery</label>
                         </div>
                         <div class="radio-group-item">
-                            <input type="radio" id="css" name="fav_language" value="CSS">
+                            <input type="radio" id="payment_type" name="payment_type" value="gcash">
                             <label for="css">GCash</label>
                         </div>
                         <div class="radio-group-item">
-                            <input type="radio" id="javascript" name="fav_language" value="JavaScript">
-                            <label for="javascript">Bank Transfer (Security Bank)</label>
+                            <input type="radio" id="payment_type" name="payment_type" value="paypal">
+                            <label for="javascript">Paypal</label>
                         </div>
                     </div>
                 </div>
@@ -424,6 +424,12 @@
                                 $("html, body").animate({
                                     scrollTop: $("#cartMainListDiv").offset().top-200
                                 }, 1000);
+
+                                $("#errorMsg").css("display", "none");
+
+                                $("#errorMsgAlert").html('');
+
+                                selectionCheck(); 
                             }
                         });
                     }
@@ -459,7 +465,16 @@
                             success: function(data){
 
                                 if(data == 0){
-                                    window.location.href = "{{url('/login')}}";
+                                    
+                                    $("#errorMsg").css("display", "");
+
+                                    $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
+                                    
+                                    
+                                    $("html, body").animate({
+                                        scrollTop: $("#ourexclusivecakes").offset().top
+                                    }, 1000);
+
                                 }else{
                                 
                                     $.ajax({
@@ -581,6 +596,60 @@
                         }, 1000);
 
                     }else{
+
+                        /*if(($("#hidden_order_date").val()=='') || ($("#hidden_order_time").val()=='')){
+
+                            $("#errorMsgDate").css("display", "");
+
+                            $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
+                            
+                            
+                            $("html, body").animate({
+                                scrollTop: $("#calendarDiv").offset().top
+                            }, 1000);
+
+                        } else if($("#whatsYourNameField").val()==''){
+
+                            $("#whatsYourName").css("display", "");
+
+                            $("html, body").animate({
+                                scrollTop: $("#whatsYourName").offset().top-100
+                            }, 1000);
+
+                        } else if($("#whatsYourEmailField").val()==''){
+
+                            $("#whatsYourEmail").css("display", "");
+
+                            $("html, body").animate({
+                                scrollTop: $("#whatsYourEmail").offset().top-100
+                            }, 1000);
+
+                        } else if($("#whatsYourPhoneField").val()==''){
+
+                            $("#whatsYourPhone").css("display", "");
+
+                            $("html, body").animate({
+                                scrollTop: $("#whatsYourPhone").offset().top-100
+                            }, 1000);
+
+                        } else if($("#whatsYourNotesField").val()==''){
+
+                            $("#whatsYourNotes").css("display", "");
+
+                            $("html, body").animate({
+                                scrollTop: $("#whatsYourNotes").offset().top-100
+                            }, 1000);
+
+                        } else if($('input[name="payment_type"]').is(':not(:radio)')){
+
+                            $("#paymentDiv").css("display", "");
+
+                            $("html, body").animate({
+                                scrollTop: $("#paymentDiv").offset().top-100
+                            }, 1000);
+                        }*/ 
+
+
 
                         if(($("#hidden_order_date").val()!='') && ($("#hidden_order_time").val()!='')){
 
