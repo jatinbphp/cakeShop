@@ -340,6 +340,7 @@
                             <label for="paypal">Paypal</label>
                         </div>
                     </div>
+                    <p id="whatsYourPaymentFieldError" class="error"></p>
                 </div>
             </div>
         </div>
@@ -457,7 +458,7 @@
 
                                 $("#errorMsgAlert").html('');
 
-                                selectionCheck(); 
+                                selectionCheck(0); 
                             }
                         });
                     }
@@ -570,7 +571,7 @@
             $('.move_to_yesterday').trigger("click");      
             $("#hidden_order_date").val(customDate);
 
-            selectionCheck();      
+            selectionCheck(0);      
         });
 
         $('#datepickerModal').on('shown.bs.modal', function () {
@@ -597,7 +598,7 @@
             element.classList.add("open");
             element.niceSelect('update');
 
-            selectionCheck(); 
+            selectionCheck(0); 
 
         }); 
 
@@ -607,12 +608,12 @@
             if(order_time!=''){
 
                 $("#hidden_order_time").val(order_time);
-                selectionCheck(); 
+                selectionCheck(0); 
 
             }
         }
 
-        function selectionCheck() {
+        function selectionCheck(type) {
 
             $.ajax({
                 url: "{{route('getCartProducts')}}",
@@ -633,82 +634,85 @@
 
                     }else{
 
-                        /*if(($("#hidden_order_date").val()=='') || ($("#hidden_order_time").val()=='')){
+                        if(type==1){
 
-                            $("#errorMsgDate").css("display", "");
+                            if(($("#hidden_order_date").val()=='') || ($("#hidden_order_time").val()=='')){
 
-                            $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
-                            
-                            
-                            $("html, body").animate({
-                                scrollTop: $("#calendarDiv").offset().top
-                            }, 1000);
+                                $("#errorMsgDate").css("display", "");
 
-                        } else if($("#whatsYourNameField").val()==''){
+                                $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
+                                
+                                
+                                $("html, body").animate({
+                                    scrollTop: $("#calendarDiv").offset().top
+                                }, 1000);
 
-                            $("#whatsYourName").css("display", "");
+                            } else if($("#whatsYourNameField").val()==''){
 
-                            $("html, body").animate({
-                                scrollTop: $("#whatsYourName").offset().top-100
-                            }, 1000);
+                                $("#btnwhatsYourName").trigger("click");
+                                $("#whatsYourName").css("display", "");
 
-                        } else if($("#whatsYourEmailField").val()==''){
+                                $("html, body").animate({
+                                    scrollTop: $("#whatsYourName").offset().top-100
+                                }, 1000);
 
-                            $("#whatsYourEmail").css("display", "");
+                            } else if($("#whatsYourEmailField").val()==''){
 
-                            $("html, body").animate({
-                                scrollTop: $("#whatsYourEmail").offset().top-100
-                            }, 1000);
+                                $("#btnwhatsYourEmail").trigger("click");
+                                $("#whatsYourEmail").css("display", "");
 
-                        } else if($("#whatsYourPhoneField").val()==''){
+                                $("html, body").animate({
+                                    scrollTop: $("#whatsYourEmail").offset().top-100
+                                }, 1000);
 
-                            $("#whatsYourPhone").css("display", "");
+                            } else if($("#whatsYourPhoneField").val()==''){
 
-                            $("html, body").animate({
-                                scrollTop: $("#whatsYourPhone").offset().top-100
-                            }, 1000);
+                                $("#btnwhatsYourPhone").trigger("click");
+                                $("#whatsYourPhone").css("display", "");
 
-                        } else if($("#whatsYourNotesField").val()==''){
+                                $("html, body").animate({
+                                    scrollTop: $("#whatsYourPhone").offset().top-100
+                                }, 1000);
 
-                            $("#whatsYourNotes").css("display", "");
+                            } else if($('input[name="payment_type"]').is(':not(:radio)')){
 
-                            $("html, body").animate({
-                                scrollTop: $("#whatsYourNotes").offset().top-100
-                            }, 1000);
+                                $("#paymentDiv").css("display", "");
 
-                        } else if($('input[name="payment_type"]').is(':not(:radio)')){
+                                $("#whatsYourPaymentFieldError").text('Please select payment method.');
 
-                            $("#paymentDiv").css("display", "");
+                                $("html, body").animate({
+                                    scrollTop: $("#paymentDiv").offset().top-100
+                                }, 1000);
+                            }
 
-                            $("html, body").animate({
-                                scrollTop: $("#paymentDiv").offset().top-100
-                            }, 1000);
-                        }*/ 
-
-
-
-                        if(($("#hidden_order_date").val()!='') && ($("#hidden_order_time").val()!='')){
-
-                            $("#whatsYourName").css("display", "");
-                            $("#whatsYourEmail").css("display", "");
-                            $("#whatsYourPhone").css("display", "");
-                            $("#whatsYourNotes").css("display", "");
-                            $("#paymentDiv").css("display", "");
-
-                            $("html, body").animate({
-                                scrollTop: $("#whatsYourName").offset().top-100
-                            }, 1000);
+                            $("#whatsYourPaymentFieldError").text('');
 
                         } else {
 
-                            /*$("#errorMsgDate").css("display", "");
 
-                            $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');*/
-                            
-                            
-                            $("html, body").animate({
-                                scrollTop: $("#calendarDiv").offset().top
-                            }, 1000);
+                            if(($("#hidden_order_date").val()!='') && ($("#hidden_order_time").val()!='')){
+
+                                $("#whatsYourName").css("display", "");
+                                $("#whatsYourEmail").css("display", "");
+                                $("#whatsYourPhone").css("display", "");
+                                $("#whatsYourNotes").css("display", "");
+                                $("#paymentDiv").css("display", "");
+
+                                $("html, body").animate({
+                                    scrollTop: $("#whatsYourName").offset().top-100
+                                }, 1000);
+
+                            } else {
+
+                                /*$("#errorMsgDate").css("display", "");
+
+                                $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');*/
+                                
+                                
+                                $("html, body").animate({
+                                    scrollTop: $("#calendarDiv").offset().top
+                                }, 1000);
+                            }
                         }
                     }
                 }
@@ -772,7 +776,37 @@
 
                 $("#whatsYourPhoneFieldError").text('');
             } else {
-                $("#whatsYourPhoneFieldError").text('Please fill in a valid value.');
+                $("#whatsYourPhoneFieldError").text('Please fill in a value.');
+            }
+        });
+
+        $('#whatsYourNameField').keyup(function() {
+            var whatsYourNameField = $('#whatsYourNameField').val(); 
+
+            if(whatsYourNameField==''){
+                $("#hidden_customer_name").val('');
+            } else {
+                $("#hidden_customer_name").val(whatsYourNameField);
+            }
+        });
+
+        $('#whatsYourEmailField').keyup(function() {
+            var whatsYourEmailField = $('#whatsYourEmailField').val(); 
+
+            if(whatsYourEmailField==''){
+                $("#hidden_customer_email").val('');
+            } else {
+                $("#hidden_customer_email").val(whatsYourEmailField);
+            }
+        });
+
+        $('#whatsYourPhoneField').keyup(function() {
+            var whatsYourPhoneField = $('#whatsYourPhoneField').val(); 
+
+            if(whatsYourPhoneField==''){
+                $("#hidden_customer_phone").val('');
+            } else {
+                $("#hidden_customer_phone").val(whatsYourPhoneField);
             }
         });
 
@@ -818,42 +852,47 @@
             var short_notes = $('#hidden_short_notes').val();
             var payment_type = $('#hidden_payment_type').val();
 
-            $.ajax({
-                url: "{{route('addOrder')}}",
-                type: "post",
-                data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, '_token' : $('meta[name=_token]').attr('content') },
-                success: function(data){
-                    if(data == 0){
-                        window.location.href = "{{url('/login')}}";
-                    }else if(data == 1){
-                        $("#errorMsg").css("display", "");
+            if(order_date=='' || order_time=='' || customer_name=='' || customer_email=='' || customer_phone=='' || payment_type==''){
+                selectionCheck(1);
+            }  else {
 
-                        $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
-                        
-                        
-                        $("html, body").animate({
-                            scrollTop: $("#ourexclusivecakes").offset().top
-                        }, 1000);
-                    } else if(data == 2){
+                $.ajax({
+                    url: "{{route('addOrder')}}",
+                    type: "post",
+                    data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, '_token' : $('meta[name=_token]').attr('content') },
+                    success: function(data){
+                        if(data == 0){
+                            window.location.href = "{{url('/login')}}";
+                        }else if(data == 1){
+                            $("#errorMsg").css("display", "");
 
-                        $("#ourexclusivecakes").css("display", "none");
-                        $("#cartMainListDiv").css("display", "none");
-                        $("#calendarDiv").css("display", "none");
-                        $("#whatsYourName").css("display", "none");
-                        $("#whatsYourEmail").css("display", "none");
-                        $("#whatsYourPhone").css("display", "none");
-                        $("#whatsYourNotes").css("display", "none");
-                        $("#paymentDiv").css("display", "none");
-                        $("#confirmOrderDiv").css("display", "none");
+                            $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
+                            
+                            
+                            $("html, body").animate({
+                                scrollTop: $("#ourexclusivecakes").offset().top
+                            }, 1000);
+                        } else if(data == 2){
 
-                        $("#orderPlacedDiv").css("display", "");
+                            $("#ourexclusivecakes").css("display", "none");
+                            $("#cartMainListDiv").css("display", "none");
+                            $("#calendarDiv").css("display", "none");
+                            $("#whatsYourName").css("display", "none");
+                            $("#whatsYourEmail").css("display", "none");
+                            $("#whatsYourPhone").css("display", "none");
+                            $("#whatsYourNotes").css("display", "none");
+                            $("#paymentDiv").css("display", "none");
+                            $("#confirmOrderDiv").css("display", "none");
 
-                        $("html, body").animate({
-                            scrollTop: $("#orderPlacedDiv").offset().top
-                        }, 1000);
+                            $("#orderPlacedDiv").css("display", "");
+
+                            $("html, body").animate({
+                                scrollTop: $("#orderPlacedDiv").offset().top
+                            }, 1000);
+                        }
                     }
-                }
-            });
+                });
+            }
         });
 
     </script>
