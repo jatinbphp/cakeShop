@@ -187,6 +187,8 @@ class HomeController extends Controller
 
                     return 2;
 
+                }else{
+                    return 3;
                 }
             }else{
                 return 1;
