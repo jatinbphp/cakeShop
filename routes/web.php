@@ -87,6 +87,7 @@ Route::post('addToCart',[HomeController::class,'addToCart'])->name('addToCart');
 Route::post('updateToCart',[HomeController::class,'updateToCart'])->name('updateToCart');
 Route::post('getCartTotal',[HomeController::class,'getCartTotal'])->name('getCartTotal');
 Route::post('getCartProducts',[HomeController::class,'getCartProducts'])->name('getCartProducts');
+Route::post('addOrder',[HomeController::class,'addOrder'])->name('addOrder');
 Route::post('getProduct',[HomeController::class,'getProduct'])->name('getProduct');
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/contact-us', [HomeController::class,'contact_us'])->name('contact_us');
