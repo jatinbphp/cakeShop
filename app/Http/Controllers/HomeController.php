@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Cart;
 use App\Models\ContactUs;
 use App\Models\ProductImages;
 use App\Models\Products;
+use App\Models\Orders;
+use App\Models\OrderItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,8 +24,10 @@ class HomeController extends Controller
 
         $data['cart_products'] = [];
         if(Auth::check()){
-            $user = Auth::user()->id;
-            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get();
+            $user = Auth::user();
+            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user->id)->get();
+
+            $data['user'] = $user;
 
             $data['cart_total'] = Cart::where('user_id', $user)->sum('sub_total');
 
@@ -131,6 +136,63 @@ class HomeController extends Controller
             return number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
 
         } else {
+            return 0;
+        }
+    }
+
+    public function addOrder(Request $request){
+        if(Auth::check()){
+            $user = Auth::user()->id;
+
+            $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get()->all();
+
+            if(!empty($cart_products)){
+
+                if($request['payment_type']=='cod'){
+
+                    $input = $request->all();
+
+                    $userDetails = User::with('Orders')->where('id',$user)->first();
+                    $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
+                    $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder;
+
+                    $input['customer_id'] = $user;
+                    $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+                    $input['status'] = 'pending';
+                    $order = Orders::create($input);
+
+                    $orderTotal = 0;
+                    $orderItems = [];
+                    foreach($cart_products as $key => $value){
+
+                        $product = Products::where('id',$value['product_id'])->where('status','active')->first();
+
+                        $orderItems['order_id'] = $order['id'];
+                        $orderItems['product_id'] = $value['product_id'];
+                        $orderItems['sku'] = $product['sku'];
+                        $orderItems['name'] = $product['name'];
+                        $orderItems['quantity'] = $value['quantity'];
+                        $orderItems['price'] = $value['price'];
+                        $orderItems['total'] = ($value['price']*$value['quantity']);
+
+                        $orderTotal = ($orderTotal+($value['price']*$value['quantity']));
+
+                        OrderItems::create($orderItems);
+                    }
+
+                    $order_total['order_total'] = $orderTotal;
+                    Orders::updateOrCreate(['id' => $order['id']], $order_total);
+
+                    Cart::where('user_id',$user)->delete();
+
+                    return 2;
+
+                }
+            }else{
+                return 1;
+            }
+            
+        }else{
             return 0;
         }
     }
