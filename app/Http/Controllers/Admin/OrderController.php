@@ -54,7 +54,7 @@ class OrderController extends Controller
                     return date('M d, Y', strtotime($row['order_date'])).' '.date('h:i A', strtotime($row['order_time']));
                 })
                 ->addColumn('order_total', function($row){
-                    return '<i class="fa fa-ruble-sign pr-2"></i>'.number_format($row['order_total'], 2, '.', '');
+                    return '₱'.number_format($row['order_total'], 2, '.', '');
                 })
                 ->addColumn('order_items', function($row){
                     $data = OrderItems::select('*')->where('order_id', $row['id'])->get();

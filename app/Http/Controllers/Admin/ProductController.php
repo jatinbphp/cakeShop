@@ -28,7 +28,7 @@ class ProductController extends Controller
                     return $row['Category']['name'];
                 })
                 ->addColumn('price', function($row){
-                    return '<i class="fa fa-ruble-sign pr-2"></i>'.number_format($row['price'], 2, '.', '');
+                    return '₱'.number_format($row['price'], 2, '.', '');
                 })
                 ->addColumn('status', function($row){
                     $statusBtn = '';

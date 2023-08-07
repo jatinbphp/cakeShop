@@ -65,7 +65,7 @@ class HomeController extends Controller
             }
             $data['id'] = $product['id'];
             $data['name'] = $product['name'];
-            $data['price'] = '<i class="fa fa-ruble-sign"></i>'.number_format($product['price'],2, '.', '');
+            $data['price'] = '<i class="fa-solid fa-peso-sign"></i>'.number_format($product['price'],2, '.', '');
             $data['image'] = $product['image'];
         }
         return $data;

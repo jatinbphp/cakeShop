@@ -34,5 +34,9 @@ return [
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => 'http://localhost/cakeShop_fb/public/auth/facebook/callback',
     ],
+    'paypal' => [
+        'client_id' => env('PAYPAL_CLIENT_ID'),
+        'secret' => env('PAYPAL_SECRET'),
+    ],
 
 ];

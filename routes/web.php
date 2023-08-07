@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\PayPalController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -97,3 +99,7 @@ Route::controller(FacebookController::class)->group(function(){
     Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
     Route::get('auth/facebook/callback', 'handleFacebookCallback');
 });
+
+Route::post('/payment/process', [PayPalController::class, 'processPayment'])->name('payment.process');
+Route::get('/payment/success', [PayPalController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/cancel', [PayPalController::class, 'paymentCancel'])->name('payment.cancel');

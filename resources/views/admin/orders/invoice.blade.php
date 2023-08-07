@@ -72,8 +72,8 @@
                                 <td class="text-left">{{ $invoiceItem['name'] }}</td>
                                 <td class="text-left">{{ $invoiceItem['sku'] }}</td>
                                 <td class="text-right">{{ $invoiceItem['quantity'] }}</td>
-                                <td class="text-right"><i class="fa fa-ruble-sign pr-2"></i>{{ $invoiceItem['price'] }}</td>
-                                <td class="text-right"><i class="fa fa-ruble-sign pr-2"></i>{{ $invoiceItem['total'] }}</td>
+                                <td class="text-right">₱ {{ $invoiceItem['price'] }}</td>
+                                <td class="text-right">₱ {{ $invoiceItem['total'] }}</td>
                             </tr>
                         @endforeach
                     @endif
@@ -82,7 +82,7 @@
                         <td></td>
                         <td></td>
                         <th class="text-right">Total</th>
-                        <td class="text-right"><i class="fa fa-ruble-sign pr-2"></i>{{ number_format($orderData['order_total'], 2, '.', '') }}</td>
+                        <td class="text-right">₱ {{ number_format($orderData['order_total'], 2, '.', '') }}</td>
                     </tr>
                 </tbody>
             </table>
