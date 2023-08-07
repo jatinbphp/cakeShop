@@ -14,6 +14,8 @@ li{list-style-type:none !important;}
 ol li{list-style-type:unset !important;}
 img{max-width:100%;}
 input.text,input[type="text"],input[type="button"],input[type="submit"],input[type="password"],input[type="email"],input[type="tel"],textarea,.input-checkbox{-webkit-appearance: none;border-radius: 0;-webkit-border-radius:0;-webkit-box-shadow:none;box-shadow:none;outline:0;}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {opacity: 0;display: none !important;}
 h1,h2,h3,h4,h5,h6,p{/*margin:0px;*/line-height: normal;}
 a{cursor: pointer;text-decoration:none !important;transition:all .4s;-webkit-transition:all .4s;-moz-transition:all .4s;-ms-transition:all .4s;-o-transition:all .4s;}
 a:focus{text-decoration:none;outline:0;}
@@ -3811,14 +3813,16 @@ input[type="radio"]:checked:before {
 }
 .modal h3#proName {
     font-size: 26px;
-    font-weight: 500;
     line-height: 1.3;
+    font-weight: 500;
+    color: #000000;
     margin: 0 0 6px;
-}
+} 
 .modal h4#proPrice {
     font-size: 20px;
     line-height: 1.2;
     font-weight: 800;
+    color: #000000;
     font-family: "Quicksand",sans-serif;
     margin: 0;
 }
@@ -3845,6 +3849,7 @@ input[type="radio"]:checked:before {
     height: 100%;
     line-height: normal;
     width: 100%;
+    background-color: transparent;
     text-align: center;
     border: 0;
 }
@@ -3856,7 +3861,78 @@ input[type="radio"]:checked:before {
       width: 100%;
       border-radius: 0;
 }
-
+.item-list .single-items {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 20px;
+    border-radius: 0;
+    border-bottom: 3px solid rgba(240,73,36,0.2);
+    -webkit-transition: all .4s ease-out 0s;
+    -moz-transition: all .4s ease-out 0s;
+    -ms-transition: all .4s ease-out 0s;
+    -o-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
+}
+.item-list .single-items:last-child {
+  border-color: transparent;
+}
+.item-list .items-left {
+    width: 70%;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 18px;
+}
+.item-list .items-right {
+  width: calc(100% - 70%);
+}
+.item-list .single-items img.item-img {
+    border-radius: 0 0 16px 0;
+    max-width: 94px;
+    width: auto;
+    height: 70px;
+    aspect-ratio: 12/9;
+    object-fit: cover;
+/*    transform: scale(1.1);*/
+    -webkit-transition: all .4s ease-out 0s;
+    -moz-transition: all .4s ease-out 0s;
+    -ms-transition: all .4s ease-out 0s;
+    -o-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
+}
+.item-list .single-items:hover img.item-img {
+/*  transform: scale(1);*/
+}
+.items-cnt h4 {
+  margin: 0;
+}
+.items-cnt h4 a {
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 800;
+    color: #000000;
+    font-family: "Quicksand",sans-serif;
+}
+.items-cnt p {
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 500;
+    color: #000000;
+    font-family: "Quicksand",sans-serif;
+    margin: 0;
+}
+.item-list .single-items .qtyBox {
+  max-width: 180px;
+  text-align: center;
+  border-color: rgba(240,73,36,0.2);
+}
+.item-list .single-items .qtyBox button {
+    padding: 8px 16px;
+}
+.item-list .single-items .qtyBox input {
+    text-align: center;
+}
 @media screen and (max-width:991px){
     .popular-active button.slick-arrow {
         width: 25px;
@@ -3868,6 +3944,8 @@ input[type="radio"]:checked:before {
     .modal h3#proName {font-size: 24px;}
     .modal h4#proPrice {font-size: 18px;}
     .header-area .main-header {padding: 15px;}
+    .item-list .single-items {flex-flow: column;}
+    .item-list .items-left, .item-list .items-right {width: 100%;}
 }
 @media screen and (max-width:575px){
     .section-tittle.text-center.mb-60 {
@@ -3909,7 +3987,7 @@ input[type="radio"]:checked:before {
 .rescalendar_day_cells span{display:block;padding:0 2px;font-size:14px;width:22px}
 .rescalendar_day_cells span.day{display:block;width:30px}
 .rescalendar_day_cells td.today{background:red;color:#fff}
-.rescalendar_day_cells td.middleDay{border:1px solid blue}
+.rescalendar_day_cells td.middleDay{border:1px solid #f04924;}
 .rescalendar_day_cells td:hover{background:#eee;cursor:pointer;color:#000}
 .rescalendar td a{display:block;width:100%;height:100%;text-decoration:none}
 .rescalendar td .hasEvent{background:#ff0}
@@ -4033,8 +4111,8 @@ input[type="radio"]:checked:before {
     font-weight: 800;
     letter-spacing: -2px;
 }
+#datepickerContainer .table-condensed{width: 450px; height:450px;}
+.popular-items .error{color: red;}
 @media screen and (max-width:575px) {
   .rescalendar table td .dia {font-size: 3.3rem;}
 }
-#datepickerContainer .table-condensed{width: 450px; height:450px;}
-.popular-items .error{color: red;}

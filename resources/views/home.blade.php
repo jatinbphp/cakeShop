@@ -47,7 +47,7 @@
 </div>
 
 @if(isset($products) && !empty($products))
-<section class="popular-items" id="ourexclusivecakes">
+<section class="popular-items section-padding40" id="ourexclusivecakes">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-8 col-md-10 col-sm-10">
@@ -57,7 +57,6 @@
             </div>
         </div>
         <div class="popular-active">
-
             <div class="row justify-content-center" id="errorMsg" style="display:none;">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="section-tittle text-center" id="errorMsgAlert">
@@ -130,12 +129,12 @@
         </div>
     </div>
 
-    <div id="cartListDiv" class="mt-40 container" style="display: none;">
+    <div id="cartListDiv" class="mt-40" style="display: none;">
 
         @if(isset($cart_products) && count($cart_products)>0)
 
         
-            <div class="">
+            <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                         <div class="section-tittle mb-60">
@@ -146,7 +145,7 @@
                 <div class="orderProcess">
                     <div class="row justify-content-center">
                         <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                            <div class="single-items">
+                            <div class="item-list">
                                 @foreach ($cart_products as $list)
                                     @php
                                         $proImage = '';
@@ -154,21 +153,20 @@
                                             $proImage = url('storage/'.$list['product']['ProductImages'][0]['image']);
                                         }                                
                                     @endphp
-                                    <div class="col-xl-12 col-lg-4 col-md-6 col-sm-6">
-                                        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6">
-                                            <img src="{{$proImage}}" alt="">
+                                    <div class="single-items">
+                                        <div class="items-left">
+                                            <img src="{{$proImage}}" alt="" class="item-img">
+                                            <div class="items-cnt">
+                                                <h4><a href="#">{{$list['product']['name']}} </a></h4>
+                                                <p>₱ {{number_format($list['sub_total'], 2, '.', '')}}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-8 col-lg-4 col-md-6 col-sm-6 pull-left">
-                                            <h4><a href="#">{{$list['product']['name']}} </a></h4>
-                                            ₱ {{number_format($list['sub_total'], 2, '.', '')}}                                        
-                                        </div>
-
-                                        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6">
-                                            <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},0)" id="btnMinusCart{{$list['product']['id']}}"><i class="fa fa-minus"></i></button>
-
-                                            <input type="number" name="qty" id="proQtyCart{{$list['product']['id']}}" min="1" step="1" value="{{$list['quantity']}}">
-
-                                            <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},1)" id="btnPlusCart{{$list['product']['id']}}"><i class="fa fa-plus"></i></button>
+                                        <div class="items-right">
+                                            <div class="qtyBox">
+                                                <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},0)" id="btnMinusCart{{$list['product']['id']}}"><i class="fa fa-minus"></i></button>
+                                                <input type="number" name="qty" id="proQtyCart{{$list['product']['id']}}" min="1" step="1" value="{{$list['quantity']}}">
+                                                <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},1)" id="btnPlusCart{{$list['product']['id']}}"><i class="fa fa-plus"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -218,8 +216,10 @@
                             <option value="17:00">05:00 PM</option>
                             <option value="18:00">06:00 PM</option>
                         </select>
+                        <p id="pickATimeError" class="error"></p>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -370,7 +370,26 @@
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                 <div class="section-tittle">
-                    <button type="button" class="btn btn-primary w-100" id="confirmOrder">Confirm Order</button>
+                    <h2>Your order <i class="fa-solid fa-edit"></i></h2>
+                    <div class="item-list">
+                        <div class="single-items">
+                            <div class="items-left">
+                                <img src="{{$proImage}}" alt="" class="item-img">
+                                <div class="items-cnt">
+                                    <h4><a href="#">cake name</a></h4>
+                                    <p>₱ 1500</p>
+                                </div>
+                            </div>
+                            <div class="items-right">
+                                <div class="qtyBox">
+                                    <button type="button" class="btn"><i class="fa fa-minus"></i></button>
+                                    <input type="number" name="qty" min="1" step="1" >
+                                    <button type="button" class="btn"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="confirmOrder">Confirm Order</button>
                 </div>
             </div>
         </div>
@@ -601,9 +620,29 @@
             $('#datepickerContainer').datepicker('destroy');
         });
 
+        $(document).on('click', '.nice-select', function(e){
+
+            var isSelected = 0;
+            $('.day_cell').each(function(i, obj) {
+                if($(this).hasClass('active')){
+                    isSelected = 1;
+                    return false;
+                }
+            });
+
+            if(isSelected == 0){
+                var element = document.querySelector('.nice-select');
+                element.classList.remove("open");
+                $("#pickATimeError").text("Select a date to see which time slots are available");
+            }else{
+                $("#pickATimeError").text("");
+            }
+        });
+
         // date select
         $(document).on("click",".rescalendar_table", function(e){
             $("#hidden_order_date").val($(".refDate").val());
+            $("#pickATimeError").text("");
 
             var element = document.querySelector('.nice-select');
             $('.list').children("li[data-value='']").remove();
@@ -725,6 +764,7 @@
 
                                 $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');*/
                                 
+                                //$("#pickATimeError").html('Select a date to see which time slots are available');
                                 
                                 $("html, body").animate({
                                     scrollTop: $("#calendarDiv").offset().top
@@ -873,7 +913,7 @@
                 selectionCheck(1);
             }  else {
 
-                if(payment_type == 'paypal'){
+                if(payment_type == 'paypal' || payment_type == 'gcash'){
                     processPayPalPayment();
                 } else {
 
