@@ -26,46 +26,82 @@ class PayPalController extends Controller{
     public function processPayment(Request $request){
         $validation_status = $this->validateData($request->all());
         if(Auth::check() && $validation_status == 1){
+
             Session::put('input', $request->all());
             $user = Auth::user()->id;
             $totalPrice = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
 
-            $apiContext = new ApiContext(
-                new OAuthTokenCredential(
-                    config('services.paypal.client_id'),
-                    config('services.paypal.secret')
-                )
-            );
+            if($request['hidden_payment_type']!='gcash'){
 
-            $payer = new Payer();
-            $payer->setPaymentMethod('paypal');
+                $apiContext = new ApiContext(
+                    new OAuthTokenCredential(
+                        config('services.paypal.client_id'),
+                        config('services.paypal.secret')
+                    )
+                );
 
-            $amount = new Amount();
-            $amount->setCurrency('PHP');
-            $amount->setTotal($totalPrice); 
+                $payer = new Payer();
+                $payer->setPaymentMethod('paypal');
 
-            $transaction = new Transaction();
-            $transaction->setAmount($amount);
+                $amount = new Amount();
+                $amount->setCurrency('PHP');
+                $amount->setTotal($totalPrice); 
 
-            $redirectUrls = new RedirectUrls();
-            $redirectUrls->setReturnUrl(route('payment.success'))
-                ->setCancelUrl(route('payment.cancel'));
+                $transaction = new Transaction();
+                $transaction->setAmount($amount);
 
-            $payment = new Payment();
-            $payment->setIntent('sale')
-                ->setPayer($payer)
-                ->setTransactions([$transaction])
-                ->setRedirectUrls($redirectUrls);
+                $redirectUrls = new RedirectUrls();
+                $redirectUrls->setReturnUrl(route('payment.success'))
+                    ->setCancelUrl(route('payment.cancel'));
 
-            try {
-                $payment->create($apiContext);
-                $paymentId = $payment->getId();
-                $approvalUrl = $payment->getApprovalLink();
-                $redirectUrl = $approvalUrl . '&paymentId=' . urlencode($paymentId);
-                return redirect($redirectUrl);
-            } catch (\Exception $e) {
-                return $e->getMessage();
-            }        
+                $payment = new Payment();
+                $payment->setIntent('sale')
+                    ->setPayer($payer)
+                    ->setTransactions([$transaction])
+                    ->setRedirectUrls($redirectUrls);
+
+                try {
+                    $payment->create($apiContext);
+                    $paymentId = $payment->getId();
+                    $approvalUrl = $payment->getApprovalLink();
+                    $redirectUrl = $approvalUrl . '&paymentId=' . urlencode($paymentId);
+                    return redirect($redirectUrl);
+                } catch (\Exception $e) {
+                    return $e->getMessage();
+                }        
+            } else {
+
+                $customer = User::findorFail($user);
+                $customer['orderData'] = json_encode($request->all());
+                $customer->update($request->all());
+
+                $returnRedirectUrl = route('gcashPaymentSuccess');
+
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, 'https://checkout-test.adyen.com/v68/payments');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n  \"merchantAccount\":\"JoinmomentumECOM\",\n  \"reference\":\"146\",\n  \"amount\":{\n    \"currency\":\"PHP\",\n    \"value\":".($totalPrice*100)."\n  },\n  \"paymentMethod\":{\n    \"type\":\"gcash\"\n  },\n  \"returnUrl\":\"$returnRedirectUrl\"\n}");
+
+                $headers = array();
+                $headers[] = 'X-Api-Key: AQEnhmfuXNWTK0Qc+iSanW02quuWTYVZGJ6zvp/ZqroypcJ99yavLO8zEMFdWw2+5HzctViMSCJMYAc=-JdAl7aeVoIwdTPHPSn4sVEVv8rKRZwIwAs2biho7PE8=-WD}2UE$]]E29?fdI';
+                $headers[] = 'Content-Type: application/json';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+                $result = curl_exec($ch);
+                if (curl_errno($ch)) {
+                    return 'Error:' . curl_error($ch);
+                }
+                curl_close($ch);
+
+                $resultRecord = json_decode($result);
+/*
+                echo $resultRecord->action->url;
+                exit;*/
+                return redirect($resultRecord->action->url);
+
+            }
 
         }else{
              \Session::flash('danger','Your Order was canceled!');
@@ -133,7 +169,7 @@ class PayPalController extends Controller{
             Orders::updateOrCreate(['id' => $order['id']], $order_total);
             Cart::where('user_id',$user)->delete();
             Session::forget('input');
-            return 1;
+            return $order;
         }
     }
 
@@ -160,4 +196,47 @@ class PayPalController extends Controller{
         return 1;
     }
 
+    public function gcashPaymentSuccess(Request $request){
+
+        if(Auth::check() && $request->query('redirectResult') !== null){
+            $user = Auth::user();
+
+            $redirectResult = $request->query('redirectResult');
+
+            // Generated by curl-to-PHP: http://incarnate.github.io/curl-to-php/
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, 'https://checkout-test.adyen.com/v68/payments/details');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n   \"details\": {\n     \"redirectResult\": \"$redirectResult\"\n }\n}");
+
+            $headers = array();
+            $headers[] = 'X-Api-Key: AQEnhmfuXNWTK0Qc+iSanW02quuWTYVZGJ6zvp/ZqroypcJ99yavLO8zEMFdWw2+5HzctViMSCJMYAc=-JdAl7aeVoIwdTPHPSn4sVEVv8rKRZwIwAs2biho7PE8=-WD}2UE$]]E29?fdI';
+            $headers[] = 'Content-Type: application/json';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $result = curl_exec($ch);
+            if (curl_errno($ch)) {
+                echo 'Error:' . curl_error($ch);
+            }
+            curl_close($ch);
+
+            $resultRecord = json_decode($result);
+
+            $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user->id)->get();
+            $transaction_id = $resultRecord->pspReference;
+            //$input = Session::get('input');
+            $input = json_decode($user->orderData);
+
+            $status = $this->addOrder($user->id, $cart_products, $transaction_id, (array)$input);
+
+            $customer = User::findorFail($user->id);
+            $customer['orderData'] = null;
+            $customer->update($request->all());
+
+            \Session::flash('success','Payment is done successfully!');
+            return redirect()->route('home');
+        }
+    }
 }

@@ -10,7 +10,7 @@
     <div class="orderProcess">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                <div class="single-items">
+                <div class="item-list">
                     @foreach ($cart_products as $list)
                         @php
                             $proImage = '';
@@ -18,20 +18,20 @@
                                 $proImage = url('storage/'.$list['product']['ProductImages'][0]['image']);
                             }                                
                         @endphp
-                        <div class="col-xl-12 col-lg-4 col-md-6 col-sm-6">
-                            <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 pull-left">
-                                <img src="{{$proImage}}" alt="">
+                        <div class="single-items">
+                            <div class="items-left">
+                                <img src="{{$proImage}}" alt="" class="item-img">
+                                <div class="items-cnt">
+                                    <h4><a href="#">{{$list['product']['name']}} </a></h4>
+                                    <p>₱ {{number_format($list['sub_total'], 2, '.', '')}}</p>
+                                </div>
                             </div>
-                            <div class="col-xl-10 col-lg-4 col-md-6 col-sm-6 pull-left">
-                                <h4><a href="#">{{$list['product']['name']}} </a></h4>
-                                ₱ {{number_format($list['sub_total'], 2, '.', '')}}
-                            </div>
-                            <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6">
-                                <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},0)" id="btnMinusCart{{$list['product']['id']}}"><i class="fa fa-minus"></i></button>
-
-                                <input type="number" name="qty" id="proQtyCart{{$list['product']['id']}}" min="1" step="1" value="{{$list['quantity']}}">
-
-                                <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},1)" id="btnPlusCart{{$list['product']['id']}}"><i class="fa fa-plus"></i></button>
+                            <div class="items-right">
+                                <div class="qtyBox">
+                                    <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},0)" id="btnMinusCart{{$list['product']['id']}}"><i class="fa fa-minus"></i></button>
+                                    <input type="number" name="qty" id="proQtyCart{{$list['product']['id']}}" min="1" step="1" value="{{$list['quantity']}}">
+                                    <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},1)" id="btnPlusCart{{$list['product']['id']}}"><i class="fa fa-plus"></i></button>
+                                </div>
                             </div>
                         </div>
                     @endforeach

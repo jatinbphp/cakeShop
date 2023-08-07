@@ -29,7 +29,7 @@ class HomeController extends Controller
 
             $data['user'] = $user;
 
-            $data['cart_total'] = Cart::where('user_id', $user)->sum('sub_total');
+            $data['cart_total'] = Cart::where('user_id', $user->id)->sum('sub_total');
 
         }
 
@@ -182,7 +182,7 @@ class HomeController extends Controller
 
                     $order_total['order_total'] = $orderTotal;
                     Orders::updateOrCreate(['id' => $order['id']], $order_total);
-
+                    $status = $this->sendSuccessOrderEmail($order);
                     Cart::where('user_id',$user)->delete();
 
                     return 2;
