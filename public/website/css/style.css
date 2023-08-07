@@ -568,7 +568,7 @@ h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{color:inherit}
     width: 100%;
     -webkit-box-shadow: 0 10px 15px rgba(25, 25, 25, 0.1);
     box-shadow: 0 10px 15px rgba(25, 25, 25, 0.1);
-    z-index: 9999;
+    z-index: 999;
     -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
     animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
     -webkit-box-shadow: 0 10px 15px rgba(25, 25, 25, 0.1);
@@ -865,12 +865,14 @@ h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{color:inherit}
     left: -5px;
     height: 3px;
     z-index: 1;
+    background: #F04924;
+    border: 0 !important;
+    margin: 0 !important;
     -webkit-transition: all .4s ease-out 0s;
     -moz-transition: all .4s ease-out 0s;
     -ms-transition: all .4s ease-out 0s;
     -o-transition: all .4s ease-out 0s;
     transition: all .4s ease-out 0s;
-    background: #F04924;
 }
 .header-area .main-header .main-menu ul li:is(:hover, :focus, :focus-visible, .active, :active)>a {
     color: #F04924;
@@ -3590,6 +3592,34 @@ del {
     margin-bottom: 10px;
 }
 
+nav.stellarnav.desktop {
+    z-index: 9;
+}
+.header-area .main-menu .stellarnav.desktop ul {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.header-area .main-header .main-menu ul li.dropdown {
+    display: flex;
+    align-items: baseline;
+    width: auto;
+}
+.header-area .main-header .main-menu ul li.dropdown .dd-toggle {
+    display: none;
+    padding: 0;
+}
+.header-area .main-header .main-menu ul ul>li, 
+.header-area .main-header .main-menu ul ul>li>a, 
+.header-area .main-header .main-menu ul li ul>* {
+    text-align: left;
+}
+.header-area .main-menu .stellarnav.desktop ul ul {
+  text-align: left;
+  justify-content: flex-start;
+}
+
 .stellarnav.mobile .menu-toggle {
     color: #5E5E5E;
 }
@@ -3732,6 +3762,101 @@ input[type="radio"]:checked {
 input[type="radio"]:checked:before {
     background-color: #ffffff;
 }
+.addToCartModal .modal-body {
+    padding: 0;
+}
+.addToCartModal .productBox {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    position: relative;
+    padding: 0.5rem 2rem 2rem;
+}
+.modal .modal-body button.close {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #fff5f2;
+    border-radius: 0 0 0 10px;
+    color: #f04924;
+    box-shadow: var(--bs-box-shadow);
+    opacity: 1;
+    position: relative;
+}
+.productBox .proImgBox {
+    width: 100%;
+    margin: 0;
+    border-radius: 0 0 40px 0;
+    overflow: hidden;
+}
+.proImgBox img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    transform: scale(1.1);
+    -webkit-transition: all .4s ease-out 0s;
+    -moz-transition: all .4s ease-out 0s;
+    -ms-transition: all .4s ease-out 0s;
+    -o-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
+}
+.proImgBox img:hover {
+  transform: scale(1);
+}
+.proCnt {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0 1rem;
+}
+.modal h3#proName {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0 0 6px;
+}
+.modal h4#proPrice {
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 800;
+    font-family: "Quicksand",sans-serif;
+    margin: 0;
+}
+.qtyBox {
+    max-width: 320px;
+    width: 100%;
+    border: 1px solid #e5e6e9;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal .qtyBox {
+  margin: 0 auto;
+}
+.qtyBox button {
+    border-radius: 0;
+    padding: 12px 20px;
+    height: 100%;
+    box-shadow: none;
+}
+.qtyBox input {
+    height: 100%;
+    line-height: normal;
+    width: 100%;
+    text-align: center;
+    border: 0;
+}
+.addToCartModal .modal-footer {
+    justify-content: center;
+    padding: 0;
+}
+.addToCartModal .modal-footer button {
+      width: 100%;
+      border-radius: 0;
+}
+
 @media screen and (max-width:991px){
     .popular-active button.slick-arrow {
         width: 25px;
@@ -3740,6 +3865,8 @@ input[type="radio"]:checked:before {
     }
 }
 @media screen and (max-width:768px){
+    .modal h3#proName {font-size: 24px;}
+    .modal h4#proPrice {font-size: 18px;}
     .header-area .main-header {padding: 15px;}
 }
 @media screen and (max-width:575px){

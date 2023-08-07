@@ -1,6 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="container">       
+    @if(Session::has('success'))
+        <div class="alert alert-success text-center">
+            <button data-dismiss="alert" class="close">&times;</button>
+            {{Session::get('success')}}
+        </div>
+    @elseif(Session::has('danger'))
+        <div class="alert alert-danger text-center">
+            <button data-dismiss="alert" class="close">&times;</button>
+            {{Session::get('danger')}}
+        </div>
+    @elseif(Session::has('warning'))
+        <div class="alert alert-warning text-center">
+            <button data-dismiss="alert" class="close">&times;</button>
+            {{Session::get('warning')}}
+        </div>
+    @endif
+</div>
+
 <div class="slider-area slider-bg1" style="display:none">
     <div class="slider-active">
         <div class="single-slider d-flex align-items-center slider-height ">
@@ -56,8 +76,7 @@
                                 <h4><a href="#">{{$list['name']}} </a></h4>
                                 <p>{{$list['description']}}</p>
                                 <a href="javascript:void(0)" class="btn order-btn addToCart" data-id="{{$list['id']}}">
-                                    <i class="fa fa-ruble-sign" style="margin-right: 0px;"></i>
-                                    {{$list['price']}} | Order Now
+                                    ₱ {{$list['price']}} | Order Now
                                 </a>
                             </div>
                         </div>
@@ -68,26 +87,26 @@
     </div>
 </section>
 
-<div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade addToCartModal" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <div class="row">
-                    <div class="col-md-12" style="width: 100%; padding: 0 15px;">
-                        <img src="" id="proImg" style="width: 100%;">
-                        <div class="text-center">
-                            <input type="hidden" name="productId" id="proId">
-                            <h3 id="proName"></h3>
-                            <h4 id="proPrice"></h4>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn" id="btnMinus"><i class="fa fa-minus"></i></button>
-                            <input type="number" name="qty" id="proQty" min="1" step="1" value="1">
-                            <button type="button" class="btn" id="btnPlus"><i class="fa fa-plus"></i></button>
-                        </div>
+                <div class="productBox">
+                    <div class="proImgBox">
+                        <img src="" id="proImg">
+                    </div>
+                    <div class="proCnt">
+                        <input type="hidden" name="productId" id="proId">
+                        <h3 id="proName"></h3>
+                        <h4 id="proPrice"></h4>
+                    </div>
+                    <div class="qtyBox">
+                        <button type="button" class="btn" id="btnMinus"><i class="fa fa-minus"></i></button>
+                        <input type="number" name="qty" id="proQty" min="1" step="1" value="1">
+                        <button type="button" class="btn" id="btnPlus"><i class="fa fa-plus"></i></button>
                     </div>
                 </div>
             </div>
@@ -141,8 +160,7 @@
                                         </div>
                                         <div class="col-xl-8 col-lg-4 col-md-6 col-sm-6 pull-left">
                                             <h4><a href="#">{{$list['product']['name']}} </a></h4>
-                                            <i class="fa fa-ruble-sign" style="margin-right: 0px;"></i>
-                                            {{number_format($list['sub_total'], 2, '.', '')}}                                        
+                                            ₱ {{number_format($list['sub_total'], 2, '.', '')}}                                        
                                         </div>
 
                                         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6">
@@ -370,7 +388,7 @@
         </div>
     </div>
 </section>
-
+{!! Form::open(['url' => route('payment.process'), 'id' => 'ordersFormData', 'class' => 'form-horizontal','files'=>true]) !!}
 <input type="hidden" name="hidden_order_date" id="hidden_order_date">
 <input type="hidden" name="hidden_order_time" id="hidden_order_time">
 <input type="hidden" name="hidden_customer_name" id="hidden_customer_name" @if(!empty($user->name)) value="{{$user->name}}" @endif>
@@ -378,6 +396,7 @@
 <input type="hidden" name="hidden_customer_phone" id="hidden_customer_phone" @if(!empty($user->phone)) value="{{$user->phone}}" @endif>
 <input type="hidden" name="hidden_short_notes" id="hidden_short_notes">
 <input type="hidden" name="hidden_payment_type" id="hidden_payment_type">
+{!! Form::close() !!}
 
 @endsection
 @section('jQuery')
@@ -593,13 +612,11 @@
                 $('.nice-select .current').text('09:00 AM');            
                 $('.list li:first-child').addClass('selected');
                 $('.order_time option[value="09:00"]').attr('selected','selected');
+                element.classList.add("open");
+                element.niceSelect('update');
+            } else {
+                selectionCheck(0);
             }
-
-            element.classList.add("open");
-            element.niceSelect('update');
-
-            selectionCheck(0); 
-
         }); 
 
         // time select
@@ -856,52 +873,61 @@
                 selectionCheck(1);
             }  else {
 
-                $.ajax({
-                    url: "{{route('addOrder')}}",
-                    type: "post",
-                    data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, '_token' : $('meta[name=_token]').attr('content') },
-                    success: function(data){
-                        if(data == 0){
-                            window.location.href = "{{url('/login')}}";
-                        }else if(data == 1){
-                            $("#errorMsg").css("display", "");
+                if(payment_type == 'paypal'){
+                    processPayPalPayment();
+                } else {
 
-                            $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
-                            
-                            
-                            $("html, body").animate({
-                                scrollTop: $("#ourexclusivecakes").offset().top
-                            }, 1000);
-                        } else if(data == 2){
+                    $.ajax({
+                        url: "{{route('addOrder')}}",
+                        type: "post",
+                        data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, '_token' : $('meta[name=_token]').attr('content') },
+                        success: function(data){
+                            if(data == 0){
+                                window.location.href = "{{url('/login')}}";
+                            }else if(data == 1){
+                                $("#errorMsg").css("display", "");
 
-                            $("#ourexclusivecakes").css("display", "none");
-                            $("#cartMainListDiv").css("display", "none");
-                            $("#calendarDiv").css("display", "none");
-                            $("#whatsYourName").css("display", "none");
-                            $("#whatsYourEmail").css("display", "none");
-                            $("#whatsYourPhone").css("display", "none");
-                            $("#whatsYourNotes").css("display", "none");
-                            $("#paymentDiv").css("display", "none");
-                            $("#confirmOrderDiv").css("display", "none");
+                                $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
+                                
+                                
+                                $("html, body").animate({
+                                    scrollTop: $("#ourexclusivecakes").offset().top
+                                }, 1000);
+                            } else if(data == 2){
 
-                            $("#orderPlacedDiv").css("display", "");
+                                $("#ourexclusivecakes").css("display", "none");
+                                $("#cartMainListDiv").css("display", "none");
+                                $("#calendarDiv").css("display", "none");
+                                $("#whatsYourName").css("display", "none");
+                                $("#whatsYourEmail").css("display", "none");
+                                $("#whatsYourPhone").css("display", "none");
+                                $("#whatsYourNotes").css("display", "none");
+                                $("#paymentDiv").css("display", "none");
+                                $("#confirmOrderDiv").css("display", "none");
 
-                            $("html, body").animate({
-                                scrollTop: $("#orderPlacedDiv").offset().top
-                            }, 1000);
-                        } else if(data == 3){
-                            $("#paymentDiv").css("display", "");
+                                $("#orderPlacedDiv").css("display", "");
 
-                            $("#whatsYourPaymentFieldError").text('for now, Only Cod payment method implemented.');
+                                $("html, body").animate({
+                                    scrollTop: $("#orderPlacedDiv").offset().top
+                                }, 1000);
+                            } else if(data == 3){
+                                $("#paymentDiv").css("display", "");
 
-                            $("html, body").animate({
-                                scrollTop: $("#paymentDiv").offset().top-100
-                            }, 1000);
+                                $("#whatsYourPaymentFieldError").text('for now, Only Cod payment method implemented.');
+
+                                $("html, body").animate({
+                                    scrollTop: $("#paymentDiv").offset().top-100
+                                }, 1000);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
+
+        function processPayPalPayment(){    
+            $("#ordersFormData").submit();  
+        }
 
     </script>
 @endsection

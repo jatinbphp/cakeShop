@@ -24,8 +24,7 @@
                             </div>
                             <div class="col-xl-10 col-lg-4 col-md-6 col-sm-6 pull-left">
                                 <h4><a href="#">{{$list['product']['name']}} </a></h4>
-                                <i class="fa fa-ruble-sign" style="margin-right: 0px;"></i>
-                                {{number_format($list['sub_total'], 2, '.', '')}}
+                                ₱ {{number_format($list['sub_total'], 2, '.', '')}}
                             </div>
                             <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6">
                                 <button type="button" class="btn" onclick="updateCart({{$list['product']['id']}},0)" id="btnMinusCart{{$list['product']['id']}}"><i class="fa fa-minus"></i></button>
