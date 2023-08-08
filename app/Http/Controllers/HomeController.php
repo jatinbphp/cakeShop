@@ -141,6 +141,8 @@ class HomeController extends Controller
     }
 
     public function addOrder(Request $request){
+
+        $data['status'] = 0;
         if(Auth::check()){
             $user = Auth::user()->id;
 
@@ -180,22 +182,23 @@ class HomeController extends Controller
                         OrderItems::create($orderItems);
                     }
 
-                    $order_total['order_total'] = $orderTotal;
-                    Orders::updateOrCreate(['id' => $order['id']], $order_total);
-                    $status = $this->sendSuccessOrderEmail($order);
+                    /*$order_total['order_total'] = $orderTotal;
+                    $orderData = Orders::updateOrCreate(['id' => $order['id']], $order_total);*/
+
+                    //$status = $this->sendSuccessOrderEmail($order);
                     Cart::where('user_id',$user)->delete();
 
-                    return 2;
+                    $data['status'] = 2;
+                    $data['order_id'] = $order['id'];
 
                 }else{
-                    return 3;
+                    $data['status'] = 3;
                 }
             }else{
-                return 1;
+                $data['status'] = 1;
             }
-            
-        }else{
-            return 0;
         }
+
+        return $data;
     }
 }
