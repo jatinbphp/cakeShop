@@ -365,7 +365,7 @@
     </div>
 </section>
 
-<section class="popular-items section-padding40" id="confirmOrderDiv" style="display: block;">
+<section class="popular-items section-padding40" id="confirmOrderDiv" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -374,54 +374,44 @@
                         <h2>Your order</h2>
                         <a href="#" class="edit-cart"><i class="fa-solid fa-edit"></i></a>
                     </div>
-                    <div class="item-list">
-                        <div class="single-items">
-                            <div class="items-left">
-                                <img src="https://ysabelles.ph/cakeShop/public/storage/uploads/products/GGCayXHIZ7QZu0lFlpiw.png" alt="" class="item-img">
-                                <div class="items-cnt">
-                                    <h4><a href="#">cake name</a></h4>
-                                </div>
+                    <div id="itemList">
+                        @if(isset($cart_products) && !empty($cart_products))
+                            <div class="item-list">
+                                @foreach ($cart_products as $list)
+                                    @php
+                                        $proImage = '';
+                                        if(isset($list['product']['ProductImages'][0])){
+                                            $proImage = url('storage/'.$list['product']['ProductImages'][0]['image']);
+                                        }                                
+                                    @endphp
+                                    <div class="single-items">
+                                        <div class="items-left">
+                                            <img src="{{$proImage}}" alt="" class="item-img">
+                                            <div class="items-cnt">
+                                                <h4><a href="#">{{$list['product']['name']}}</a></h4>
+                                                <p>₱ {{number_format($list['price'], 2, '.', '')}} X {{$list['quantity']}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="items-right">
+                                            <p class="price">₱ {{number_format($list['sub_total'], 2, '.', '')}}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="items-right">
-                                <p class="price">₱ 1500</p>
+                            <div class="pickup-txt">
+                                <h6>Pickup<span>Free</span></h6>
+                                <p>Quezon City • <span id="selectedTime"></span></p>
                             </div>
-                        </div>
-                        <div class="single-items">
-                            <div class="items-left">
-                                <img src="https://ysabelles.ph/cakeShop/public/storage/uploads/products/GGCayXHIZ7QZu0lFlpiw.png" alt="" class="item-img">
-                                <div class="items-cnt">
-                                    <h4><a href="#">cake name</a></h4>
-                                </div>
+                            <div class="total-txt">
+                                <h5>Total</h5>
+                                <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
                             </div>
-                            <div class="items-right">
-                                <p class="price">₱ 1500</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="coupon-code-tgl">
-                        <a href="#" class="textBtn">Apply Coupon</a>
-                        <div class="form-group">
-                            <input type="number" class="form-control" id="" placeholder="Have a promo code?">
-                            <button type="button" class="btn btn-primary">Apply</button>
-                        </div>
-                    </div>
-                    <div class="pickup-txt">
-                        <h6>Pickup<span>Free</span></h6>
-                        <p>Quezon City • Thu, Aug 10, 10:00 AM</p>
-                    </div>
-                    <div class="total-txt">
-                        <h5>Total</h5>
-                        <h3>₱1,579.89</h3>
-                        <p>Fees & taxes: ₱79.89</p>
+                        @endif
                     </div>
                     <div class="instructions-cnt">
                         <h5>Instructions</h5>
                         <p>To avoid delays, schedule your courier in advance via Lalamove.And send us your tracking:</p>
                         <ul>
-                            <!-- <li>⌚️ Pickup Time Hours: 9am to 6pm only</li>
-                            <li>⚠️ Click BAG for cake safety (under ADD-ONS)</li>
-                            <li>📍Lalamove: 7 Dominador, Quezon City.</li>
-                            <li>☎️ 09060649461</li> -->
                             <li><i class="fas fa-clock"></i>Pickup Time Hours: 9am to 6pm only</li>
                             <li><i class="fas fa-exclamation-triangle"></i>Click BAG for cake safety (under ADD-ONS)</li>
                             <li><i class="fas fa-map-pin"></i>Lalamove: 7 Dominador, Quezon City.</li>
@@ -542,6 +532,19 @@
 
                                 $("#errorMsgAlert").html('');
 
+                                $.ajax({
+                                    url: "{{route('getConfirmOrderSection')}}",
+                                    type: "post",
+                                    data: {'_token' : $('meta[name=_token]').attr('content') },
+                                    success: function(data){
+                                        $("#itemList").html(data);
+
+                                        var timingVar = $("#hidden_order_date").val()+' '+$("#hidden_order_time").val();
+
+                                        $("#selectedTimeAjax").text(dateFormat(timingVar, "ddd, mmm dS, yyyy, h:MM TT"));
+                                    }
+                                });
+
                                 selectionCheck(0); 
                             }
                         });
@@ -602,6 +605,19 @@
                                                 $("#total_amount").text('₱ '+dataresponce);
                                                 $("#cartMainListDiv").css("display", "");
                                             }
+
+                                            $.ajax({
+                                                url: "{{route('getConfirmOrderSection')}}",
+                                                type: "post",
+                                                data: {'_token' : $('meta[name=_token]').attr('content') },
+                                                success: function(data){
+                                                    $("#itemList").html(data);
+
+                                                    var timingVar = $("#hidden_order_date").val()+' '+$("#hidden_order_time").val();
+
+                                                    $("#selectedTimeAjax").text(dateFormat(timingVar, "ddd, mmm dS, yyyy, h:MM TT"));
+                                                }
+                                            });
                                         }
                                     });
 
@@ -746,6 +762,10 @@
                         }, 1000);
 
                     }else{
+
+                        var timingVar = $("#hidden_order_date").val()+' '+$("#hidden_order_time").val();
+
+                        $("#selectedTime").text(dateFormat(timingVar, "ddd, mmm dS, yyyy, h:MM TT"));
 
                         if(type==1){
 
@@ -1026,5 +1046,116 @@
             $("#ordersFormData").submit();  
         }
 
+        var dateFormat = function () {
+            var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+                timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+                timezoneClip = /[^-+\dA-Z]/g,
+                pad = function (val, len) {
+                    val = String(val);
+                    len = len || 2;
+                    while (val.length < len) val = "0" + val;
+                    return val;
+                };
+
+            // Regexes and supporting functions are cached through closure
+            return function (date, mask, utc) {
+                var dF = dateFormat;
+
+                // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+                if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+                    mask = date;
+                    date = undefined;
+                }
+
+                // Passing date through Date applies Date.parse, if necessary
+                date = date ? new Date(date) : new Date;
+                if (isNaN(date)) throw SyntaxError("invalid date");
+
+                mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+                // Allow setting the utc argument via the mask
+                if (mask.slice(0, 4) == "UTC:") {
+                    mask = mask.slice(4);
+                    utc = true;
+                }
+
+                var _ = utc ? "getUTC" : "get",
+                    d = date[_ + "Date"](),
+                    D = date[_ + "Day"](),
+                    m = date[_ + "Month"](),
+                    y = date[_ + "FullYear"](),
+                    H = date[_ + "Hours"](),
+                    M = date[_ + "Minutes"](),
+                    s = date[_ + "Seconds"](),
+                    L = date[_ + "Milliseconds"](),
+                    o = utc ? 0 : date.getTimezoneOffset(),
+                    flags = {
+                        d:    d,
+                        dd:   pad(d),
+                        ddd:  dF.i18n.dayNames[D],
+                        dddd: dF.i18n.dayNames[D + 7],
+                        m:    m + 1,
+                        mm:   pad(m + 1),
+                        mmm:  dF.i18n.monthNames[m],
+                        mmmm: dF.i18n.monthNames[m + 12],
+                        yy:   String(y).slice(2),
+                        yyyy: y,
+                        h:    H % 12 || 12,
+                        hh:   pad(H % 12 || 12),
+                        H:    H,
+                        HH:   pad(H),
+                        M:    M,
+                        MM:   pad(M),
+                        s:    s,
+                        ss:   pad(s),
+                        l:    pad(L, 3),
+                        L:    pad(L > 99 ? Math.round(L / 10) : L),
+                        t:    H < 12 ? "a"  : "p",
+                        tt:   H < 12 ? "am" : "pm",
+                        T:    H < 12 ? "A"  : "P",
+                        TT:   H < 12 ? "AM" : "PM",
+                        Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                        o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                        S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+                    };
+
+                return mask.replace(token, function ($0) {
+                    return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+                });
+            };
+        }();
+
+        // Some common format strings
+        dateFormat.masks = {
+            "default":      "ddd mmm dd yyyy HH:MM:ss",
+            shortDate:      "m/d/yy",
+            mediumDate:     "mmm d, yyyy",
+            longDate:       "mmmm d, yyyy",
+            fullDate:       "dddd, mmmm d, yyyy",
+            shortTime:      "h:MM TT",
+            mediumTime:     "h:MM:ss TT",
+            longTime:       "h:MM:ss TT Z",
+            isoDate:        "yyyy-mm-dd",
+            isoTime:        "HH:MM:ss",
+            isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+            isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+        };
+
+        // Internationalization strings
+        dateFormat.i18n = {
+            dayNames: [
+                "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+            ],
+            monthNames: [
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+            ]
+        };
+
+        // For convenience...
+        Date.prototype.format = function (mask, utc) {
+            return dateFormat(this, mask, utc);
+        };
     </script>
 @endsection
