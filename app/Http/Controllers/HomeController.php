@@ -206,4 +206,16 @@ class HomeController extends Controller
         $data['order'] = Orders::where('id',$id)->where('customer_id',$user)->first();
         return view('orderPlaced',$data);
     }
+
+    public function getConfirmOrderSection(Request $request){
+        if(Auth::check()){
+            $user = Auth::user()->id;
+            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get()->all();
+
+            $data['cart_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+            return view('confrimOrder',$data);
+        }else{
+            return 0;
+        }
+    }
 }

@@ -1,5 +1,5 @@
 @if(isset($cart_products) && !empty($cart_products))
-<div class="">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
             <div class="section-tittle mb-60">

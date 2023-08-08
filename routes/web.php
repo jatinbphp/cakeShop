@@ -89,6 +89,7 @@ Route::post('addToCart',[HomeController::class,'addToCart'])->name('addToCart');
 Route::post('updateToCart',[HomeController::class,'updateToCart'])->name('updateToCart');
 Route::post('getCartTotal',[HomeController::class,'getCartTotal'])->name('getCartTotal');
 Route::post('getCartProducts',[HomeController::class,'getCartProducts'])->name('getCartProducts');
+Route::post('getConfirmOrderSection',[HomeController::class,'getConfirmOrderSection'])->name('getConfirmOrderSection');
 Route::post('addOrder',[HomeController::class,'addOrder'])->name('addOrder');
 Route::get('gcashPaymentSuccess',[PayPalController::class,'gcashPaymentSuccess'])->name('gcashPaymentSuccess');
 Route::post('getProduct',[HomeController::class,'getProduct'])->name('getProduct');
