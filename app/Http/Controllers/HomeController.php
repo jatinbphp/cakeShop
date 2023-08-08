@@ -193,9 +193,15 @@ class HomeController extends Controller
             }else{
                 return 1;
             }
-            
+
         }else{
             return 0;
         }
+    }
+
+    public function orderPlaced($id){
+        $user = Auth::user()->id;
+        $data['order'] = Orders::where('id',$id)->where('customer_id',$user)->first();
+        return view('orderPlaced',$data);
     }
 }
