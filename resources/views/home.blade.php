@@ -377,7 +377,7 @@
                     <div class="item-list">
                         <div class="single-items">
                             <div class="items-left">
-                                <img src="" alt="" class="item-img">
+                                <img src="https://ysabelles.ph/cakeShop/public/storage/uploads/products/GGCayXHIZ7QZu0lFlpiw.png" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">cake name</a></h4>
                                 </div>
@@ -388,7 +388,7 @@
                         </div>
                         <div class="single-items">
                             <div class="items-left">
-                                <img src="" alt="" class="item-img">
+                                <img src="https://ysabelles.ph/cakeShop/public/storage/uploads/products/GGCayXHIZ7QZu0lFlpiw.png" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">cake name</a></h4>
                                 </div>
@@ -410,8 +410,8 @@
                         <p>Quezon City • Thu, Aug 10, 10:00 AM</p>
                     </div>
                     <div class="total-txt">
-                        <h4>Total</h4>
-                        <h2>₱1,579.89</h2>
+                        <h5>Total</h5>
+                        <h3>₱1,579.89</h3>
                         <p>Fees & taxes: ₱79.89</p>
                     </div>
                     <div class="instructions-cnt">
