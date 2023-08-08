@@ -377,7 +377,7 @@
                     <div class="item-list">
                         <div class="single-items">
                             <div class="items-left">
-                                <img src="{{$proImage}}" alt="" class="item-img">
+                                <img src="" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">cake name</a></h4>
                                 </div>
@@ -388,7 +388,7 @@
                         </div>
                         <div class="single-items">
                             <div class="items-left">
-                                <img src="{{$proImage}}" alt="" class="item-img">
+                                <img src="" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">cake name</a></h4>
                                 </div>
@@ -979,9 +979,9 @@
                         type: "post",
                         data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, '_token' : $('meta[name=_token]').attr('content') },
                         success: function(data){
-                            if(data == 0){
+                            if(data.status == 0){
                                 window.location.href = "{{url('/login')}}";
-                            }else if(data == 1){
+                            }else if(data.status == 1){
                                 $("#errorMsg").css("display", "");
 
                                 $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
@@ -990,7 +990,7 @@
                                 $("html, body").animate({
                                     scrollTop: $("#ourexclusivecakes").offset().top
                                 }, 1000);
-                            } else if(data == 2){
+                            } else if(data.status == 2){
 
                                 $("#ourexclusivecakes").css("display", "none");
                                 $("#cartMainListDiv").css("display", "none");
@@ -1007,7 +1007,7 @@
                                 $("html, body").animate({
                                     scrollTop: $("#orderPlacedDiv").offset().top
                                 }, 1000);
-                            } else if(data == 3){
+                            } else if(data.status == 3){
                                 $("#paymentDiv").css("display", "");
 
                                 $("#whatsYourPaymentFieldError").text('for now, Only Cod payment method implemented.');
