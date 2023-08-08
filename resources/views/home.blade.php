@@ -365,31 +365,77 @@
     </div>
 </section>
 
-<section class="popular-items section-padding40" id="confirmOrderDiv" style="display: none;">
+<section class="popular-items section-padding40" id="confirmOrderDiv" style="display: block;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                <div class="section-tittle">
-                    <h2>Your order <i class="fa-solid fa-edit"></i></h2>
+                <div class="confirmOrder-sec">
+                    <div class="section-tittle">
+                        <h2>Your order</h2>
+                        <a href="#" class="edit-cart"><i class="fa-solid fa-edit"></i></a>
+                    </div>
                     <div class="item-list">
                         <div class="single-items">
                             <div class="items-left">
                                 <img src="{{$proImage}}" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">cake name</a></h4>
-                                    <p>₱ 1500</p>
                                 </div>
                             </div>
                             <div class="items-right">
-                                <div class="qtyBox">
-                                    <button type="button" class="btn"><i class="fa fa-minus"></i></button>
-                                    <input type="number" name="qty" min="1" step="1" >
-                                    <button type="button" class="btn"><i class="fa fa-plus"></i></button>
+                                <p class="price">₱ 1500</p>
+                            </div>
+                        </div>
+                        <div class="single-items">
+                            <div class="items-left">
+                                <img src="{{$proImage}}" alt="" class="item-img">
+                                <div class="items-cnt">
+                                    <h4><a href="#">cake name</a></h4>
                                 </div>
+                            </div>
+                            <div class="items-right">
+                                <p class="price">₱ 1500</p>
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" id="confirmOrder">Confirm Order</button>
+                    <div class="coupon-code-tgl">
+                        <a href="#" class="textBtn">Apply Coupon</a>
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="" placeholder="Have a promo code?">
+                            <button type="button" class="btn btn-primary">Apply</button>
+                        </div>
+                    </div>
+                    <div class="pickup-txt">
+                        <h6>Pickup<span>Free</span></h6>
+                        <p>Quezon City • Thu, Aug 10, 10:00 AM</p>
+                    </div>
+                    <div class="total-txt">
+                        <h4>Total</h4>
+                        <h2>₱1,579.89</h2>
+                        <p>Fees & taxes: ₱79.89</p>
+                    </div>
+                    <div class="instructions-cnt">
+                        <h5>Instructions</h5>
+                        <p>To avoid delays, schedule your courier in advance via Lalamove.And send us your tracking:</p>
+                        <ul>
+                            <!-- <li>⌚️ Pickup Time Hours: 9am to 6pm only</li>
+                            <li>⚠️ Click BAG for cake safety (under ADD-ONS)</li>
+                            <li>📍Lalamove: 7 Dominador, Quezon City.</li>
+                            <li>☎️ 09060649461</li> -->
+                            <li><i class="fas fa-clock"></i>Pickup Time Hours: 9am to 6pm only</li>
+                            <li><i class="fas fa-exclamation-triangle"></i>Click BAG for cake safety (under ADD-ONS)</li>
+                            <li><i class="fas fa-map-pin"></i>Lalamove: 7 Dominador, Quezon City.</li>
+                            <li><i class="fas fa-mobile-alt"></i>09060649461</li>
+                        </ul>
+                        <p>Pls tell your rider to knock on the Green Gate and give your name and code</p>
+                    </div>
+                    <div class="btn-input">
+                        <button type="button" class="btn btn-primary" id="confirmOrder">Confirm Order</button>
+                        <div class="form-group d-flex align-items-center">
+                            <input class="form-check-input" type="checkbox" name="">
+                            <label class="m-0">Save my info for future orders</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -609,6 +655,17 @@
             $('.move_to_yesterday').trigger("click");      
             $("#hidden_order_date").val(customDate);
 
+            $('.middleDay').addClass('active');
+            $("#pickATimeError").text("");
+
+            var element = document.querySelector('.nice-select');
+            $('.list').children("li[data-value='']").remove();
+            
+            $('.nice-select .current').text('09:00 AM');            
+            $('.list li:first-child').addClass('selected');
+            $('.order_time option[value="09:00"]').attr('selected','selected');
+            element.classList.add("open");
+            //element.niceSelect('update');
             selectionCheck(0);      
         });
 
