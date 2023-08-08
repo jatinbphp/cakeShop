@@ -143,31 +143,31 @@ class HomeController extends Controller
     public function addOrder(Request $request){
 
         $data['status'] = 0;
-        if(Auth::check()){
+        if(Auth::check()) {
             $user = Auth::user()->id;
 
-            $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get()->all();
+            $cart_products = Cart::with('Product', 'Product.ProductImages')->where('user_id', $user)->get()->all();
 
-            if(!empty($cart_products)){
+            if (!empty($cart_products)) {
 
-                if($request['payment_type']=='cod'){
+                if ($request['payment_type'] == 'cod') {
 
                     $input = $request->all();
 
-                    $userDetails = User::with('Orders')->where('id',$user)->first();
+                    $userDetails = User::with('Orders')->where('id', $user)->first();
                     $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
-                    $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder;
+                    $input['unique_id'] = strtoupper(substr($userDetails['name'], 0, 3)) . '0' . $totalOrder;
 
                     $input['customer_id'] = $user;
-                    $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+                    $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'), 2, '.', '');
                     $input['status'] = 'pending';
                     $order = Orders::create($input);
 
                     $orderTotal = 0;
                     $orderItems = [];
-                    foreach($cart_products as $key => $value){
+                    foreach ($cart_products as $key => $value) {
 
-                        $product = Products::where('id',$value['product_id'])->where('status','active')->first();
+                        $product = Products::where('id', $value['product_id'])->where('status', 'active')->first();
 
                         $orderItems['order_id'] = $order['id'];
                         $orderItems['product_id'] = $value['product_id'];
@@ -175,9 +175,9 @@ class HomeController extends Controller
                         $orderItems['name'] = $product['name'];
                         $orderItems['quantity'] = $value['quantity'];
                         $orderItems['price'] = $value['price'];
-                        $orderItems['total'] = ($value['price']*$value['quantity']);
+                        $orderItems['total'] = ($value['price'] * $value['quantity']);
 
-                        $orderTotal = ($orderTotal+($value['price']*$value['quantity']));
+                        $orderTotal = ($orderTotal + ($value['price'] * $value['quantity']));
 
                         OrderItems::create($orderItems);
                     }
@@ -186,19 +186,24 @@ class HomeController extends Controller
                     $orderData = Orders::updateOrCreate(['id' => $order['id']], $order_total);*/
 
                     //$status = $this->sendSuccessOrderEmail($order);
-                    Cart::where('user_id',$user)->delete();
+                    Cart::where('user_id', $user)->delete();
 
                     $data['status'] = 2;
                     $data['order_id'] = $order['id'];
 
-                }else{
+                } else {
                     $data['status'] = 3;
                 }
-            }else{
+            } else {
                 $data['status'] = 1;
             }
         }
-
         return $data;
+    }
+
+    public function orderPlaced($id){
+        $user = Auth::user()->id;
+        $data['order'] = Orders::where('id',$id)->where('customer_id',$user)->first();
+        return view('orderPlaced',$data);
     }
 }
