@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">       
+<div class="container">
     @if(Session::has('success'))
         <div class="alert alert-success text-center">
             <button data-dismiss="alert" class="close">&times;</button>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 @foreach ($products as $list)
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
@@ -133,7 +133,7 @@
 
         @if(isset($cart_products) && count($cart_products)>0)
 
-        
+
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -151,7 +151,7 @@
                                         $proImage = '';
                                         if(isset($list['product']['ProductImages'][0])){
                                             $proImage = url('storage/'.$list['product']['ProductImages'][0]['image']);
-                                        }                                
+                                        }
                                     @endphp
                                     <div class="single-items">
                                         <div class="items-left">
@@ -377,7 +377,7 @@
                     <div class="item-list">
                         <div class="single-items">
                             <div class="items-left">
-                                <img src="" alt="" class="item-img">
+                                <img src="https://ysabelles.ph/cakeShop/public/storage/uploads/products/GGCayXHIZ7QZu0lFlpiw.png" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">cake name</a></h4>
                                 </div>
@@ -388,7 +388,7 @@
                         </div>
                         <div class="single-items">
                             <div class="items-left">
-                                <img src="" alt="" class="item-img">
+                                <img src="https://ysabelles.ph/cakeShop/public/storage/uploads/products/GGCayXHIZ7QZu0lFlpiw.png" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">cake name</a></h4>
                                 </div>
@@ -542,7 +542,7 @@
 
                                 $("#errorMsgAlert").html('');
 
-                                selectionCheck(0); 
+                                selectionCheck(0);
                             }
                         });
                     }
@@ -578,18 +578,18 @@
                             success: function(data){
 
                                 if(data == 0){
-                                    
+
                                     $("#errorMsg").css("display", "");
 
                                     $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
-                                    
-                                    
+
+
                                     $("html, body").animate({
                                         scrollTop: $("#ourexclusivecakes").offset().top
                                     }, 1000);
 
                                 }else{
-                                
+
                                     $.ajax({
                                         url: "{{route('getCartTotal')}}",
                                         type: "post",
@@ -652,7 +652,7 @@
             $(".refDate").val(customDate);
             $('#datepickerModal').modal('toggle');
             $('.move_to_tomorrow').trigger("click");
-            $('.move_to_yesterday').trigger("click");      
+            $('.move_to_yesterday').trigger("click");
             $("#hidden_order_date").val(customDate);
 
             $('.middleDay').addClass('active');
@@ -660,13 +660,13 @@
 
             var element = document.querySelector('.nice-select');
             $('.list').children("li[data-value='']").remove();
-            
-            $('.nice-select .current').text('09:00 AM');            
+
+            $('.nice-select .current').text('09:00 AM');
             $('.list li:first-child').addClass('selected');
             $('.order_time option[value="09:00"]').attr('selected','selected');
             element.classList.add("open");
             //element.niceSelect('update');
-            selectionCheck(0);      
+            selectionCheck(0);
         });
 
         $('#datepickerModal').on('shown.bs.modal', function () {
@@ -703,9 +703,9 @@
 
             var element = document.querySelector('.nice-select');
             $('.list').children("li[data-value='']").remove();
-            
+
             if($(".order_time option:selected").val()==''){
-                $('.nice-select .current').text('09:00 AM');            
+                $('.nice-select .current').text('09:00 AM');
                 $('.list li:first-child').addClass('selected');
                 $('.order_time option[value="09:00"]').attr('selected','selected');
                 element.classList.add("open");
@@ -713,7 +713,7 @@
             } else {
                 selectionCheck(0);
             }
-        }); 
+        });
 
         // time select
         function selectTime(order_time){
@@ -721,7 +721,7 @@
             if(order_time!=''){
 
                 $("#hidden_order_time").val(order_time);
-                selectionCheck(0); 
+                selectionCheck(0);
 
             }
         }
@@ -735,12 +735,12 @@
                 success: function(data){
 
                     if(data == 0){
-                        
+
                         $("#errorMsg").css("display", "");
 
                         $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
-                        
-                        
+
+
                         $("html, body").animate({
                             scrollTop: $("#ourexclusivecakes").offset().top
                         }, 1000);
@@ -754,8 +754,8 @@
                                 $("#errorMsgDate").css("display", "");
 
                                 $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
-                                
-                                
+
+
                                 $("html, body").animate({
                                     scrollTop: $("#calendarDiv").offset().top
                                 }, 1000);
@@ -820,9 +820,9 @@
                                 /*$("#errorMsgDate").css("display", "");
 
                                 $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');*/
-                                
+
                                 //$("#pickATimeError").html('Select a date to see which time slots are available');
-                                
+
                                 $("html, body").animate({
                                     scrollTop: $("#calendarDiv").offset().top
                                 }, 1000);
@@ -857,11 +857,11 @@
 
             if(whatsYourEmailField!=''){
 
-                var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;    
-                if(!regex.test(whatsYourEmailField)){   
+                var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                if(!regex.test(whatsYourEmailField)){
                     $("#whatsYourEmailFieldError").text('Please fill in a valid value.');
                 } else{
-                    
+
                     $("#hidden_customer_email").val(whatsYourEmailField);
                     $("#whatsYourPhone").css("display", "");
 
@@ -895,7 +895,7 @@
         });
 
         $('#whatsYourNameField').keyup(function() {
-            var whatsYourNameField = $('#whatsYourNameField').val(); 
+            var whatsYourNameField = $('#whatsYourNameField').val();
 
             if(whatsYourNameField==''){
                 $("#hidden_customer_name").val('');
@@ -905,7 +905,7 @@
         });
 
         $('#whatsYourEmailField').keyup(function() {
-            var whatsYourEmailField = $('#whatsYourEmailField').val(); 
+            var whatsYourEmailField = $('#whatsYourEmailField').val();
 
             if(whatsYourEmailField==''){
                 $("#hidden_customer_email").val('');
@@ -915,7 +915,7 @@
         });
 
         $('#whatsYourPhoneField').keyup(function() {
-            var whatsYourPhoneField = $('#whatsYourPhoneField').val(); 
+            var whatsYourPhoneField = $('#whatsYourPhoneField').val();
 
             if(whatsYourPhoneField==''){
                 $("#hidden_customer_phone").val('');
@@ -924,7 +924,7 @@
             }
         });
 
-        $('#whatsYourNotesField').keyup(function() { 
+        $('#whatsYourNotesField').keyup(function() {
             if ($('#whatsYourNotesField').val() != '') {
                 $("#btnwhatsYourNotes").text('Next');
                 $("#hidden_short_notes").val($('#whatsYourNotesField').val());
@@ -945,7 +945,7 @@
             $("html, body").animate({
                 scrollTop: $("#paymentDiv").offset().top-100
             }, 1000);
-        }); 
+        });
 
         $('#payment_type_radio input:radio').click(function() {
             $("#hidden_payment_type").val($(this).val());
@@ -985,8 +985,8 @@
                                 $("#errorMsg").css("display", "");
 
                                 $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
-                                
-                                
+
+
                                 $("html, body").animate({
                                     scrollTop: $("#ourexclusivecakes").offset().top
                                 }, 1000);
@@ -1022,8 +1022,8 @@
             }
         });
 
-        function processPayPalPayment(){    
-            $("#ordersFormData").submit();  
+        function processPayPalPayment(){
+            $("#ordersFormData").submit();
         }
 
     </script>
