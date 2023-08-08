@@ -3951,7 +3951,14 @@ input[type="radio"]:checked:before {
 .confirmOrder-sec p {
     color: #635c5c;
     font-size: 1rem;
+    line-height: 1.3;
     font-weight: 500;
+}
+.confirmOrder-sec li {
+    color: #635c5c;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.3;
 }
 a.edit-cart i {
     font-style: normal;
@@ -3960,7 +3967,7 @@ a.edit-cart i {
     color: #f04924;
 }
 .confirmOrder-sec .item-list .single-items {
-    background-color: rgba(255,255,255,0.55);
+    background-color: rgba(255,255,255,0.6);
     border-color: rgba(240,73,36,0.1);
 }
 .confirmOrder-sec .item-list .single-items:last-child {
@@ -3975,9 +3982,22 @@ a.edit-cart i {
 }
 .confirmOrder-sec .total-txt {
     margin-bottom: 0;
+    border-bottom: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.confirmOrder-sec .total-txt p {
+    width: 100%;
+    margin: 0;
+}
+.confirmOrder-sec .total-txt h5, 
+.confirmOrder-sec .total-txt h3 {
+    font-weight: 600;
 }
 .confirmOrder-sec .instructions-cnt {
-    background-color: rgba(255,255,255,0.55);
+    background-color: rgba(255,255,255,0.6);
     padding: 1.5rem;
     margin-bottom: 2.5rem;
 }
@@ -4007,6 +4027,34 @@ a.textBtn {
     height: 46px;
     line-height: 46px;
     box-shadow: none;
+}
+.pickup-txt h6 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.pickup-txt p:last-child {
+    margin-bottom: 0;
+}
+.instructions-cnt h5 {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.instructions-cnt ul {
+    margin: 20px 0;
+    display: flex;
+    flex-flow: column;
+    row-gap: 5px;
+}
+.instructions-cnt ul li {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+}
+.instructions-cnt ul i {
+    width: 20px;
+    min-width: 20px;
+    margin-right: 6px;
+    color: #f04924;
 }
 .confirmOrder-sec .btn-input {
     display: flex;
@@ -4207,5 +4255,7 @@ a.textBtn {
 #datepickerContainer .table-condensed{width: 450px; height:450px;}
 .popular-items .error{color: red;}
 @media screen and (max-width:575px) {
-  .rescalendar table td .dia {font-size: 3.3rem;}
+  .rescalendar table td .dia {font-size: 3.1rem;}
+  .rescalendar table td .dia_semana, .rescalendar table td .mes {font-size: 1.2rem;}
+  .confirmOrder-sec .total-txt h3 {font-size: 1.5rem;}
 }
