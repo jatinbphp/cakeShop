@@ -45,7 +45,7 @@ class PayPalController extends Controller{
 
                 $amount = new Amount();
                 $amount->setCurrency('PHP');
-                $amount->setTotal($totalPrice); 
+                $amount->setTotal($totalPrice);
 
                 $transaction = new Transaction();
                 $transaction->setAmount($amount);
@@ -68,7 +68,7 @@ class PayPalController extends Controller{
                     return redirect($redirectUrl);
                 } catch (\Exception $e) {
                     return $e->getMessage();
-                }        
+                }
             } else {
 
                 $customer = User::findorFail($user);
@@ -131,7 +131,7 @@ class PayPalController extends Controller{
         if(!empty($cart_products)){
             $userDetails = User::with('Orders')->where('id',$user)->first();
             $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
-            
+
             $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder;
             $input['customer_id'] = $user;
             $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
@@ -169,6 +169,7 @@ class PayPalController extends Controller{
             $order_total['order_total'] = $orderTotal;
             Orders::updateOrCreate(['id' => $order['id']], $order_total);
             Cart::where('user_id',$user)->delete();
+            $this->sendSuccessOrderEmail($order);
             Session::forget('input');
             return $order;
         }
