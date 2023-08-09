@@ -82,7 +82,7 @@ Route::post('/admin',[LoginController::class,'adminLogin'])->name('admin.login')
 Route::group(['middleware' => 'web'], function () {
     Route::get('logout', [LoginController::class,'logout']);
     Route::auth();
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 Route::post('addToCart',[HomeController::class,'addToCart'])->name('addToCart');
@@ -97,6 +97,8 @@ Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/contact-us', [HomeController::class,'contact_us'])->name('contact_us');
 Route::post('storeContactInfo',[HomeController::class,'storeContactInfo']);
 Route::get('orderPlaced/{id}',[HomeController::class,'orderPlaced'])->name('orderPlaced');
+Route::get('privacyPolicy',[HomeController::class,'privacyPolicy'])->name('privacyPolicy');
+Route::get('deletionInstruction',[HomeController::class,'deletionInstruction'])->name('deletionInstruction');
 
 Route::controller(FacebookController::class)->group(function(){
     Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');

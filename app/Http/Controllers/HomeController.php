@@ -202,9 +202,18 @@ class HomeController extends Controller
     }
 
     public function orderPlaced($id){
-        $user = Auth::user()->id;
-        $data['order'] = Orders::where('id',$id)->where('customer_id',$user)->first();
-        return view('orderPlaced',$data);
+        if(Auth::check()){
+            $user = Auth::user()->id;
+            $data['order'] = Orders::where('id',$id)->where('customer_id',$user)->first();
+
+            if(empty($data['order'])){
+                return redirect()->route('home');
+            } else {
+                return view('orderPlaced',$data);    
+            }            
+        } else {
+            return redirect()->route('home');
+        }
     }
 
     public function getConfirmOrderSection(Request $request){
@@ -217,5 +226,13 @@ class HomeController extends Controller
         }else{
             return 0;
         }
+    }
+
+    public function privacyPolicy(){
+        return view('privacyPolicy');
+    }
+
+    public function deletionInstruction(){
+        return view('deletionInstruction');
     }
 }
