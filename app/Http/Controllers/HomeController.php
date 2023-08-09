@@ -11,6 +11,7 @@ use App\Models\Orders;
 use App\Models\OrderItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -72,13 +73,16 @@ class HomeController extends Controller
     }
 
     public function addToCart(Request $request){
+        $product = Products::with('ProductImages')->where('id',$request['pId'])->first();
+        $input['product_id'] = $product['id'];
+        $input['price'] = $product['price'];
+        $input['quantity'] = $request['qty'];
+        $input['sub_total'] = $product['price'] * $request['qty'];
+        $input['product'] = $product;
+
         if(Auth::check()){
             $user = Auth::user()->id;
-            $product = Products::where('id',$request['pId'])->first();
-            $input['product_id'] = $product['id'];
-            $input['price'] = $product['price'];
-            $input['quantity'] = $request['qty'];
-            $input['sub_total'] = $product['price'] * $request['qty'];
+            
             $existCart = Cart::where('user_id',$user)->where('product_id',$request['pId'])->first();
             if(!empty($existCart)){
                 $existCart->update($input);
@@ -88,7 +92,33 @@ class HomeController extends Controller
             }
             return 1;
         }else{
-            return 0;
+           
+            // Session::forget('cart');
+            // return 0;
+            $cart = session()->get('cart', []);
+
+            // Add new item to the cart
+            
+
+            if(!empty($cart)){
+                foreach ($cart as $key => $value) {
+                    if($cart[$key]['product_id']==$input['product_id']){
+                        $cart[$key]['quantity'] = $cart[$key]['quantity']+$input['quantity'];
+                    }
+                    else{
+                        $cart[] = $input;
+                    }
+                }
+            }else{
+                        $cart[] = $input;
+                    }
+
+            // Store updated cart data in session
+            session(['cart' => $cart]);
+
+            return Session::get('cart');
+
+            return 1;
         }
     }
 
@@ -118,12 +148,16 @@ class HomeController extends Controller
     public function getCartProducts(Request $request){
         if(Auth::check()){
             $user = Auth::user()->id;
-            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get()->all();
+            $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get();
 
             $data['cart_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
             return view('cart',$data);
         }else{
-            return 0;
+
+            $data['cart_products'] = Session::get('cartArray');
+
+            $data['cart_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+            return view('cart',$data);
         }
     }
 

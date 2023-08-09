@@ -463,9 +463,9 @@
                 type: "post",
                 data: {'pId': pId, 'qty': pQty, '_token' : $('meta[name=_token]').attr('content') },
                 success: function(data){
-                    if(data == 0){
+                    /*if(data == 0){
                         window.location.href = "{{url('/login')}}";
-                    }else{
+                    }else{*/
                         $('#addToCartModal').modal('hide');
 
                         $.ajax({
@@ -503,7 +503,7 @@
                                 selectionCheck(0); 
                             }
                         });
-                    }
+                    //}
                 }
             });
         });
