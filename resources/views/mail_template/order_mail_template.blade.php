@@ -65,10 +65,20 @@
                                                             <div style="padding:32px 18px 24px">
                                                                 <table style="width:100%">
                                                                     <tbody>
-                                                                    <tr>
-                                                                        <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Sorry, your order was rejected by the seller</span></td>
-                                                                        <td align="right"><span style="font-size:1.15rem;font-family:'DM Sans', sans-serif;color:#000000;font-weight:bold">#JAT01</span></td>
-                                                                    </tr>
+                                                                        <tr>
+                                                                            @if($mailType == "status")
+                                                                                @if($order->status == "rejected")
+                                                                                    <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Sorry, your order was rejected by the seller</span></td>
+                                                                                    <td align="right"><span style="font-size:1.15rem;font-family:'DM Sans', sans-serif;color:#000000;font-weight:bold">{{isset($user->name) && !empty($user->name) ? $user->name : "";}}</span></td>
+                                                                                @elseif($order->status == "pending")
+                                                                                    <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Your order is currently pending. Please wait for confirmation.</span></td>
+                                                                                @else
+                                                                                     <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Your order has been successfully paid. Thank you for your purchase!</span></td>
+                                                                                @endif
+                                                                            @elseif($mailType == "success")
+                                                                                <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Your order has been successfully Placed. Thank you for your purchase!</span></td>
+                                                                            @endif
+                                                                        </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -76,33 +86,36 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
-                                                <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td style="padding:0px 20px 30px 20px;text-align:inherit;" height="100%" valign="top" bgcolor="">
-                                                            <div>
-                                                                <div style="font-family:'DM Sans', sans-serif;text-align:inherit"><span style="color:#635c5c;font-family:'DM Sans', sans-serif;font-size:1rem;line-height:1.3;font-weight: 500;">If you think this was a mistake, please contact the seller at </span><span style="color:#635c5c;font-family:'DM Sans', sans-serif;font-size:1rem;line-height:1.3;font-weight: 700;">09060649461</span><span style="color:#635c5c;font-family:'DM Sans', sans-serif;font-size:1rem;line-height:1.3;font-weight: 500;">.</span></div>
-                                                                <div></div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                                <table border="0" cellpadding="0" cellspacing="0" role="module" style="table-layout:fixed" width="100%">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td align="center" bgcolor="" style="padding:0px 0px 22px 0px">
-                                                            <table border="0" cellpadding="0" cellspacing="0" style="text-align:center">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td align="center" bgcolor="#FFBC00" style="border-radius:30px;font-size:1rem;text-align:center;background-color:inherit"><a href="#" style="font-family: 'Quicksand', sans-serif;background-color: #F04924;border: 0px solid #F04924;border-color: #F04924;border-radius: 30px;box-shadow: 0px 17px 27px rgba(240, 73, 36, 0.27);border-width:0px;color: #ffffff;display:inline-block;font-size:1rem;font-weight: 400;letter-spacing:0px;line-height:normal;padding: 13px 37px;text-align:center;text-decoration:none;border-style:solid;" target="_blank">Order again</a></td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                                @if($mailType == "status" && $order->status == "rejected")
+                                                    <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td style="padding:0px 20px 30px 20px;text-align:inherit;" height="100%" valign="top" bgcolor="">
+                                                                <div>
+                                                                    <div style="font-family:'DM Sans', sans-serif;text-align:inherit"><span style="color:#635c5c;font-family:'DM Sans', sans-serif;font-size:1rem;line-height:1.3;font-weight: 500;">If you think this was a mistake, please contact the seller at </span><span style="color:#635c5c;font-family:'DM Sans', sans-serif;font-size:1rem;line-height:1.3;font-weight: 700;">{{isset($user->phone) && !empty($user->phone) ? $user->phone : "";}}</span><span style="color:#635c5c;font-family:'DM Sans', sans-serif;font-size:1rem;line-height:1.3;font-weight: 500;">.</span></div>
+                                                                    <div></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="module" style="table-layout:fixed" width="100%">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td align="center" bgcolor="" style="padding:0px 0px 22px 0px">
+                                                                <table border="0" cellpadding="0" cellspacing="0" style="text-align:center">
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td align="center" bgcolor="#FFBC00" style="border-radius:30px;font-size:1rem;text-align:center;background-color:inherit"><a href="{{route('home')}}" style="font-family: 'Quicksand', sans-serif;background-color: #F04924;border: 0px solid #F04924;border-color: #F04924;border-radius: 30px;box-shadow: 0px 17px 27px rgba(240, 73, 36, 0.27);border-width:0px;color: #ffffff;display:inline-block;font-size:1rem;font-weight: 400;letter-spacing:0px;line-height:normal;padding: 13px 37px;text-align:center;text-decoration:none;border-style:solid;" target="_blank">Order again</a></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                @endif
                                                 <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
                                                     <tbody>
                                                     <tr>
@@ -136,19 +149,21 @@
                                                             <div style="padding:18px 18px 24px;font-size: 1.2rem;line-height: 1.3;color: #000000;font-family: 'DM Sans', sans-serif;font-weight: 500;">
                                                                 <table style="width:100%">
                                                                     <tbody>
-                                                                    <tr>
-                                                                        <td style="padding-bottom:16px"><span style="font-weight:600;white-space:pre-wrap">Quezon City on Saturday, July 22, 9:00 AM</span></td>
-                                                                        <td style="padding-bottom:16px" align="right">Free</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="padding-bottom:16px"><span style="font-weight:600;white-space:pre-wrap">1x 9" Mango Yema Brulee</span></td>
-                                                                        <td style="padding-bottom:16px" align="right">₱1,500</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><span style="font-weight:600;">Total</span></td>
-                                                                        <td align="right">₱1,500</td>
-                                                                    </tr>
+                                                                        @if(isset($orderItems) && !empty($orderItems))
+                                                                            @foreach($orderItems as $key => $value)
+                                                                                <tr>
+                                                                                    <td style="padding-bottom:16px"><span style="font-weight:600;white-space:pre-wrap">{{$value->name}}</span></td>
+                                                                                    <td style="padding-bottom:16px" align="right"><span>₱</span>{{number_format($value->total,2, '.', '')}}</td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        @endif
                                                                     </tbody>
+                                                                    <tfoot>
+                                                                        <tr>
+                                                                            <td><span style="font-weight:600;">Total</span></td>
+                                                                            <td align="right"><span>₱</span>{{number_format($order->order_total,2, '.', '')}}</td>
+                                                                        </tr>
+                                                                    </tfoot>
                                                                 </table>
                                                             </div>
                                                         </td>
@@ -164,7 +179,7 @@
                                                                 <div style="font-family:'DM Sans', sans-serif;text-align:inherit"><br></div>
                                                                 <div style="font-family:'DM Sans', sans-serif;text-align:inherit;white-space:pre-wrap">To avoid delays, schedule your courier in advance via Lalamove. <br>And send us your tracking:
                                                                 </div>
-                                                                <div style="font-family:'DM Sans', sans-serif;text-align:inherit;white-space:pre-wrap"><img width="16" height="16px" style="object-fit: contain;margin-right: 6px;" data-emoji="⌚️" class="an1" alt="⌚️" aria-label="⌚️" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/231a_fe0f/72.png" loading="lazy"> Pickup Time Hours: 9am to 6pm only<br><img width="16" height="16px" style="object-fit: contain;margin-right: 6px;" data-emoji="⚠️" class="an1" alt="⚠️" aria-label="⚠️" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/26a0_fe0f/72.png" loading="lazy"> Click BAG for cake safety (under ADD-ONS)<br><img width="16" height="16px" style="object-fit: contain;margin-right: 10px;" data-emoji="📍" class="an1" alt="📍" aria-label="📍" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f4cd/72.png" loading="lazy">Lalamove: 7 Dominador, Quezon City.<br><img width="16" height="16px" style="object-fit: contain;margin-right: 6px;" data-emoji="☎️" class="an1" alt="☎️" aria-label="☎️" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/260e_fe0f/72.png" loading="lazy"> 09060649461
+                                                                <div style="font-family:'DM Sans', sans-serif;text-align:inherit;white-space:pre-wrap"><img width="16" height="16px" style="object-fit: contain;margin-right: 6px;" data-emoji="⌚️" class="an1" alt="⌚️" aria-label="⌚️" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/231a_fe0f/72.png" loading="lazy"> Pickup Time Hours: 9am to 6pm only<br><img width="16" height="16px" style="object-fit: contain;margin-right: 6px;" data-emoji="⚠️" class="an1" alt="⚠️" aria-label="⚠️" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/26a0_fe0f/72.png" loading="lazy"> Click BAG for cake safety (under ADD-ONS)<br><img width="16" height="16px" style="object-fit: contain;margin-right: 10px;" data-emoji="📍" class="an1" alt="📍" aria-label="📍" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f4cd/72.png" loading="lazy">{{$order->address}}<br><img width="16" height="16px" style="object-fit: contain;margin-right: 6px;" data-emoji="☎️" class="an1" alt="☎️" aria-label="☎️" src="https://fonts.gstatic.com/s/e/notoemoji/15.0/260e_fe0f/72.png" loading="lazy"> {{$order->customer_phone}}
                                                                 </div>
                                                                 <div style="font-family:'DM Sans', sans-serif;text-align:inherit;white-space:pre-wrap">Pls tell your rider to knock on the Green Gate and give your name and code</div>
                                                             </div>
@@ -196,7 +211,7 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <td style="padding-bottom:30px"><span style="font-weight:600;">Payment Method</span></td>
-                                                                        <td align="right" style="padding-bottom:30px;white-space:pre-wrap">GCash</td>
+                                                                        <td align="right" style="padding-bottom:30px;white-space:pre-wrap">{{$order->payment_type}}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td style="padding-bottom:30px"><span style="font-weight:600;">Fulfillment Method</span></td>
@@ -204,7 +219,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td style="padding-bottom:30px"><span style="font-weight:600;">Your Name</span></td>
-                                                                        <td align="right" style="padding-bottom:30px;white-space:pre-wrap">Jatin</td>
+                                                                        <td align="right" style="padding-bottom:30px;white-space:pre-wrap">{{$order->customer_name}}</td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -220,7 +235,7 @@
                                                             <div>
                                                                 <div style="font-family:'DM Sans', sans-serif;text-align:inherit"></div>
                                                                 <div style="font-size: 1.2rem;line-height: 1.3;color: #000000;font-family: 'DM Sans', sans-serif;font-weight: 600;text-align:inherit">Do you want to write a short note? Type below.</div>
-                                                                <div style="font-size: 1rem;line-height: 1.3;color: #635c5c;font-family: 'DM Sans', sans-serif;font-weight: 500;text-align:inherit;white-space:pre-wrap">afsd</div>
+                                                                <div style="font-size: 1rem;line-height: 1.3;color: #635c5c;font-family: 'DM Sans', sans-serif;font-weight: 500;text-align:inherit;white-space:pre-wrap">{{$order->short_notes}}</div>
                                                                 <div style="font-family:'DM Sans', sans-serif;text-align:inherit"><br></div>
                                                                 <div style="font-family:'DM Sans', sans-serif;text-align:inherit"></div>
                                                                 <div></div>
@@ -298,66 +313,5 @@
     </tr>
     </tbody>
 </table>
-    <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff; margin: 0 auto;">
-        <tr>
-            <td align="center" bgcolor="#00aaff" style="padding: 20px;">
-                <h1 style="color: #ffffff;">Order Confirmation</h1>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding: 20px;">
-                <h2>Thank you for your order, {{ $orders->customer_name }} !</h2>
-                <p>Your order has been successfully placed and is being processed.</p>
-                <h3>Customer Details</h3>
-                <table cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td style="padding: 10px 0;"><strong>Name: </strong>{{ $orders->customer_name }}</td>
-                        <td style="padding: 10px 0;"><strong>Email: </strong>{{ $orders->customer_email }}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0;"><strong>Phone: </strong>{{ $orders->customer_phone }}</td>
-                        <td style="padding: 10px 0;"><strong>Payment Type: </strong>{{ $orders->payment_type }}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0;"><strong>Order Date: </strong>{{ $orders->created_at->format('Y-m-d') }}</td>
-                        <td style="padding: 10px 0;"><strong>Order Time: </strong>{{ $orders->created_at->format('H:i:s') }}</td>
-                    </tr>
-                </table>
-                <h3>Order Details</h3>
-                <table border="1" cellpadding="10" cellspacing="0" width="100%" style="border-collapse: collapse;">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(isset($orderItems) && !empty($orderItems))
-                            @foreach($orderItems as $key => $value)
-                                <tr>
-                                    <td>{{ $value->name }}</td>
-                                    <td>{{ $value->quantity }}</td>
-                                    <td>&#8369;{{ $value->price }}</td>
-                                    <td>&#8369;{{ $value->total }}</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                    <tr>
-                        <td colspan="3" style="text-align: right;"><strong>Total Amount:</strong></td>
-                        <td><strong>&#8369;{{ isset($totalPrice) ? $totalPrice : 0.00 }}</strong></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td align="center" bgcolor="#f4f4f4" style="padding: 20px;">
-                <p>If you have any questions about your order, feel free to <a href="mailto:">contact us</a>.</p>
-            </td>
-        </tr>
-    </table>
-
 </body>
 </html>

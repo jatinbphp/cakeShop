@@ -14,6 +14,8 @@ use DataTables;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 
 class OrderController extends Controller
 {
@@ -337,6 +339,7 @@ class OrderController extends Controller
         if(!empty($order)){
             $input['status'] = $request['status'];
             $order->update($input);
+            $status = $this->sendCustomerMail($order, 'status', Auth::user());
             return 1;
         }else{
             return 0;

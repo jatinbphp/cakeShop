@@ -186,9 +186,8 @@ class PayPalController extends Controller{
 
             $order_total['order_total'] = $orderTotal;
             Orders::updateOrCreate(['id' => $order['id']], $order_total);
+            $mail_status = $this->sendCustomerMail($order, 'success', Auth::user());
             Cart::where('user_id',$user)->delete();
-            $this->sendSuccessOrderEmail($order);
-
             Session::forget('input');
             return $order;
         }
