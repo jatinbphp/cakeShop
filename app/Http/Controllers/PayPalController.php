@@ -117,7 +117,8 @@ class PayPalController extends Controller{
             $input = Session::get('input');
             $status = $this->addOrder($user, $cart_products, $transaction_id, $input);
             \Session::flash('success','Payment is done successfully!');
-            return redirect()->route('home');
+            //return redirect()->route('home');
+            return redirect()->route('orderPlaced',['id'=>$status['id']]);
         }
     }
 
@@ -236,7 +237,8 @@ class PayPalController extends Controller{
             $customer->update($request->all());
 
             \Session::flash('success','Payment is done successfully!');
-            return redirect()->route('home');
+            //return redirect()->route('home');
+            return redirect()->route('orderPlaced',['id'=>$status['id']]);
         }
     }
 }
