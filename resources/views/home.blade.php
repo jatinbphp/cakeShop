@@ -536,15 +536,18 @@
                             success: function(data){
 
                                 if(data == 0){
+
+                                    window.location.href = "{{url('/')}}";
                                     
-                                    $("#errorMsg").css("display", "");
+                                    /*$("#errorMsg").css("display", "");
 
                                     $("#errorMsgAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Sorry, you do not have any product in the cart. Please add the product to the cart.</div>');
                                     
                                     
                                     $("html, body").animate({
                                         scrollTop: $("#ourexclusivecakes").offset().top
-                                    }, 1000);
+                                    }, 1000);*/
+
 
                                 }else{
                                 
