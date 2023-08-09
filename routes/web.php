@@ -82,7 +82,7 @@ Route::post('/admin',[LoginController::class,'adminLogin'])->name('admin.login')
 Route::group(['middleware' => 'web'], function () {
     Route::get('logout', [LoginController::class,'logout']);
     Route::auth();
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('home/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
 Route::post('addToCart',[HomeController::class,'addToCart'])->name('addToCart');
