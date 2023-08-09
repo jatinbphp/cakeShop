@@ -31,6 +31,22 @@ class PayPalController extends Controller{
             $user = Auth::user()->id;
             $totalPrice = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
 
+            /*Session::put('input', $request->all());
+            if(Auth::check()){
+                $user = Auth::user()->id;
+                $totalPrice = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+            } else {
+
+                $cart_products = session()->get('cart');
+
+                $cart_total = 0;
+                if(!empty($cart_products)){
+                    $cart_total = array_sum(array_column($cart_products,'sub_total'));
+                }
+
+                $totalPrice = number_format($cart_total,2, '.', '');
+            }*/
+
             if($request['hidden_payment_type']!='gcash'){
 
                 $apiContext = new ApiContext(

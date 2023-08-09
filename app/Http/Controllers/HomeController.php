@@ -38,7 +38,6 @@ class HomeController extends Controller
             if(!empty(session()->get('cart'))){
                $data['cart_products'] = session()->get('cart');
             }
-            
 
             $cart_total = 0;
             if(!empty($data['cart_products'])){
@@ -292,7 +291,8 @@ class HomeController extends Controller
                     $input = $request->all();
 
                     $totalOrder = Orders::where('customer_id', 0)->count();
-                    $input['unique_id'] = 'GUEST0'.$totalOrder+1;
+                    $uniqueId = $totalOrder+1;
+                    $input['unique_id'] = 'GUEST0'.$uniqueId;
 
                     $input['customer_id'] = 0;
 
