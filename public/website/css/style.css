@@ -3875,7 +3875,7 @@ input[type="radio"]:checked:before {
     transition: all .4s ease-out 0s;
 }
 .item-list .single-items:last-child {
-  border-color: transparent;
+  border-color: transparent !important;
 }
 .item-list .items-left {
     width: 70%;
@@ -3947,6 +3947,9 @@ input[type="radio"]:checked:before {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
+}
+.confirmOrder-sec .section-tittle .edit-cart>* {
+    text-align: right;
 }
 .confirmOrder-sec p {
     color: #635c5c;
@@ -4067,6 +4070,81 @@ a.textBtn {
 }
 .confirmOrder-sec .btn-input .form-group label {
     color: #635c5c;
+}
+.popular-items .col-md-10 .confirmOrder-sec {
+    margin-top: 30px;
+}
+.popular-items .col-md-10 .confirmOrder-sec:first-child {
+    margin-top: 0;
+}
+.item-list.payDetails {
+    margin-bottom: 20px;
+}
+.item-list.payDetails .single-items {
+    justify-content: space-between;
+    align-items: center;
+}
+.item-list.payDetails :where(.items-left, .items-right) {
+    width: auto;
+}
+.item-list.payDetails .items-right {
+  min-width: 16px;
+  text-align: right;
+}
+.item-list.payDetails .items-right a {
+    font-size: 1.1rem;
+    color: #F04924;
+}
+.item-list.payDetails :where(h6, p) {
+    margin: 0;
+}
+.item-list.payDetails .items-left {
+    flex-flow: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+.item-list.payDetails p {
+    color: #635c5c;
+    font-size: 1rem;
+    line-height: 1.3;
+    font-weight: 500;
+}
+.confirmOrder-sec p:last-child {
+  /*margin: 0;*/
+}
+.item-list.payDetails h6 {
+    color: #000000;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    font-weight: 700;
+}
+.conBck-sec {
+    margin-top: 30px;
+}
+.conBck-sec h6 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 10px;
+}
+.conBck-sec h6 i {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    color: #F04924;
+    background-color: rgba(255,255,255,0.6);
+    padding: 6px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.conBck-sec h6 i img {
+    object-fit: contain;
 }
 @media screen and (max-width:991px){
     .popular-active button.slick-arrow {
@@ -4257,5 +4335,5 @@ a.textBtn {
 @media screen and (max-width:575px) {
   .rescalendar table td .dia {font-size: 3.1rem;}
   .rescalendar table td .dia_semana, .rescalendar table td .mes {font-size: 1.2rem;}
-  .confirmOrder-sec .total-txt h3 {font-size: 1.5rem;}
+  .confirmOrder-sec .total-txt h3, .confirmOrder-sec h3 {font-size: 1.5rem;}
 }

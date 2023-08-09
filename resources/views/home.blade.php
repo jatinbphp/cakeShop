@@ -372,7 +372,7 @@
                 <div class="confirmOrder-sec">
                     <div class="section-tittle">
                         <h2>Your order</h2>
-                        <a href="#" class="edit-cart"><i class="fa-solid fa-edit"></i></a>
+                        <a href="javascript:void(0)" class="edit-cart" onclick="editCartFunction()"><i class="fa-solid fa-edit"></i></a>
                     </div>
                     <div id="itemList">
                         @if(isset($cart_products) && !empty($cart_products))
@@ -1157,5 +1157,13 @@
         Date.prototype.format = function (mask, utc) {
             return dateFormat(this, mask, utc);
         };
+
+        function editCartFunction() {            
+            $('#previewCart').trigger("click");
+            $("#cartMainListDiv").css("display", "");
+            $("html, body").animate({
+                scrollTop: $("#cartMainListDiv").offset().top-200
+            }, 1000);
+        }
     </script>
 @endsection
