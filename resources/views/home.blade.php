@@ -1012,7 +1012,10 @@
                                 }, 1000);
                             } else if(data.status == 2){
 
-                                $("#ourexclusivecakes").css("display", "none");
+                                window.location.href = "{{ url('orderPlaced')}}/"+data.order_id;
+
+
+                                /*$("#ourexclusivecakes").css("display", "none");
                                 $("#cartMainListDiv").css("display", "none");
                                 $("#calendarDiv").css("display", "none");
                                 $("#whatsYourName").css("display", "none");
@@ -1026,7 +1029,7 @@
 
                                 $("html, body").animate({
                                     scrollTop: $("#orderPlacedDiv").offset().top
-                                }, 1000);
+                                }, 1000);*/
                             } else if(data.status == 3){
                                 $("#paymentDiv").css("display", "");
 
