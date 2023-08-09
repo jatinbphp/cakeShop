@@ -23,7 +23,7 @@
                                 <img src="{{$proImage}}" alt="" class="item-img">
                                 <div class="items-cnt">
                                     <h4><a href="#">{{$list['product']['name']}} </a></h4>
-                                    <p>₱ {{number_format($list['sub_total'], 2, '.', '')}}</p>
+                                    <p>₱ {{$list['product']['price']}} X {{$list['quantity']}} = {{number_format($list['sub_total'], 2, '.', '')}}</p>
                                 </div>
                             </div>
                             <div class="items-right">

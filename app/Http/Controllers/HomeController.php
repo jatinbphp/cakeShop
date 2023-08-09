@@ -24,6 +24,7 @@ class HomeController extends Controller
         $data['products'] = Products::with('ProductImages')->where('status', 'active')->get();
 
         $data['cart_products'] = [];
+        $data['user'] = [];
         if(Auth::check()){
             $user = Auth::user();
             $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user->id)->get();
@@ -32,6 +33,19 @@ class HomeController extends Controller
 
             $data['cart_total'] = Cart::where('user_id', $user->id)->sum('sub_total');
 
+        } else {
+
+            if(!empty(session()->get('cart'))){
+               $data['cart_products'] = session()->get('cart');
+            }
+            
+
+            $cart_total = 0;
+            if(!empty($data['cart_products'])){
+                $cart_total = array_sum(array_column($data['cart_products'],'sub_total'));
+            }
+            
+            $data['cart_total'] = number_format($cart_total,2, '.', '');
         }
 
         return view('home',$data);
@@ -93,47 +107,48 @@ class HomeController extends Controller
             return 1;
         }else{
            
-            // Session::forget('cart');
-            // return 0;
+            //Session::forget('cart');
             $cart = session()->get('cart', []);
 
             // Add new item to the cart
-            
-
+            $exist = 0;
             if(!empty($cart)){
                 foreach ($cart as $key => $value) {
                     if($cart[$key]['product_id']==$input['product_id']){
+                        $cart[$key] = $value;
                         $cart[$key]['quantity'] = $cart[$key]['quantity']+$input['quantity'];
-                    }
-                    else{
-                        $cart[] = $input;
+                        $cart[$key]['sub_total'] = $cart[$key]['quantity']*$input['price'];
+                        $exist = 1;
                     }
                 }
+
+                if($exist==0){
+                    $cart[] = $input;  
+                }
             }else{
-                        $cart[] = $input;
-                    }
+                $cart[] = $input;
+            }
 
             // Store updated cart data in session
             session(['cart' => $cart]);
-
-            return Session::get('cart');
-
             return 1;
         }
     }
 
     public function updateToCart(Request $request){
+        $product = Products::where('id',$request['pId'])->first();
+        $input['product_id'] = $product['id'];
+        $input['price'] = $product['price'];
+        $input['quantity'] = $request['qty'];
+        $input['sub_total'] = $product['price'] * $request['qty'];
+
         if(Auth::check()){
             $user = Auth::user()->id;
-            $product = Products::where('id',$request['pId'])->first();
-
+        
             if($request['qty']==0){
                 Cart::where('user_id',$user)->where('product_id',$request['pId'])->delete();
             } else {
-                $input['product_id'] = $product['id'];
-                $input['price'] = $product['price'];
-                $input['quantity'] = $request['qty'];
-                $input['sub_total'] = $product['price'] * $request['qty'];
+                
                 $existCart = Cart::where('user_id',$user)->where('product_id',$request['pId'])->first();
                 if(!empty($existCart)){
                     $existCart->update($input);
@@ -141,7 +156,29 @@ class HomeController extends Controller
             }
             return 1;
         }else{
-            return 0;
+            
+            //Session::forget('cart');
+            $cart = session()->get('cart', []);
+
+            // Add new item to the cart
+            if(!empty($cart)){
+                foreach ($cart as $key => $value) {
+                    if($cart[$key]['product_id']==$input['product_id']){
+
+                        if($input['quantity']==0){
+                            unset($cart[$key]);
+                        } else {
+                            $cart[$key] = $value;
+                            $cart[$key]['quantity'] = $input['quantity'];
+                            $cart[$key]['sub_total'] = $cart[$key]['quantity']*$input['price'];
+                        }
+                    }
+                }
+            }
+
+            // Store updated cart data in session
+            session(['cart' => $cart]);
+            return 1;
         }
     }
 
@@ -154,9 +191,14 @@ class HomeController extends Controller
             return view('cart',$data);
         }else{
 
-            $data['cart_products'] = Session::get('cartArray');
+            $data['cart_products'] = session()->get('cart');
 
-            $data['cart_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+            $cart_total = 0;
+            if(!empty($data['cart_products'])){
+                $cart_total = array_sum(array_column($data['cart_products'],'sub_total'));
+            }
+
+            $data['cart_total'] = number_format($cart_total,2, '.', '');
             return view('cart',$data);
         }
     }
@@ -169,8 +211,16 @@ class HomeController extends Controller
 
             return number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
 
-        } else {
-            return 0;
+        }else{
+
+            $data['cart_products'] = session()->get('cart');
+
+            $cart_total = 0;
+            if(!empty($data['cart_products'])){
+                $cart_total = array_sum(array_column($data['cart_products'],'sub_total'));
+            }
+
+            return number_format($cart_total,2, '.', '');
         }
     }
 
@@ -231,22 +281,71 @@ class HomeController extends Controller
             } else {
                 $data['status'] = 1;
             }
+        } else {
+
+            $cart_products = session()->get('cart');
+
+            if (!empty($cart_products)) {
+
+                if ($request['payment_type'] == 'cod') {
+
+                    $input = $request->all();
+
+                    $totalOrder = Orders::where('customer_id', 0)->count();
+                    $input['unique_id'] = 'GUEST0'.$totalOrder+1;
+
+                    $input['customer_id'] = 0;
+
+                    $cart_total = 0;
+                    if(!empty($cart_products)){
+                        $cart_total = array_sum(array_column($cart_products,'sub_total'));
+                    }
+
+                    $input['order_total'] = number_format($cart_total, 2, '.', '');
+                    $input['status'] = 'pending';
+                    $order = Orders::create($input);
+
+                    $orderTotal = 0;
+                    $orderItems = [];
+                    foreach ($cart_products as $key => $value) {
+
+                        $product = Products::where('id', $value['product_id'])->where('status', 'active')->first();
+
+                        $orderItems['order_id'] = $order['id'];
+                        $orderItems['product_id'] = $value['product_id'];
+                        $orderItems['sku'] = $product['sku'];
+                        $orderItems['name'] = $product['name'];
+                        $orderItems['quantity'] = $value['quantity'];
+                        $orderItems['price'] = $value['price'];
+                        $orderItems['total'] = ($value['price'] * $value['quantity']);
+
+                        $orderTotal = ($orderTotal + ($value['price'] * $value['quantity']));
+
+                        OrderItems::create($orderItems);
+                    }
+
+                    Session::forget('cart');
+
+                    $data['status'] = 2;
+                    $data['order_id'] = $order['id'];
+
+                } else {
+                    $data['status'] = 3;
+                }
+            } else {
+                $data['status'] = 1;
+            }
         }
         return $data;
     }
 
     public function orderPlaced($id){
-        if(Auth::check()){
-            $user = Auth::user()->id;
-            $data['order'] = Orders::where('id',$id)->where('customer_id',$user)->first();
+        $data['order'] = Orders::where('id',$id)->first();
 
-            if(empty($data['order'])){
-                return redirect()->route('home');
-            } else {
-                return view('orderPlaced',$data);    
-            }            
-        } else {
+        if(empty($data['order'])){
             return redirect()->route('home');
+        } else {
+            return view('orderPlaced',$data);    
         }
     }
 
@@ -258,7 +357,15 @@ class HomeController extends Controller
             $data['cart_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
             return view('confrimOrder',$data);
         }else{
-            return 0;
+            $data['cart_products'] = session()->get('cart');
+
+            $cart_total = 0;
+            if(!empty($data['cart_products'])){
+                $cart_total = array_sum(array_column($data['cart_products'],'sub_total'));
+            }
+
+            $data['cart_total'] = number_format($cart_total,2, '.', '');
+            return view('confrimOrder',$data);
         }
     }
 
