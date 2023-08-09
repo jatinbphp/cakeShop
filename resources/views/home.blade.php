@@ -1,51 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="container">       
-    @if(Session::has('success'))
-        <div class="alert alert-success text-center">
-            <button data-dismiss="alert" class="close">&times;</button>
-            {{Session::get('success')}}
-        </div>
-    @elseif(Session::has('danger'))
-        <div class="alert alert-danger text-center">
-            <button data-dismiss="alert" class="close">&times;</button>
-            {{Session::get('danger')}}
-        </div>
-    @elseif(Session::has('warning'))
-        <div class="alert alert-warning text-center">
-            <button data-dismiss="alert" class="close">&times;</button>
-            {{Session::get('warning')}}
-        </div>
-    @endif
-</div>
-
-<div class="slider-area slider-bg1" style="display:none">
-    <div class="slider-active">
-        <div class="single-slider d-flex align-items-center slider-height ">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-xl-6 col-lg-7 col-md-8 ">
-                        <div class="hero__caption">
-                            <div class="shop-tittle">
-                                <h2>Delicious</h2>
-                            </div>
-                            <h1 data-animation="fadeInUp" data-delay=".6s ">Delicious Cake For Everyone</h1>
-                            <p data-animation="fadeInUp" data-delay=".8s">Land behold it created good saw after she'd Our set
-                                living. Signs midst dominion creepeth morning
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="hero-shape bounce-animate">
-        <img src="{{ asset('website/images/hero-shape.png') }}" alt="">
-    </div>
-</div>
-
 @if(isset($products) && !empty($products))
 <section class="popular-items section-padding40" id="ourexclusivecakes">
     <div class="container">
