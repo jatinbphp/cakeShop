@@ -339,7 +339,7 @@ class OrderController extends Controller
         if(!empty($order)){
             $input['status'] = $request['status'];
             $order->update($input);
-            $status = $this->sendCustomerMail($order, 'status', Auth::user());
+            $mail_status = $this->sendCustomerMail($order, 'status', Auth::user());
             return 1;
         }else{
             return 0;

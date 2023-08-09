@@ -35,12 +35,11 @@ class Controller extends BaseController
         $subject = ($mailType == "success") ? "Order Placed Successfully" : "Order Status Updated";
  
         //Mail Send
-        // \Mail::send('mail_template/order_status_template',$data, function($message) {
-        //     $message->from('cakshop@ysabelles.ph');
-        //     $message->to($order->customer_email);
-        //     $message->subject($subject);
-        // });
+        /*\Mail::send('mail_template/order_mail_template',$data, function($message) {
+            $message->from('cakshop@ysabelles.ph');
+            $message->to($order->customer_email);
+            $message->subject($subject);
+        });*/
         return 1;
     }
-
 }
