@@ -47,6 +47,7 @@ class PayPalController extends Controller{
                 $amount->setCurrency('PHP');
                 $amount->setTotal($totalPrice);
 
+
                 $transaction = new Transaction();
                 $transaction->setAmount($amount);
 
@@ -69,6 +70,7 @@ class PayPalController extends Controller{
                 } catch (\Exception $e) {
                     return $e->getMessage();
                 }
+
             } else {
 
                 $customer = User::findorFail($user);
@@ -170,6 +172,7 @@ class PayPalController extends Controller{
             Orders::updateOrCreate(['id' => $order['id']], $order_total);
             Cart::where('user_id',$user)->delete();
             $this->sendSuccessOrderEmail($order);
+
             Session::forget('input');
             return $order;
         }

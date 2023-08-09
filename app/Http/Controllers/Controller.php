@@ -33,7 +33,11 @@ class Controller extends BaseController
             $data['totalPrice'] = isset($totalPrice) && !empty($totalPrice) ? number_format($totalPrice,2, '.', '') : 0.00;
             //Mail Send
 <<<<<<< HEAD
+<<<<<<< HEAD
             \Mail::send('mail_template.order_mail_template',$data, function($message) {
+=======
+            \Mail::send('order_mail_template',$data, function($message) {
+>>>>>>> e2c6c8b172807c0486e37fd2385871c96cb984b9
 =======
             \Mail::send('order_mail_template',$data, function($message) {
 >>>>>>> e2c6c8b172807c0486e37fd2385871c96cb984b9
