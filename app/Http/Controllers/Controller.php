@@ -32,20 +32,11 @@ class Controller extends BaseController
             $totalPrice = OrderItems::where('order_id', $order->id)->sum('total');
             $data['totalPrice'] = isset($totalPrice) && !empty($totalPrice) ? number_format($totalPrice,2, '.', '') : 0.00;
             //Mail Send
-<<<<<<< HEAD
-<<<<<<< HEAD
             \Mail::send('mail_template.order_mail_template',$data, function($message) {
-=======
-            \Mail::send('order_mail_template',$data, function($message) {
->>>>>>> e2c6c8b172807c0486e37fd2385871c96cb984b9
-=======
-            \Mail::send('order_mail_template',$data, function($message) {
->>>>>>> e2c6c8b172807c0486e37fd2385871c96cb984b9
                 $message->from('emmanuel.k.php@gmail.com');
                 $message->to($order->customer_email);
                 $message->subject("Order Placed");
             });
-
             return 1;
         }
     }
