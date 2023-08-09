@@ -37,7 +37,7 @@ class FacebookController extends Controller
          
                 Auth::login($finduser);
        
-                return redirect()->intended('home');
+                return redirect('home');
          
             }else{
                 $newUser = User::updateOrCreate(['email' => $user->email],[
@@ -48,7 +48,7 @@ class FacebookController extends Controller
         
                 Auth::login($newUser);
         
-                return redirect()->intended('home');
+                return redirect('home');
             }
        
         } catch (Exception $e) {

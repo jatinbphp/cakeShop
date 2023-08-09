@@ -4337,3 +4337,4 @@ a.textBtn {
   .rescalendar table td .dia_semana, .rescalendar table td .mes {font-size: 1.2rem;}
   .confirmOrder-sec .total-txt h3, .confirmOrder-sec h3 {font-size: 1.5rem;}
 }
+#confirmOrderDiv a:hover {color: #635c5c;}
