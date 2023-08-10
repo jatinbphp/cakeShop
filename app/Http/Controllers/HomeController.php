@@ -12,6 +12,8 @@ use App\Models\OrderItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
+
 
 class HomeController extends Controller
 {
@@ -66,6 +68,7 @@ class HomeController extends Controller
 
         $input = $request->all();
         ContactUs::create($input);
+        $mail_status = $this->sendContactusMail($input);
         \Session::flash('success', 'Thank you for getting in touch! We will get back in touch with you soon!Have a great day!');
         return redirect()->back();
     }
@@ -377,5 +380,15 @@ class HomeController extends Controller
 
     public function deletionInstruction(){
         return view('deletionInstruction');
+    }
+
+    private function sendContactusMail($input){
+        $data['data'] = $input;
+        \Mail::send('mail_template/contact_us_mail_template',$data, function($message) use($input){
+            $message->from('cakshop@ysabelles.ph');
+            $message->to($input['email']);
+            $message->subject($input['email']);
+        });
+        return 1;
     }
 }
