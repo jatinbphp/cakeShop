@@ -212,12 +212,10 @@ class PayPalController extends Controller{
             Orders::updateOrCreate(['id' => $order['id']], $order_total);
 
             if(!empty($user)){
-                //$mail_status = $this->sendCustomerMail($order, 'success', Auth::user());
+                $mail_status = $this->sendCustomerMail($order, 'success', []);
                 Cart::where('user_id',$user)->delete();
             } else {
-                $userArray['name'] = $input['hidden_customer_name'];
-                $userArray['phone'] = $input['hidden_customer_phone'];
-                //$mail_status = $this->sendCustomerMail($order, 'success', $userArray);
+                $mail_status = $this->sendCustomerMail($order, 'success', []);
                 Session::forget('cart');
             }
             Session::forget('input');

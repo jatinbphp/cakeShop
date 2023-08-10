@@ -38,6 +38,7 @@ class HomeController extends Controller
             if(!empty(session()->get('cart'))){
                $data['cart_products'] = session()->get('cart');
             }
+            
 
             $cart_total = 0;
             if(!empty($data['cart_products'])){
@@ -268,7 +269,7 @@ class HomeController extends Controller
                     /*$order_total['order_total'] = $orderTotal;
                     $orderData = Orders::updateOrCreate(['id' => $order['id']], $order_total);*/
 
-                    //$status = $this->sendSuccessOrderEmail($order);
+                    $mail_status = $this->sendCustomerMail($order, 'success', []);
                     Cart::where('user_id', $user)->delete();
 
                     $data['status'] = 2;
@@ -324,6 +325,7 @@ class HomeController extends Controller
                         OrderItems::create($orderItems);
                     }
 
+                    $mail_status = $this->sendCustomerMail($order, 'success', []);
                     Session::forget('cart');
 
                     $data['status'] = 2;

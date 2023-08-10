@@ -228,22 +228,23 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
-                                                <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td style="padding:0px 20px 18px 20px;text-align:inherit" height="100%" valign="top" bgcolor="">
-                                                            <div>
-                                                                <div style="font-family:'DM Sans', sans-serif;text-align:inherit"></div>
-                                                                <div style="font-size: 1.2rem;line-height: 1.3;color: #000000;font-family: 'DM Sans', sans-serif;font-weight: 600;text-align:inherit">Do you want to write a short note? Type below.</div>
-                                                                <div style="font-size: 1rem;line-height: 1.3;color: #635c5c;font-family: 'DM Sans', sans-serif;font-weight: 500;text-align:inherit;white-space:pre-wrap">{{$order->short_notes}}</div>
-                                                                <div style="font-family:'DM Sans', sans-serif;text-align:inherit"><br></div>
-                                                                <div style="font-family:'DM Sans', sans-serif;text-align:inherit"></div>
-                                                                <div></div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                                @if(isset($order->short_notes) && !empty($order->short_notes))
+                                                    <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td style="padding:0px 20px 18px 20px;text-align:inherit" height="100%" valign="top" bgcolor="">
+                                                                <div>
+                                                                    <div style="font-family:'DM Sans', sans-serif;text-align:inherit"></div>
+                                                                    <div style="font-size: 1rem;line-height: 1.3;color: #635c5c;font-family: 'DM Sans', sans-serif;font-weight: 500;text-align:inherit;white-space:pre-wrap"><b>Short Notes: </b>{{$order->short_notes}}</div>
+                                                                    <div style="font-family:'DM Sans', sans-serif;text-align:inherit"><br></div>
+                                                                    <div style="font-family:'DM Sans', sans-serif;text-align:inherit"></div>
+                                                                    <div></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                @endif
                                                 <table role="module" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
                                                     <tbody>
                                                     <tr>

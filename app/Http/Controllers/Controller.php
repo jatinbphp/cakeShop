@@ -25,23 +25,6 @@ class Controller extends BaseController
         return 'uploads/'.$path."/".$name;
     }
 
-    public function sendSuccessOrderEmail($order){
-        if(isset($order) && !empty($order)){
-            $data['orders'] = Orders::where('id',$order->id)->first();
-            $data['orderItems'] = OrderItems::where('order_id', $order->id)->get();
-            $totalPrice = OrderItems::where('order_id', $order->id)->sum('total');
-            $data['totalPrice'] = isset($totalPrice) && !empty($totalPrice) ? number_format($totalPrice,2, '.', '') : 0.00;
-            //Mail Send
-            \Mail::send('order_mail_template',$data, function($message) {
-                $message->from('emmanuel.k.php@gmail.com');
-                $message->to($order->customer_email);
-                $message->subject("Order Placed");
-            });
-
-            return 1;
-        }
-    }
-
     public function sendCustomerMail($order, $mailType, $user=null){
         $data['order'] = $order;
         $data['orderItems'] = OrderItems::where('order_id', $order->id)->get();
@@ -50,11 +33,12 @@ class Controller extends BaseController
         $subject = ($mailType == "success") ? "Order Placed Successfully" : "Order Status Updated";
  
         //Mail Send
-        /*\Mail::send('mail_template/order_mail_template',$data, function($message) {
+        \Mail::send('mail_template/order_mail_template',$data, function($message) use ($order, $subject) {
             $message->from('cakshop@ysabelles.ph');
             $message->to($order->customer_email);
             $message->subject($subject);
-        });*/
+        });
+
         return 1;
     }
 }

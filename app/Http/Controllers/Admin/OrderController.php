@@ -16,7 +16,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
-
 class OrderController extends Controller
 {
     public function __construct(Request $request){
@@ -171,6 +170,8 @@ class OrderController extends Controller
         $order_total['order_total'] = $orderTotal;
         Orders::updateOrCreate(['id' => $order['id']], $order_total);
 
+        $mail_status = $this->sendCustomerMail($order, 'status', Auth::user());
+
         \Session::flash('success', 'Order has been inserted successfully!');
         return redirect()->route('orders.index');
     }
@@ -235,6 +236,8 @@ class OrderController extends Controller
 
         $order_total['order_total'] = $orderTotal;
         Orders::updateOrCreate(['id' => $order['id']], $order_total);
+
+        $mail_status = $this->sendCustomerMail($order, 'status', Auth::user());
 
         \Session::flash('success', 'Order has been updated successfully!');
         return redirect()->route('orders.index');
