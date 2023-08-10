@@ -25,13 +25,9 @@ class PayPalController extends Controller{
 
     public function processPayment(Request $request){
         $validation_status = $this->validateData($request->all());
-        if(Auth::check() && $validation_status == 1){
+        if($validation_status == 1){
 
             Session::put('input', $request->all());
-            $user = Auth::user()->id;
-            $totalPrice = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
-
-            /*Session::put('input', $request->all());
             if(Auth::check()){
                 $user = Auth::user()->id;
                 $totalPrice = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
@@ -45,7 +41,7 @@ class PayPalController extends Controller{
                 }
 
                 $totalPrice = number_format($cart_total,2, '.', '');
-            }*/
+            }
 
             if($request['hidden_payment_type']!='gcash'){
 
@@ -89,9 +85,13 @@ class PayPalController extends Controller{
 
             } else {
 
-                $customer = User::findorFail($user);
-                $customer['orderData'] = json_encode($request->all());
-                $customer->update($request->all());
+                if(Auth::check()){
+                    $customer = User::findorFail($user);
+                    $customer['orderData'] = json_encode($request->all());
+                    $customer->update($request->all());
+                } else {
+                    session(['orderData' => json_encode($request->all())]);
+                }
 
                 $returnRedirectUrl = route('gcashPaymentSuccess');
 
@@ -128,9 +128,16 @@ class PayPalController extends Controller{
     }
 
     public function paymentSuccess(Request $request){
-        if(Auth::check() && $request->query('paymentId') !== null){
-            $user = Auth::user()->id;
-            $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get();
+        if($request->query('paymentId') !== null){
+
+            $user = '';
+            if(Auth::check()){
+                $user = Auth::user()->id;
+                $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get();
+            } else {
+                $cart_products = session()->get('cart');
+            }
+
             $transaction_id = $request->query('paymentId');
             $input = Session::get('input');
             $status = $this->addOrder($user, $cart_products, $transaction_id, $input);
@@ -147,12 +154,29 @@ class PayPalController extends Controller{
 
     private function addOrder($user, $cart_products, $transaction_id, $input){
         if(!empty($cart_products)){
-            $userDetails = User::with('Orders')->where('id',$user)->first();
-            $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
+            
+            if(!empty($user)){
+                $userDetails = User::with('Orders')->where('id',$user)->first();
+                $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
 
-            $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder;
-            $input['customer_id'] = $user;
-            $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+                $input['unique_id'] = strtoupper(substr($userDetails['name'],0,3)).'0'.$totalOrder;
+                $input['customer_id'] = $user;
+                $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
+            } else {
+
+                $totalOrder = Orders::where('customer_id', 0)->count();
+                $uniqueId = $totalOrder+1;
+                $input['unique_id'] = 'GUEST0'.$uniqueId;
+                $input['customer_id'] = 0;
+
+                $cart_total = 0;
+                if(!empty($cart_products)){
+                    $cart_total = array_sum(array_column($cart_products,'sub_total'));
+                }
+
+                $input['order_total'] = number_format($cart_total, 2, '.', '');
+            }
+
             $input['status'] = 'paid';
             $input['transaction_id'] = $transaction_id;
             $input['order_date'] = $input['hidden_order_date'];
@@ -186,8 +210,16 @@ class PayPalController extends Controller{
 
             $order_total['order_total'] = $orderTotal;
             Orders::updateOrCreate(['id' => $order['id']], $order_total);
-            $mail_status = $this->sendCustomerMail($order, 'success', Auth::user());
-            Cart::where('user_id',$user)->delete();
+
+            if(!empty($user)){
+                //$mail_status = $this->sendCustomerMail($order, 'success', Auth::user());
+                Cart::where('user_id',$user)->delete();
+            } else {
+                $userArray['name'] = $input['hidden_customer_name'];
+                $userArray['phone'] = $input['hidden_customer_phone'];
+                //$mail_status = $this->sendCustomerMail($order, 'success', $userArray);
+                Session::forget('cart');
+            }
             Session::forget('input');
             return $order;
         }
@@ -218,8 +250,12 @@ class PayPalController extends Controller{
 
     public function gcashPaymentSuccess(Request $request){
 
-        if(Auth::check() && $request->query('redirectResult') !== null){
-            $user = Auth::user();
+        if($request->query('redirectResult') !== null){
+            if(Auth::check()){
+                $user = Auth::user();
+            } else {
+                $user = [];
+            }
 
             $redirectResult = $request->query('redirectResult');
 
@@ -243,17 +279,26 @@ class PayPalController extends Controller{
             curl_close($ch);
 
             $resultRecord = json_decode($result);
-
-            $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user->id)->get();
             $transaction_id = $resultRecord->pspReference;
-            //$input = Session::get('input');
-            $input = json_decode($user->orderData);
 
-            $status = $this->addOrder($user->id, $cart_products, $transaction_id, (array)$input);
+            if(Auth::check()){
+                $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user->id)->get();
+                $input = json_decode($user->orderData);
 
-            $customer = User::findorFail($user->id);
-            $customer['orderData'] = null;
-            $customer->update($request->all());
+                $status = $this->addOrder($user->id, $cart_products, $transaction_id, (array)$input);
+
+                $customer = User::findorFail($user->id);
+                $customer['orderData'] = null;
+                $customer->update($request->all());
+
+            } else {
+                $cart_products = session()->get('cart');
+                $input = json_decode(session()->get('orderData'));
+
+                $status = $this->addOrder('', $cart_products, $transaction_id, (array)$input);
+
+                Session::forget('orderData');
+            }
 
             //\Session::flash('success','Payment is done successfully!');
             //return redirect()->route('home');

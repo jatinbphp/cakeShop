@@ -727,7 +727,8 @@
 
                         $("#selectedTimeAjax").text(dateFormat(timingVar, "ddd, mmm dS, yyyy, h:MM TT"));
 
-                        if(type==1){
+                        @if(empty($user))
+                        //if(type==1){
 
                             if(($("#hidden_order_date").val()=='') || ($("#hidden_order_time").val()=='')){
 
@@ -741,6 +742,10 @@
                                 }, 1000);
 
                             } else if($("#whatsYourNameField").val()==''){
+
+                                $("#errorMsgDate").css("display", "none");
+
+                                $("#errorMsgDateAlert").html('');
 
                                 $("#btnwhatsYourName").trigger("click");
                                 $("#whatsYourName").css("display", "");
@@ -780,8 +785,8 @@
 
                             $("#whatsYourPaymentFieldError").text('');
 
-                        } else {
-
+                        //} else {
+                        @else
 
                             if(($("#hidden_order_date").val()!='') && ($("#hidden_order_time").val()!='')){
 
@@ -796,18 +801,13 @@
                                 }, 1000);
 
                             } else {
-
-                                /*$("#errorMsgDate").css("display", "");
-
-                                $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');*/
-                                
-                                //$("#pickATimeError").html('Select a date to see which time slots are available');
                                 
                                 $("html, body").animate({
                                     scrollTop: $("#calendarDiv").offset().top
                                 }, 1000);
                             }
-                        }
+                        //}
+                        @endif
                     }
                 }
             });
