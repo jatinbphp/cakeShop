@@ -92,6 +92,7 @@ Route::post('getCartProducts',[HomeController::class,'getCartProducts'])->name('
 Route::post('getConfirmOrderSection',[HomeController::class,'getConfirmOrderSection'])->name('getConfirmOrderSection');
 Route::post('addOrder',[HomeController::class,'addOrder'])->name('addOrder');
 Route::get('gcashPaymentSuccess',[PayPalController::class,'gcashPaymentSuccess'])->name('gcashPaymentSuccess');
+Route::get('cancelOrder',[PayPalController::class,'cancelOrder'])->name('cancelOrder');
 Route::post('getProduct',[HomeController::class,'getProduct'])->name('getProduct');
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/contact-us', [HomeController::class,'contact_us'])->name('contact_us');

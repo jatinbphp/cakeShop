@@ -114,10 +114,24 @@ class PayPalController extends Controller{
                 curl_close($ch);
 
                 $resultRecord = json_decode($result);
-/*
-                echo $resultRecord->action->url;
-                exit;*/
+
                 return redirect($resultRecord->action->url);
+
+
+                /*$cancelRedirectUrl = route('cancelOrder');
+                $client = new \GuzzleHttp\Client();
+
+                $response = $client->request('POST', 'https://api.paymongo.com/v1/sources', [
+                    'body' => '{"data":{"attributes":{"type":"gcash", "currency": "PHP","amount":'.($totalPrice*100).', "redirect": { "success": "'.$returnRedirectUrl.'", "failed": "'.$cancelRedirectUrl.'" } }}}',
+                    'headers' => [
+                        'accept' => 'application/json',
+                        'authorization' => 'Basic c2tfdGVzdF9HUnp5Qkc1ckJRUG95dzdYZXNXSmR4U046Zm9vdGJsdXNoOTk5OCpQ',
+                        'content-type' => 'application/json',
+                    ],
+                ]);
+
+                $resultRecord = json_decode($response->getBody());
+                return redirect($resultRecord->data->attributes->redirect->checkout_url);*/
 
             }
 
