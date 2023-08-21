@@ -16,7 +16,6 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\PayPalController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -109,3 +108,5 @@ Route::controller(FacebookController::class)->group(function(){
 Route::post('/payment/process', [PayPalController::class, 'processPayment'])->name('payment.process');
 Route::get('/payment/success', [PayPalController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/payment/cancel', [PayPalController::class, 'paymentCancel'])->name('payment.cancel');
+
+Route::get('gcashSuccessPayment',[PayPalController::class,'gcashSuccessPayment']);

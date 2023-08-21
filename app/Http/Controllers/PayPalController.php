@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Products;
@@ -23,49 +24,41 @@ use Illuminate\Support\Facades\Validator;
 
 class PayPalController extends Controller{
 
+    protected $resourceId = '';
     public function processPayment(Request $request){
         $validation_status = $this->validateData($request->all());
         if($validation_status == 1){
-
             Session::put('input', $request->all());
             if(Auth::check()){
                 $user = Auth::user()->id;
                 $totalPrice = number_format(Cart::where('user_id', $user)->sum('sub_total'),2, '.', '');
             } else {
-
                 $cart_products = session()->get('cart');
-
                 $cart_total = 0;
                 if(!empty($cart_products)){
                     $cart_total = array_sum(array_column($cart_products,'sub_total'));
                 }
-
                 $totalPrice = number_format($cart_total,2, '.', '');
             }
 
             if($request['hidden_payment_type']!='gcash'){
-
                 $apiContext = new ApiContext(
                     new OAuthTokenCredential(
                         config('services.paypal.client_id'),
                         config('services.paypal.secret')
                     )
                 );
-
                 $payer = new Payer();
                 $payer->setPaymentMethod('paypal');
 
                 $amount = new Amount();
                 $amount->setCurrency('PHP');
                 $amount->setTotal($totalPrice);
-
-
                 $transaction = new Transaction();
                 $transaction->setAmount($amount);
-
                 $redirectUrls = new RedirectUrls();
-                $redirectUrls->setReturnUrl(route('payment.success'))
-                    ->setCancelUrl(route('payment.cancel'));
+
+                $redirectUrls->setReturnUrl(route('payment.success'))->setCancelUrl(route('payment.cancel'));
 
                 $payment = new Payment();
                 $payment->setIntent('sale')
@@ -82,9 +75,8 @@ class PayPalController extends Controller{
                 } catch (\Exception $e) {
                     return $e->getMessage();
                 }
-
             } else {
-
+                Session::forget('resourceId');
                 if(Auth::check()){
                     $customer = User::findorFail($user);
                     $customer['orderData'] = json_encode($request->all());
@@ -92,11 +84,12 @@ class PayPalController extends Controller{
                 } else {
                     session(['orderData' => json_encode($request->all())]);
                 }
+                //$returnRedirectUrl = url('successGcashPayment');
+                //$cancelRedirectUrl = route('cancelOrder');
+                $returnRedirectUrl = 'https://ysabelles.ph/cakeShop/gcashSuccessPayment';
+                $cancelRedirectUrl = 'https://ysabelles.ph/cakeShop/cancelOrder';
 
-                $returnRedirectUrl = route('gcashPaymentSuccess');
-
-                $ch = curl_init();
-
+                /*$ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'https://checkout-test.adyen.com/v68/payments');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -112,15 +105,10 @@ class PayPalController extends Controller{
                     return 'Error:' . curl_error($ch);
                 }
                 curl_close($ch);
-
                 $resultRecord = json_decode($result);
+                return redirect($resultRecord->action->url);*/
 
-                return redirect($resultRecord->action->url);
-
-
-                /*$cancelRedirectUrl = route('cancelOrder');
                 $client = new \GuzzleHttp\Client();
-
                 $response = $client->request('POST', 'https://api.paymongo.com/v1/sources', [
                     'body' => '{"data":{"attributes":{"type":"gcash", "currency": "PHP","amount":'.($totalPrice*100).', "redirect": { "success": "'.$returnRedirectUrl.'", "failed": "'.$cancelRedirectUrl.'" } }}}',
                     'headers' => [
@@ -131,12 +119,12 @@ class PayPalController extends Controller{
                 ]);
 
                 $resultRecord = json_decode($response->getBody());
-                return redirect($resultRecord->data->attributes->redirect->checkout_url);*/
-
+                $resId = $resultRecord->data->id;
+                session(['resourceId' => $resId]);
+                return redirect($resultRecord->data->attributes->redirect->checkout_url);
             }
-
         }else{
-             \Session::flash('danger','Your Order was canceled!');
+            \Session::flash('danger','Your Order was canceled!');
             return redirect()->route('home');
         }
     }
@@ -166,9 +154,9 @@ class PayPalController extends Controller{
         return redirect()->route('home');
     }
 
-    private function addOrder($user, $cart_products, $transaction_id, $input){
+    public function addOrder($user, $cart_products, $transaction_id, $input){
         if(!empty($cart_products)){
-            
+
             if(!empty($user)){
                 $userDetails = User::with('Orders')->where('id',$user)->first();
                 $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
@@ -237,7 +225,7 @@ class PayPalController extends Controller{
         }
     }
 
-    private function cancelOrder(){
+    public function cancelOrder(){
         \Session::flash('danger','Your Order was canceled!');
         return redirect()->route('home');
     }
@@ -260,60 +248,25 @@ class PayPalController extends Controller{
         return 1;
     }
 
-    public function gcashPaymentSuccess(Request $request){
-
-        if($request->query('redirectResult') !== null){
+    public function gcashSuccessPayment(Request $request){
+        Artisan::call('cache:clear');
+        $resId = Session::get('resourceId');
+        if(!empty($resId)){
             if(Auth::check()){
                 $user = Auth::user();
-            } else {
-                $user = [];
-            }
-
-            $redirectResult = $request->query('redirectResult');
-
-            // Generated by curl-to-PHP: http://incarnate.github.io/curl-to-php/
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, 'https://checkout-test.adyen.com/v68/payments/details');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n   \"details\": {\n     \"redirectResult\": \"$redirectResult\"\n }\n}");
-
-            $headers = array();
-            $headers[] = 'X-Api-Key: AQEnhmfuXNWTK0Qc+iSanW02quuWTYVZGJ6zvp/ZqroypcJ99yavLO8zEMFdWw2+5HzctViMSCJMYAc=-JdAl7aeVoIwdTPHPSn4sVEVv8rKRZwIwAs2biho7PE8=-WD}2UE$]]E29?fdI';
-            $headers[] = 'Content-Type: application/json';
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-            $result = curl_exec($ch);
-            if (curl_errno($ch)) {
-                echo 'Error:' . curl_error($ch);
-            }
-            curl_close($ch);
-
-            $resultRecord = json_decode($result);
-            $transaction_id = $resultRecord->pspReference;
-
-            if(Auth::check()){
                 $cart_products = Cart::with('Product','Product.ProductImages')->where('user_id',$user->id)->get();
                 $input = json_decode($user->orderData);
-
-                $status = $this->addOrder($user->id, $cart_products, $transaction_id, (array)$input);
-
+                $status = $this->addOrder($user->id, $cart_products, $resId, (array)$input);
                 $customer = User::findorFail($user->id);
                 $customer['orderData'] = null;
                 $customer->update($request->all());
-
             } else {
                 $cart_products = session()->get('cart');
                 $input = json_decode(session()->get('orderData'));
-
-                $status = $this->addOrder('', $cart_products, $transaction_id, (array)$input);
-
+                $status = $this->addOrder('', $cart_products, $resId, (array)$input);
                 Session::forget('orderData');
             }
-
-            //\Session::flash('success','Payment is done successfully!');
-            //return redirect()->route('home');
+            Session::forget('resourceId');
             return redirect()->route('orderPlaced',['id'=>$status['id']]);
         }
     }

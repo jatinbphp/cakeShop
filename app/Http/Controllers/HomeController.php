@@ -10,10 +10,10 @@ use App\Models\Products;
 use App\Models\Orders;
 use App\Models\OrderItems;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
-
 
 class HomeController extends Controller
 {
@@ -40,13 +40,13 @@ class HomeController extends Controller
             if(!empty(session()->get('cart'))){
                $data['cart_products'] = session()->get('cart');
             }
-            
+
 
             $cart_total = 0;
             if(!empty($data['cart_products'])){
                 $cart_total = array_sum(array_column($data['cart_products'],'sub_total'));
             }
-            
+
             $data['cart_total'] = number_format($cart_total,2, '.', '');
         }
 
@@ -99,7 +99,7 @@ class HomeController extends Controller
 
         if(Auth::check()){
             $user = Auth::user()->id;
-            
+
             $existCart = Cart::where('user_id',$user)->where('product_id',$request['pId'])->first();
             if(!empty($existCart)){
                 $existCart->update($input);
@@ -109,7 +109,7 @@ class HomeController extends Controller
             }
             return 1;
         }else{
-           
+
             //Session::forget('cart');
             $cart = session()->get('cart', []);
 
@@ -126,7 +126,7 @@ class HomeController extends Controller
                 }
 
                 if($exist==0){
-                    $cart[] = $input;  
+                    $cart[] = $input;
                 }
             }else{
                 $cart[] = $input;
@@ -147,11 +147,11 @@ class HomeController extends Controller
 
         if(Auth::check()){
             $user = Auth::user()->id;
-        
+
             if($request['qty']==0){
                 Cart::where('user_id',$user)->where('product_id',$request['pId'])->delete();
             } else {
-                
+
                 $existCart = Cart::where('user_id',$user)->where('product_id',$request['pId'])->first();
                 if(!empty($existCart)){
                     $existCart->update($input);
@@ -159,7 +159,7 @@ class HomeController extends Controller
             }
             return 1;
         }else{
-            
+
             //Session::forget('cart');
             $cart = session()->get('cart', []);
 
@@ -350,7 +350,7 @@ class HomeController extends Controller
         if(empty($data['order'])){
             return redirect()->route('home');
         } else {
-            return view('orderPlaced',$data);    
+            return view('orderPlaced',$data);
         }
     }
 
