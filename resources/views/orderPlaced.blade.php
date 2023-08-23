@@ -4,12 +4,17 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                    @if($order['status'] == 'gcash_manually')
+                        <div class="confirmOrder-sec">
+                            <span><strong>Note:</strong> *Please send Order ID along with Screenshot of payment.</span>
+                        </div>
+                    @endif
                     <div class="confirmOrder-sec">
                         <div class="section-tittle">
                             <h3><strong>Total</strong></h3>
                             <div class="edit-cart">
                                 <h3><strong>₱ {{number_format($order['order_total'], 2, '.', '')}}</strong></h3>
-                                <p class="text-danger">{{ucfirst($order['status'])}}</p>
+                                <p class="text-danger">{{ucfirst(str_replace('_',' ',$order['status']))}}</p>
                             </div>
                         </div>
                         <div class="item-list payDetails">
@@ -18,7 +23,7 @@
                                     <p>Pay Using</p>
                                 </div>
                                 <div class="items-right">
-                                    <h6>{{strtoupper($order['payment_type'])}}</h6>
+                                    <h6>@if($order['payment_type'] == 'gcash') {{strtoupper(str_replace('_',' ',$order['status']))}} @else {{strtoupper($order['payment_type'])}} @endif</h6>
                                 </div>
                             </div>
                             <div class="single-items">
@@ -86,7 +91,7 @@
         $temp.remove();
         $(element+'Copied').text('Copied');
 
-        setTimeout(function() { 
+        setTimeout(function() {
             $(element+'Copied').text('');
         }, 2000);
     }

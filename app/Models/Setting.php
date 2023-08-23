@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     use HasFactory;
-    protected $fillable= ['name','image'];
+    protected $fillable= ['name','image','gcash_mobile','gcash_screenshot_mobile'];
 }

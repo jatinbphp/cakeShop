@@ -31,6 +31,34 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('gcash_mobile') ? ' has-error' : '' }}">
+            <label class="col-md-12 control-label" for="gcash_mobile">Please pay Gcash to <span class="text-red">*</span></label>
+            <div class="col-md-12">
+                {!! Form::text('gcash_mobile', null, ['class' => 'form-control', 'placeholder' => 'Please pay Gcash to']) !!}
+                @if ($errors->has('gcash_mobile'))
+                    <span class="text-danger">
+                        <strong>{{ $errors->first('gcash_mobile') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('gcash_screenshot_mobile') ? ' has-error' : '' }}">
+            <label class="col-md-12 control-label" for="gcash_screenshot_mobile">Please send screenshot to <span class="text-red">*</span></label>
+            <div class="col-md-12">
+                {!! Form::text('gcash_screenshot_mobile', null, ['class' => 'form-control', 'placeholder' => 'Please send screenshot to']) !!}
+                @if ($errors->has('gcash_screenshot_mobile'))
+                    <span class="text-danger">
+                        <strong>{{ $errors->first('gcash_screenshot_mobile') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>
 
 

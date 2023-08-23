@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\ContactUs;
@@ -49,7 +50,7 @@ class HomeController extends Controller
 
             $data['cart_total'] = number_format($cart_total,2, '.', '');
         }
-
+        $data['settings'] = Setting::findOrFail(1);
         return view('home',$data);
     }
 
@@ -237,7 +238,7 @@ class HomeController extends Controller
 
             if (!empty($cart_products)) {
 
-                if ($request['payment_type'] == 'cod') {
+                if ($request['payment_type'] == 'cod' || $request['payment_type'] == 'gcash') {
 
                     $input = $request->all();
 
@@ -247,7 +248,7 @@ class HomeController extends Controller
 
                     $input['customer_id'] = $user;
                     $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'), 2, '.', '');
-                    $input['status'] = 'pending';
+                    $input['status'] = $request['payment_type'] == 'cod' ? 'pending' : 'gcash_manually';
                     $order = Orders::create($input);
 
                     $orderTotal = 0;
@@ -272,7 +273,7 @@ class HomeController extends Controller
                     /*$order_total['order_total'] = $orderTotal;
                     $orderData = Orders::updateOrCreate(['id' => $order['id']], $order_total);*/
 
-                    $mail_status = $this->sendCustomerMail($order, 'success', []);
+                    //$mail_status = $this->sendCustomerMail($order, 'success', []);
                     Cart::where('user_id', $user)->delete();
 
                     $data['status'] = 2;
@@ -328,7 +329,7 @@ class HomeController extends Controller
                         OrderItems::create($orderItems);
                     }
 
-                    $mail_status = $this->sendCustomerMail($order, 'success', []);
+                    //$mail_status = $this->sendCustomerMail($order, 'success', []);
                     Session::forget('cart');
 
                     $data['status'] = 2;

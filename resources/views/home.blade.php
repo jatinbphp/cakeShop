@@ -23,7 +23,9 @@
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-items text-center mb-30">
                             <div class="items-top">
-                                <img src="{{url('storage/'.$list['ProductImages'][0]->image)}}" alt="">
+                                @if(isset($list['ProductImages'][0]))
+                                    <img src="{{url('storage/'.$list['ProductImages'][0]->image)}}" alt="">
+                                @endif
                             </div>
                             <div class="items-bottom">
                                 <h4><a href="#">{{$list['name']}} </a></h4>
@@ -305,12 +307,21 @@
                         </div>
                         <div class="radio-group-item">
                             <input type="radio" id="gcash" name="payment_type" value="gcash">
+                            <label for="gcash">
+                                <span>Please pay Gcash to</span><br>
+                                <span><strong>{{$settings['gcash_mobile']}}</strong></span><br>
+                                <span>Please send screenshot to</span><br>
+                                <span><strong>{{$settings['gcash_screenshot_mobile']}}</strong></span>
+                            </label>
+                        </div>
+                        <!--<div class="radio-group-item">
+                            <input type="radio" id="gcash" name="payment_type" value="gcash">
                             <label for="gcash">GCash</label>
                         </div>
                         <div class="radio-group-item">
                             <input type="radio" id="paypal" name="payment_type" value="paypal">
                             <label for="paypal">Paypal</label>
-                        </div>
+                        </div>-->
                     </div>
                     <p id="whatsYourPaymentFieldError" class="error"></p>
                 </div>
@@ -397,6 +408,7 @@
         </div>
     </div>
 </section>
+
 {!! Form::open(['url' => route('payment.process'), 'id' => 'ordersFormData', 'class' => 'form-horizontal','files'=>true]) !!}
 <input type="hidden" name="hidden_order_date" id="hidden_order_date">
 <input type="hidden" name="hidden_order_time" id="hidden_order_time">
@@ -949,10 +961,9 @@
                 selectionCheck(1);
             }  else {
 
-                if(payment_type == 'paypal' || payment_type == 'gcash'){
+                if(payment_type == 'paypal'){
                     processPayPalPayment();
                 } else {
-
                     $.ajax({
                         url: "{{route('addOrder')}}",
                         type: "post",
@@ -970,7 +981,7 @@
                                     scrollTop: $("#ourexclusivecakes").offset().top
                                 }, 1000);
                             } else if(data.status == 2){
-
+                                console.log('in');
                                 window.location.href = "{{ url('orderPlaced')}}/"+data.order_id;
 
 

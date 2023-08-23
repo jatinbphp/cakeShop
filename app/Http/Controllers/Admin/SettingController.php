@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use DataTables;
 
 class SettingController extends Controller{
-    
+
     public function __construct(){
         $this->middleware('auth');
     }
@@ -23,7 +23,9 @@ class SettingController extends Controller{
     public function update(Request $request, $id){
         $this->validate($request, [
             'name' => 'required',
-            'image' => 'required',
+            'image' => 'mimes:jpeg,jpg,bmp,png',
+            'gcash_mobile' => 'required',
+            'gcash_screenshot_mobile' => 'required',
         ]);
 
         $input = $request->all();
