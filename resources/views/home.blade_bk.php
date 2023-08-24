@@ -305,7 +305,7 @@
                             <input type="radio" id="cod" name="payment_type" value="cod">
                             <label for="cod">Cash On Delivery</label>
                         </div>
-                        <!-- <div class="radio-group-item">
+                        <div class="radio-group-item">
                             <input type="radio" id="gcash" name="payment_type" value="gcash">
                             <label for="gcash">
                                 <span>Please pay Gcash to</span><br>
@@ -313,25 +313,17 @@
                                 <span>Please send screenshot to</span><br>
                                 <span><strong>{{$settings['gcash_screenshot_mobile']}}</strong></span>
                             </label>
-                        </div> -->
-                        <div class="radio-group-item">
+                        </div>
+                        <!--<div class="radio-group-item">
                             <input type="radio" id="gcash" name="payment_type" value="gcash">
                             <label for="gcash">GCash</label>
                         </div>
                         <div class="radio-group-item">
-                            <input type="radio" id="bank" name="payment_type" value="bank">
-                            <label for="bank">Bank To Bank</label>
-                        </div>
+                            <input type="radio" id="paypal" name="payment_type" value="paypal">
+                            <label for="paypal">Paypal</label>
+                        </div>-->
                     </div>
-
                     <p id="whatsYourPaymentFieldError" class="error"></p>
-                </div>
-
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10" id="paymentNoteDiv" style="display: none;">
-                    <div class="form-group">
-                        <span class="form-control" style="height: auto; display: none;" id="payment_notes" >{!!$settings["gcash_mobile"]!!}</span>
-                        <span class="form-control" style="height: auto; display: none;" id="payment_notes1">{!!$settings["gcash_screenshot_mobile"]!!}</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -499,7 +491,7 @@
                                 swal($('#proName').text(), "Added!", "success");
 
                                 $("html, body").animate({
-                                    scrollTop: $("#calendarDiv").offset().top-200
+                                    scrollTop: $("#cartMainListDiv").offset().top-200
                                 }, 1000);
 
                                 $("#errorMsg").css("display", "none");
@@ -951,32 +943,9 @@
 
             $("#confirmOrderDiv").css("display", "");
 
-            if($(this).val()=='gcash'){
-                $("#payment_notes1").css("display", 'none');
-                $("#payment_notes").css("display", "");
-                $("#paymentNoteDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#paymentNoteDiv").offset().top-100
-                }, 1000);
-
-            } else if($(this).val()=='bank'){
-                $("#payment_notes").css("display", 'none');
-                $("#payment_notes1").css("display", "");
-                $("#paymentNoteDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#paymentNoteDiv").offset().top-100
-                }, 1000);
-            } else {
-                $("#payment_notes").css("display", 'none');
-                $("#payment_notes1").css("display", 'none');
-                $("#paymentNoteDiv").css("display", "none");
-
-                $("html, body").animate({
-                    scrollTop: $("#confirmOrderDiv").offset().top-100
-                }, 1000);
-            }
+            $("html, body").animate({
+                scrollTop: $("#confirmOrderDiv").offset().top-100
+            }, 1000);
         });
 
         $('#confirmOrder').on('click', function(){
@@ -992,9 +961,9 @@
                 selectionCheck(1);
             }  else {
 
-                /*if(payment_type == 'paypal'){
+                if(payment_type == 'paypal'){
                     processPayPalPayment();
-                } else {*/
+                } else {
                     $.ajax({
                         url: "{{route('addOrder')}}",
                         type: "post",
@@ -1042,7 +1011,7 @@
                             }
                         }
                     });
-                //}
+                }
             }
         });
 

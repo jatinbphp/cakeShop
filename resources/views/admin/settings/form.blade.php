@@ -32,11 +32,12 @@
         </div>
     </div>
 
+    <!-- //for g cash note -->
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('gcash_mobile') ? ' has-error' : '' }}">
-            <label class="col-md-12 control-label" for="gcash_mobile">Please pay Gcash to <span class="text-red">*</span></label>
+            <label class="col-md-12 control-label" for="gcash_mobile">Notes For Gcash <span class="text-red">*</span></label>
             <div class="col-md-12">
-                {!! Form::text('gcash_mobile', null, ['class' => 'form-control', 'placeholder' => 'Please pay Gcash to']) !!}
+                {!! Form::textarea('gcash_mobile', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => 'Please pay Gcash to']) !!}
                 @if ($errors->has('gcash_mobile'))
                     <span class="text-danger">
                         <strong>{{ $errors->first('gcash_mobile') }}</strong>
@@ -46,11 +47,12 @@
         </div>
     </div>
 
+    <!-- //for bank to bank note -->
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('gcash_screenshot_mobile') ? ' has-error' : '' }}">
-            <label class="col-md-12 control-label" for="gcash_screenshot_mobile">Please send screenshot to <span class="text-red">*</span></label>
+            <label class="col-md-12 control-label" for="gcash_screenshot_mobile">Notes For Bank to Bank <span class="text-red">*</span></label>
             <div class="col-md-12">
-                {!! Form::text('gcash_screenshot_mobile', null, ['class' => 'form-control', 'placeholder' => 'Please send screenshot to']) !!}
+                {!! Form::textarea('gcash_screenshot_mobile', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => 'Please send screenshot to']) !!}
                 @if ($errors->has('gcash_screenshot_mobile'))
                     <span class="text-danger">
                         <strong>{{ $errors->first('gcash_screenshot_mobile') }}</strong>
