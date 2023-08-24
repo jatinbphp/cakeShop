@@ -8,5 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     use HasFactory;
-    protected $fillable= ['name','image','gcash_mobile','gcash_screenshot_mobile'];
+    protected $fillable= ['name','image','gcash_mobile','gcash_screenshot_mobile', 'p_cod', 'p_gcash', 'p_bank'];
+
+    const STATUS_ENABLE = 1;
+    const STATUS_DISABLE = 0;
+
+    public static $status = [
+        self::STATUS_ENABLE => 'Enable',
+        self::STATUS_DISABLE => 'Disable',
+    ];
 }

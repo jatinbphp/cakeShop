@@ -63,5 +63,73 @@
     </div>
 </div>
 
+<div class="">
+    <div class="col-md-12">
+        <h5><b>Payment Gateway</b></h5>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('p_cod') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="p_cod">Cash On Delivery :<span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    @foreach (\App\Models\Setting::$status as $key => $value)
+                        <label>
+                            {!! Form::radio('p_cod', $key, null, ['class' => 'flat-red']) !!} 
+                            <span style="margin-right: 10px">{{ $value }}</span>
+                        </label>
+                    @endforeach
+                    <br class="p_codError">
+                    @if ($errors->has('p_cod'))
+                        <span class="text-danger" id="p_codError">
+                            <strong>{{ $errors->first('p_cod') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('p_gcash') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="p_gcash">GCash :<span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    @foreach (\App\Models\Setting::$status as $key => $value)
+                        <label>
+                            {!! Form::radio('p_gcash', $key, null, ['class' => 'flat-red']) !!} 
+                            <span style="margin-right: 10px">{{ $value }}</span>
+                        </label>
+                    @endforeach
+                    <br class="p_codError">
+                    @if ($errors->has('p_gcash'))
+                        <span class="text-danger" id="p_codError">
+                            <strong>{{ $errors->first('p_gcash') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('p_bank') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="p_bank">Bank To Bank :<span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    @foreach (\App\Models\Setting::$status as $key => $value)
+                        <label>
+                            {!! Form::radio('p_bank', $key, null, ['class' => 'flat-red']) !!} 
+                            <span style="margin-right: 10px">{{ $value }}</span>
+                        </label>
+                    @endforeach
+                    <br class="p_codError">
+                    @if ($errors->has('p_bank'))
+                        <span class="text-danger" id="p_codError">
+                            <strong>{{ $errors->first('p_bank') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 

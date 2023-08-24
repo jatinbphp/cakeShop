@@ -301,27 +301,27 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="radio-group-list" id="payment_type_radio">
-                        <div class="radio-group-item" >
-                            <input type="radio" id="cod" name="payment_type" value="cod">
-                            <label for="cod">Cash On Delivery</label>
-                        </div>
-                        <!-- <div class="radio-group-item">
-                            <input type="radio" id="gcash" name="payment_type" value="gcash">
-                            <label for="gcash">
-                                <span>Please pay Gcash to</span><br>
-                                <span><strong>{{$settings['gcash_mobile']}}</strong></span><br>
-                                <span>Please send screenshot to</span><br>
-                                <span><strong>{{$settings['gcash_screenshot_mobile']}}</strong></span>
-                            </label>
-                        </div> -->
-                        <div class="radio-group-item">
-                            <input type="radio" id="gcash" name="payment_type" value="gcash">
-                            <label for="gcash">GCash</label>
-                        </div>
-                        <div class="radio-group-item">
-                            <input type="radio" id="bank" name="payment_type" value="bank">
-                            <label for="bank">Bank To Bank</label>
-                        </div>
+
+                        @if($settings['p_cod']==1)
+                            <div class="radio-group-item" >
+                                <input type="radio" id="cod" name="payment_type" value="cod">
+                                <label for="cod">Cash On Delivery</label>
+                            </div>
+                        @endif
+
+                        @if($settings['p_gcash']==1)
+                            <div class="radio-group-item">
+                                <input type="radio" id="gcash" name="payment_type" value="gcash">
+                                <label for="gcash">GCash</label>
+                            </div>
+                        @endif
+
+                        @if($settings['p_bank']==1)
+                            <div class="radio-group-item">
+                                <input type="radio" id="bank" name="payment_type" value="bank">
+                                <label for="bank">Bank To Bank</label>
+                            </div>
+                        @endif
                     </div>
 
                     <p id="whatsYourPaymentFieldError" class="error"></p>
@@ -992,9 +992,9 @@
                 selectionCheck(1);
             }  else {
 
-                /*if(payment_type == 'paypal'){
+                if(payment_type == 'gcash'){
                     processPayPalPayment();
-                } else {*/
+                } else {
                     $.ajax({
                         url: "{{route('addOrder')}}",
                         type: "post",
@@ -1034,7 +1034,7 @@
                             } else if(data.status == 3){
                                 $("#paymentDiv").css("display", "");
 
-                                $("#whatsYourPaymentFieldError").text('for now, Only Cod payment method implemented.');
+                                $("#whatsYourPaymentFieldError").text('for now, Only GCash payment method implemented.');
 
                                 $("html, body").animate({
                                     scrollTop: $("#paymentDiv").offset().top-100
@@ -1042,7 +1042,7 @@
                             }
                         }
                     });
-                //}
+                }
             }
         });
 

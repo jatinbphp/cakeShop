@@ -86,8 +86,8 @@ class PayPalController extends Controller{
                 }
                 //$returnRedirectUrl = url('successGcashPayment');
                 //$cancelRedirectUrl = route('cancelOrder');
-                $returnRedirectUrl = 'https://ysabelles.ph/cakeShop/gcashSuccessPayment';
-                $cancelRedirectUrl = 'https://ysabelles.ph/cakeShop/cancelOrder';
+                $returnRedirectUrl = 'https://ysabelles.ph/gcashSuccessPayment';
+                $cancelRedirectUrl = 'https://ysabelles.ph/cancelOrder';
 
                 /*$ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'https://checkout-test.adyen.com/v68/payments');
