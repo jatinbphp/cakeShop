@@ -238,7 +238,7 @@ class HomeController extends Controller
 
             if (!empty($cart_products)) {
 
-                if ($request['payment_type'] == 'cod' || $request['payment_type'] == 'bank') {
+                if ($request['payment_type'] == 'cod' || $request['payment_type'] == 'bank' || $request['payment_type'] == 'gcash') {
 
                     $input = $request->all();
 
@@ -291,7 +291,7 @@ class HomeController extends Controller
 
             if (!empty($cart_products)) {
 
-                if ($request['payment_type'] == 'cod' || $request['payment_type'] == 'bank') {
+                if ($request['payment_type'] == 'cod' || $request['payment_type'] == 'bank' || $request['payment_type'] == 'gcash') {
 
                     $input = $request->all();
 

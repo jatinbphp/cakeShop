@@ -31,13 +31,15 @@ class Controller extends BaseController
         $data['mailType'] = $mailType;
         $data['user'] = $user;
         $subject = ($mailType == "success") ? "Order Placed Successfully" : "Order Status Updated";
- 
-        //Mail Send
-        \Mail::send('mail_template/order_mail_template',$data, function($message) use ($order, $subject) {
-            $message->from('cakshop@ysabelles.ph');
-            $message->to($order->customer_email);
-            $message->subject($subject);
-        });
+
+        if(!empty($order->customer_email)){
+            //Mail Send
+            \Mail::send('mail_template/order_mail_template',$data, function($message) use ($order, $subject) {
+                $message->from('cakshop@ysabelles.ph');
+                $message->to($order->customer_email);
+                $message->subject($subject);
+            });
+        }
 
         return 1;
     }

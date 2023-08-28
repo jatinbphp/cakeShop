@@ -71,7 +71,7 @@
                                 </h6>
                             </div>
                             <div class="single-items">
-                                <h6><i><img src="https://ysabelles.ph/cakeShop/website/images/logo-transparent.png"></i><a href="{{ route('home')}}">Back to Ysabelle's</a></h6>
+                                <h6><i><img src="https://ysabelles.ph/website/images/logo-transparent.png"></i><a href="{{ route('home')}}">Back to Ysabelle's</a></h6>
                             </div>
                         </div>
                     </div>
