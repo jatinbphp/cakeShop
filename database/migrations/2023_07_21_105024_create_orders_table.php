@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->string('customer_email')->nullable();
             $table->string('customer_phone')->nullable();
             $table->text('address')->nullable();
+            $table->double('delivery_fee')->nullable();
             $table->date('order_date')->nullable();
             $table->time('order_time')->nullable();
             $table->text('short_notes')->nullable();

@@ -127,6 +127,9 @@
                                     </div>
                                 @endforeach
                             </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" onclick="btnPreviewCart()" style="width: 100%;border-radius: 0;">Next</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,7 +138,7 @@
     </div>
 </section>
 
-<section class="popular-items section-padding40" id="calendarDiv">
+<section class="popular-items section-padding40" id="calendarDiv" style="display: none;">
     <div class="container">
 
         <div class="row justify-content-center" id="errorMsgDate" style="display:none;">
@@ -153,7 +156,7 @@
                 </div>
             </div>
         </div>
-        <div class="orderProcess">
+        <div class="orderProcess" id="timeDiv">
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="rescalendar" id="my_calendar_calSize"></div>
@@ -287,6 +290,70 @@
     </div>
 </section>
 
+<section class="popular-items section-padding40" id="deliveryDiv" style="display: none;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                <div class="section-tittle mb-60">
+                    <h2>How do you want to take your order?</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="orderProcess">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                    <div class="radio-group-list" id="delivery_type_radio">
+                        <div class="radio-group-item" >
+                            <input type="radio" id="take_delivery" name="delivery_type" value="take_delivery">
+                            <label for="take_delivery">Delivery</label>
+                        </div>
+
+                        <div class="radio-group-item">
+                            <input type="radio" id="take_pickup" name="delivery_type" value="take_pickup">
+                            <label for="take_pickup">Pickup</label>
+                        </div>
+                    </div>
+
+                    <p id="whatsYourDeliveryFieldError" class="error"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="popular-items section-padding40" id="pickupDiv" style="display: none;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                <div class="section-tittle mb-60">
+                    <h2>Where do you want to pickuo?</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="orderProcess">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                    <div class="radio-group-list" id="pickup_type_radio">
+
+                        @if(!empty($pickup_points))
+                            @foreach ($pickup_points as $lista)
+                                <div class="radio-group-item" >
+                                    <input type="radio" id="address_{{$lista['id']}}" name="address" value="{{$lista['id']}}">
+                                    <label for="address_{{$lista['id']}}">{{$lista['address']}}</label>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+
+                    <p id="whatsYourPickupFieldError" class="error"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="popular-items section-padding40" id="paymentDiv" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
@@ -301,27 +368,26 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="radio-group-list" id="payment_type_radio">
-                        <!-- <div class="radio-group-item" >
-                            <input type="radio" id="cod" name="payment_type" value="cod">
-                            <label for="cod">Cash On Delivery</label>
-                        </div> -->
-                        <!-- <div class="radio-group-item">
-                            <input type="radio" id="gcash" name="payment_type" value="gcash">
-                            <label for="gcash">
-                                <span>Please pay Gcash to</span><br>
-                                <span><strong>{{$settings['gcash_mobile']}}</strong></span><br>
-                                <span>Please send screenshot to</span><br>
-                                <span><strong>{{$settings['gcash_screenshot_mobile']}}</strong></span>
-                            </label>
-                        </div> -->
-                        <div class="radio-group-item">
-                            <input type="radio" id="gcash" name="payment_type" value="gcash">
-                            <label for="gcash">GCash</label>
-                        </div>
-                        <div class="radio-group-item">
-                            <input type="radio" id="bank" name="payment_type" value="bank">
-                            <label for="bank">Bank To Bank</label>
-                        </div>
+                        @if($settings['p_cod']==1)
+                            <div class="radio-group-item" >
+                                <input type="radio" id="cod" name="payment_type" value="cod">
+                                <label for="cod">Cash On Delivery</label>
+                            </div>
+                        @endif
+
+                        @if($settings['p_gcash']==1)
+                            <div class="radio-group-item">
+                                <input type="radio" id="gcash" name="payment_type" value="gcash">
+                                <label for="gcash">GCash</label>
+                            </div>
+                        @endif
+
+                        @if($settings['p_bank']==1)
+                            <div class="radio-group-item">
+                                <input type="radio" id="bank" name="payment_type" value="bank">
+                                <label for="bank">Bank To Bank</label>
+                            </div>
+                        @endif
                     </div>
 
                     <p id="whatsYourPaymentFieldError" class="error"></p>
@@ -425,6 +491,8 @@
 <input type="hidden" name="hidden_customer_phone" id="hidden_customer_phone" @if(!empty($user->phone)) value="{{$user->phone}}" @endif>
 <input type="hidden" name="hidden_short_notes" id="hidden_short_notes">
 <input type="hidden" name="hidden_payment_type" id="hidden_payment_type">
+<input type="hidden" name="hidden_delivery_type" id="hidden_delivery_type">
+<input type="hidden" name="hidden_pickup_type" id="hidden_pickup_type">
 {!! Form::close() !!}
 
 @endsection
@@ -499,8 +567,13 @@
                                 swal($('#proName').text(), "Added!", "success");
 
                                 $("html, body").animate({
-                                    scrollTop: $("#calendarDiv").offset().top-200
+                                    //scrollTop: $("#calendarDiv").offset().top-200
+                                    scrollTop: $("#cartMainListDiv").offset().top-100
                                 }, 1000);
+
+                                if($('#cartListDiv').css('display') == 'none'){
+                                    $('#previewCart').trigger("click");
+                                }
 
                                 $("#errorMsg").css("display", "none");
 
@@ -660,6 +733,10 @@
             element.classList.add("open");
             //element.niceSelect('update');
             selectionCheck(0);
+
+            $("html, body").animate({
+                scrollTop: $("#timeDiv").offset().top-5
+            }, 1000);
         });
 
         $('#datepickerModal').on('shown.bs.modal', function () {
@@ -702,6 +779,10 @@
                 $('.list li:first-child').addClass('selected');
                 $('.order_time option[value="09:00"]').attr('selected','selected');
                 element.classList.add("open");
+
+                $("html, body").animate({
+                    scrollTop: $("#timeDiv").offset().top-5
+                }, 1000);
                 element.niceSelect('update');
             } else {
                 selectionCheck(0);
@@ -749,15 +830,24 @@
                         @if(empty($user))
                         //if(type==1){
 
-                            if(($("#hidden_order_date").val()=='') || ($("#hidden_order_time").val()=='')){
+                            if($("#hidden_order_date").val()==''){
 
                                 $("#errorMsgDate").css("display", "");
 
-                                $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
-
+                                //$("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
 
                                 $("html, body").animate({
                                     scrollTop: $("#calendarDiv").offset().top
+                                }, 1000);
+
+                            } else if($("#hidden_order_time").val()==''){
+
+                                $("#errorMsgDate").css("display", "");
+
+                                //$("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
+
+                                $("html, body").animate({
+                                    scrollTop: $("#timeDiv").offset().top-5
                                 }, 1000);
 
                             } else if($("#whatsYourNameField").val()==''){
@@ -813,7 +903,7 @@
                                 $("#whatsYourEmail").css("display", "");
                                 $("#whatsYourPhone").css("display", "");
                                 $("#whatsYourNotes").css("display", "");
-                                $("#paymentDiv").css("display", "");
+                                $("#deliveryDiv").css("display", "");
 
                                 $("html, body").animate({
                                     scrollTop: $("#whatsYourName").offset().top-100
@@ -892,14 +982,18 @@
 
             if(whatsYourPhoneField!=''){
 
-                $("#hidden_customer_phone").val(whatsYourPhoneField);
-                $("#whatsYourNotes").css("display", "");
+                if(whatsYourPhoneField.length==11){
+                    $("#hidden_customer_phone").val(whatsYourPhoneField);
+                    $("#whatsYourNotes").css("display", "");
 
-                $("html, body").animate({
-                    scrollTop: $("#whatsYourNotes").offset().top-100
-                }, 1000);
+                    $("html, body").animate({
+                        scrollTop: $("#whatsYourNotes").offset().top-100
+                    }, 1000);
 
-                $("#whatsYourPhoneFieldError").text('');
+                    $("#whatsYourPhoneFieldError").text('');
+                } else {
+                    $("#whatsYourPhoneFieldError").text('Please enter valid number.');
+                }
             } else {
                 $("#whatsYourPhoneFieldError").text('Please fill in a value.');
             }
@@ -951,6 +1045,58 @@
                 $("#hidden_short_notes").val(whatsYourNotesField);
             }
 
+            $("#deliveryDiv").css("display", "");
+
+            $("html, body").animate({
+                scrollTop: $("#deliveryDiv").offset().top-100
+            }, 1000);
+        });
+
+        /*$('#btnwhatsYourNotes').on('click', function(){
+            var whatsYourNotesField = $('#whatsYourNotesField').val();
+
+            if(whatsYourNotesField!=''){
+                $("#hidden_short_notes").val(whatsYourNotesField);
+            }
+
+            $("#paymentDiv").css("display", "");
+
+            $("html, body").animate({
+                scrollTop: $("#paymentDiv").offset().top-100
+            }, 1000);
+        });*/
+
+        $('#delivery_type_radio input:radio').click(function() {
+            $("#hidden_delivery_type").val($(this).val());
+
+            $("#confirmOrderDiv").css("display", 'none');
+            $("#payment_type_radio input:radio").prop('checked', false);
+
+            if($(this).val()=='take_pickup'){
+
+                $("#paymentDiv").css("display", "none");
+                $("#pickupDiv").css("display", "");
+
+                $("html, body").animate({
+                    scrollTop: $("#pickupDiv").offset().top-100
+                }, 1000);
+
+            } else if($(this).val()=='take_delivery'){
+
+                $("#pickup_type_radio input:radio").prop('checked', false);
+
+                $("#paymentDiv").css("display", "");
+                $("#pickupDiv").css("display", "none");
+
+                $("html, body").animate({
+                    scrollTop: $("#paymentDiv").offset().top-100
+                }, 1000);
+            }
+        });
+
+        $('#pickup_type_radio input:radio').click(function() {
+            $("#hidden_pickup_type").val($(this).val());
+
             $("#paymentDiv").css("display", "");
 
             $("html, body").animate({
@@ -990,6 +1136,14 @@
                 }, 1000);
             }
         });
+            
+        function btnPreviewCart() {
+            $("#calendarDiv").css("display", "");
+
+            $("html, body").animate({
+                scrollTop: $("#calendarDiv").offset().top
+            }, 1000);
+        }
 
         $('#confirmOrder').on('click', function(){
             var order_date = $('#hidden_order_date').val();
@@ -999,8 +1153,20 @@
             var customer_phone = $('#hidden_customer_phone').val();
             var short_notes = $('#hidden_short_notes').val();
             var payment_type = $('#hidden_payment_type').val();
+            var delivery_type = $('#hidden_delivery_type').val();
+            var pickup_type = $('#hidden_pickup_type').val();
 
-            if(order_date=='' || order_time=='' || customer_name=='' || customer_phone=='' || payment_type==''){
+            if(customer_phone.length!=11){
+
+                $("html, body").animate({
+                    scrollTop: $("#whatsYourPhone").offset().top-100
+                }, 1000);
+
+                $("#whatsYourPhoneFieldError").text('Please enter valid number.');
+                return false;
+            }
+
+            if(order_date=='' || order_time=='' || customer_name=='' || customer_phone=='' || payment_type=='' || delivery_type==''){
                 selectionCheck(1);
             }  else {
 
@@ -1010,7 +1176,7 @@
                     $.ajax({
                         url: "{{route('addOrder')}}",
                         type: "post",
-                        data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, '_token' : $('meta[name=_token]').attr('content') },
+                        data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, 'delivery_type': delivery_type, 'pickup_type': pickup_type, '_token' : $('meta[name=_token]').attr('content') },
                         success: function(data){
                             if(data.status == 0){
                                 window.location.href = "{{url('/login')}}";

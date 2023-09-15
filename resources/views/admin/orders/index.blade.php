@@ -28,7 +28,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{{ route('orders.export') }}"><button class="btn btn-warning float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-file-export pr-1"></i> Export to CSV</button></a>
+                                    <!-- <a href="{{ route('orders.export') }}"><button class="btn btn-warning float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-file-export pr-1"></i> Export to CSV</button></a> -->
                                     <a href="{{ route('orders.create') }}"><button class="btn btn-info float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-plus pr-1"></i> Add New</button></a>
                                 </div>
                             </div>
@@ -66,22 +66,27 @@
                         </div>
 
                         <div class="card-body table-responsive">
-                            <table id="ordersTable" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Customer</th>
-                                        <th>Items</th>
-                                        <th style="width: 12%;">Status</th>
-                                        <th style="width: 12%;">Total</th>
-                                        <th style="width: 18%;" >Order Date</th>
-                                        <!-- <th style="width: 18%;" >Fullfillment Date</th> -->
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="ordersTable" class="table table-bordered display nowrap" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Customer Information</th>
+                                                <th>Cellphone</th>
+                                                <th>Products</th>
+                                                <th style="width: 12%;">Status</th>
+                                                <th style="width: 12%;">Total</th>
+                                                <th style="width: 18%;" >Delivery Date</th>
+                                                <!-- <th style="width: 18%;" >Fullfillment Date</th> -->
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,9 +107,18 @@ function showData(){
 }
 
 function datatables(){
+    var ajaxUrl = "{{ route('orders.index') }}"
+
+    @if(isset($customer_name) && !empty($customer_name))
+        var customer_name = '{{$customer_name['name']}}';
+    @else
+        var customer_name = $('#customer').val();
+    @endif
+
     var table = $('#ordersTable').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
         buttons: [
             {
                 text: 'csv',
@@ -112,10 +126,10 @@ function datatables(){
             },
         ],
         ajax: {
-            url: "{{ route('orders.index') }}",
+            url: ajaxUrl,
             data: function (d) {
                 d.status = $('#status').val();
-                d.customer = $('#customer').val();
+                d.customer = customer_name;
                 d.start_date = $('#start_date').val();
                 d.end_date = $('#end_date').val();
                 d._token = '{{ csrf_token() }}';
@@ -124,10 +138,11 @@ function datatables(){
         columns: [
             {data: 'unique_id', name: 'unique_id'},
             {data: 'customer_name', name: 'customer_name', orderable: false},
+            {data: 'customer_phone', name: 'customer_phone', orderable: false},
             {data: 'order_items', name: 'order_items', orderable: false},
             {data: 'status', name: 'status', orderable: false},
             {data: 'order_total', name: 'order_total'},
-            {data: 'created_at', name: 'created_at'},
+            {data: 'order_date', name: 'order_date'},
             /*{data: 'order_date', name: 'order_date'},*/
             {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false},
         ]

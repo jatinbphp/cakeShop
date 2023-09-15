@@ -1,6 +1,41 @@
 {!! Form::hidden('redirects_to', URL::previous()) !!}
+
 <div class="row">
     <div class="col-md-12">
+        <div class="form-group{{ $errors->has('orderType') ? ' has-error' : '' }}">
+            <label class="col-md-12 control-label" for="orderType">Order Type :<span class="text-red">*</span></label>
+            <div class="col-md-12">
+                @foreach (\App\Models\Orders::$orderType as $key1 => $value1)
+                    @php
+                        $checked = '';
+                        if(!isset($order) && $key1 == 1){
+                            $checked = 'checked';
+                        }else{
+                            if(isset($order)){
+                                if($order['customer_id'] > 0 && $key1 == 1){
+                                    $checked = 'checked';
+                                }
+                                if($order['customer_id'] == 0 && $key1 == 0){
+                                    $checked = 'checked';
+                                }
+                            }
+                        }
+                    @endphp
+                    <span class="mr-2">
+                        {!! Form::radio('orderType', $key1, null, ['id' =>'type'.$key1, 'class' => 'customRadio', $checked]) !!}
+                        <label for="type{{$key1}}">{{$value1}}</label>
+                    </span>
+                @endforeach
+                @if ($errors->has('orderType'))
+                    <span class="text-danger" id="orderType">
+                        <strong>{{ $errors->first('orderType') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6" id="existingCustomer" @if(isset($order) && $order['customer_id'] == 0)) style="display: none" @endif>
         <div class="form-group{{ $errors->has('customer_id') ? ' has-error' : '' }}">
             <label class="control-label" for="name">Customer :<span class="text-red">*</span></label>
             {!! Form::select('customer_id', $users, null, ['class' => 'form-control select2']) !!}
@@ -11,12 +46,36 @@
             @endif
         </div>
     </div>
+
+    <div class="col-md-6" id="guestCustomer" @if(isset($order) && $order['customer_id'] == 0)) style="display: block" @else style="display: none" @endif>
+        <div class="form-group{{ $errors->has('customer_name') ? ' has-error' : '' }}">
+            <label class="control-label" for="name">Customer :<span class="text-red">*</span></label>
+            {!! Form::text('customer_name', null, ['class' => 'form-control']) !!}
+            @if ($errors->has('customer_name'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('customer_name') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('customer_phone') ? ' has-error' : '' }}">
+            <label class="control-label" for="name">Cellphone number :<span class="text-red">*</span></label>
+            {!! Form::text('customer_phone', null, ['class' => 'form-control']) !!}
+            @if ($errors->has('customer_phone'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('customer_phone') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
 </div>
 
 <div class="row">
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('order_date') ? ' has-error' : '' }}">
-            <label class="control-label" for="name">Fullfillment Date :<span class="text-red">*</span></label>
+            <label class="control-label" for="name">Delivery Date :<span class="text-red">*</span></label>
             {!! Form::date('order_date', null, ['class' => 'form-control']) !!}
             @if ($errors->has('order_date'))
                 <span class="text-danger">
@@ -27,7 +86,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('order_time') ? ' has-error' : '' }}">
-            <label class="control-label" for="name">Order Time :<span class="text-red">*</span></label>
+            <label class="control-label" for="name">Delviery Time :<span class="text-red">*</span></label>
             {!! Form::time('order_time', null, ['class' => 'form-control']) !!}
             @if ($errors->has('order_time'))
                 <span class="text-danger">
@@ -185,7 +244,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
             <label class="col-md-12 control-label" for="status">Status :<span class="text-red">*</span></label>
             <div class="col-md-12">
@@ -204,10 +263,22 @@
             </div>
         </div>
     </div>
+    <div class="col-md-9">
+        <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+            <label class="control-label" for="name">Delivery Fee :<span class="text-red">*</span></label>
+            {!! Form::text('delivery_fee', null, ['class' => 'form-control']) !!}
+            @if ($errors->has('delivery_fee'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('delivery_fee') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
 </div>
+
 @section('jquery')
 <script type="text/javascript">
-    var counter = @if(isset($order) && !empty($order['OrderItems'])){{count($order['OrderItems'])}} @else 0 @endif; 
+    var counter = @if(isset($order) && !empty($order['OrderItems'])){{count($order['OrderItems'])}} @else 0 @endif;
     var shouldContinue = true;
 
     $('#expBtn').on('click', function(){
@@ -249,12 +320,11 @@
 
         '</div>';
 
-        
+
         $('#extraProduct').append(exProContent);
 
         $('.select2').select2();
     });
-
 
     function removeRow(divId){
         const removeRowAlert = createOptionAlert("Are you sure?", "Do want to delete this row", "warning");
@@ -310,5 +380,17 @@
             $("#ordertotal_"+id).val(numberformate.toFixed(2));
         }
     }
+
+    $('.customRadio').on('change', function(){
+        var ordertype = $(this).val();
+        if(ordertype == 1){
+            $('#existingCustomer').show();
+            $('#guestCustomer').hide();
+            $('.select2').select2();
+        }else{
+            $('#guestCustomer').show();
+            $('#existingCustomer').hide();
+        }
+    });
 </script>
 @endsection

@@ -36,6 +36,9 @@
                         </div>
                     @endforeach
                 </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" onclick="btnPreviewCart()" style="width: 100%;border-radius: 0;">Next</button>
+                </div>
             </div>
         </div>
     </div>

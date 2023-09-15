@@ -76,7 +76,7 @@
                                                                                      <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Your order has been successfully paid. Thank you for your purchase!</span></td>
                                                                                 @endif
                                                                             @elseif($mailType == "success")
-                                                                                <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Your order has been successfully Placed. Thank you for your purchase!</span></td>
+                                                                                <td><span style="font-size:1.45rem;font-family:'DM Sans', sans-serif;font-weight: 600;">Your order has been successfully placed. Thank you for your purchase!</span></td>
                                                                             @endif
                                                                         </tr>
                                                                     </tbody>
@@ -211,7 +211,7 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <td style="padding-bottom:30px"><span style="font-weight:600;">Payment Method</span></td>
-                                                                        <td align="right" style="padding-bottom:30px;white-space:pre-wrap">{{$order->payment_type}}</td>
+                                                                        <td align="right" style="padding-bottom:30px;white-space:pre-wrap">{{ucfirst($order->payment_type)}}</td>
                                                                     </tr>
                                                                     <!-- <tr>
                                                                         <td style="padding-bottom:30px"><span style="font-weight:600;">Fulfillment Method</span></td>

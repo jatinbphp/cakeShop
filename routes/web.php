@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\PayPalController;
-
+use App\Http\Controllers\Admin\PickupPointsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,6 +71,11 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     /* SETTING MANAGEMENT */
     Route::post('delete_settings_image', [SettingController::class,'deleteSettingsImage']);
     Route::resource('settings', SettingController::class);
+
+    /* PICKUP POINT MANAGEMENT */
+    Route::post('pickuppoints/assign', [PickupPointsController::class,'assign'])->name('pickuppoints.assign');
+    Route::post('pickuppoints/unassign', [PickupPointsController::class,'unassign'])->name('pickuppoints.unassign');
+    Route::resource('pickuppoints', PickupPointsController::class);
 
     Auth::routes();
 });
