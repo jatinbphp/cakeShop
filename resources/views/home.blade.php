@@ -290,6 +290,7 @@
     </div>
 </section>
 
+@if(!empty($delivery_charges) || !empty($pickup_points))
 <section class="popular-items section-padding40" id="deliveryDiv" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
@@ -304,15 +305,18 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="radio-group-list" id="delivery_type_radio">
-                        <div class="radio-group-item" >
-                            <input type="radio" id="take_delivery" name="delivery_type" value="take_delivery">
-                            <label for="take_delivery">Delivery</label>
-                        </div>
-
+                        @if(!empty($delivery_charges))
+                            <div class="radio-group-item" >
+                                <input type="radio" id="take_delivery" name="delivery_type" value="take_delivery">
+                                <label for="take_delivery">Delivery</label>
+                            </div>
+                        @endif
+                        @if(!empty($pickup_points))
                         <div class="radio-group-item">
-                            <input type="radio" id="take_pickup" name="delivery_type" value="take_pickup">
-                            <label for="take_pickup">Pickup</label>
-                        </div>
+                                <input type="radio" id="take_pickup" name="delivery_type" value="take_pickup">
+                                <label for="take_pickup">Pickup</label>
+                            </div>
+                        @endif
                     </div>
 
                     <p id="whatsYourDeliveryFieldError" class="error"></p>
@@ -321,6 +325,7 @@
         </div>
     </div>
 </section>
+@endif
 
 <section class="popular-items section-padding40" id="pickupDiv" style="display: none;">
     <div class="container">
@@ -903,7 +908,12 @@
                                 $("#whatsYourEmail").css("display", "");
                                 $("#whatsYourPhone").css("display", "");
                                 $("#whatsYourNotes").css("display", "");
-                                $("#deliveryDiv").css("display", "");
+
+                                @if(!empty($delivery_charges) || !empty($pickup_points))
+                                    $("#deliveryDiv").css("display", "");
+                                @else
+                                    $("#paymentDiv").css("display", "");
+                                @endif                                
 
                                 $("html, body").animate({
                                     scrollTop: $("#whatsYourName").offset().top-100
@@ -1045,11 +1055,19 @@
                 $("#hidden_short_notes").val(whatsYourNotesField);
             }
 
-            $("#deliveryDiv").css("display", "");
+            @if(!empty($delivery_charges) || !empty($pickup_points))
+                $("#deliveryDiv").css("display", "");
 
-            $("html, body").animate({
-                scrollTop: $("#deliveryDiv").offset().top-100
-            }, 1000);
+                $("html, body").animate({
+                    scrollTop: $("#deliveryDiv").offset().top-100
+                }, 1000);
+            @else
+                $("#paymentDiv").css("display", "");
+
+                $("html, body").animate({
+                    scrollTop: $("#paymentDiv").offset().top-100
+                }, 1000);
+            @endif
         });
 
         /*$('#btnwhatsYourNotes').on('click', function(){

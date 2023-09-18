@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     use HasFactory;
-    protected $fillable= ['name','image','gcash_mobile','gcash_screenshot_mobile', 'p_cod', 'p_gcash', 'p_bank', 'logo_content', 'contact_content', 'contact_number'];
+    protected $fillable= ['name','image','gcash_mobile','gcash_screenshot_mobile', 'p_cod', 'p_gcash', 'p_bank', 'logo_content', 'contact_content', 'contact_number','delivery_method', 'pickup_method'];
 
     const STATUS_ENABLE = 1;
     const STATUS_DISABLE = 0;

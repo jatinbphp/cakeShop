@@ -99,9 +99,9 @@
                             <span style="margin-right: 10px">{{ $value }}</span>
                         </label>
                     @endforeach
-                    <br class="p_codError">
+                    <br class="p_gcashError">
                     @if ($errors->has('p_gcash'))
-                        <span class="text-danger" id="p_codError">
+                        <span class="text-danger" id="p_gcashError">
                             <strong>{{ $errors->first('p_gcash') }}</strong>
                         </span>
                     @endif
@@ -119,9 +119,9 @@
                             <span style="margin-right: 10px">{{ $value }}</span>
                         </label>
                     @endforeach
-                    <br class="p_codError">
+                    <br class="p_bankError">
                     @if ($errors->has('p_bank'))
-                        <span class="text-danger" id="p_codError">
+                        <span class="text-danger" id="p_bankError">
                             <strong>{{ $errors->first('p_bank') }}</strong>
                         </span>
                     @endif
@@ -131,5 +131,101 @@
     </div>
 </div>
 
+<div class="">
+    <div class="col-md-12">
+        <h5><b>Delivery Options</b></h5>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('delivery_method') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="delivery_method">Delivery :<span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    @foreach (\App\Models\Setting::$status as $key => $value)
+                        <label>
+                            {!! Form::radio('delivery_method', $key, null, ['class' => 'flat-red']) !!} 
+                            <span style="margin-right: 10px">{{ $value }}</span>
+                        </label>
+                    @endforeach
+                    <br class="delivery_methodError">
+                    @if ($errors->has('delivery_method'))
+                        <span class="text-danger" id="delivery_methodError">
+                            <strong>{{ $errors->first('delivery_method') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('pickup_method') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="pickup_method">Pickup :<span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    @foreach (\App\Models\Setting::$status as $key => $value)
+                        <label>
+                            {!! Form::radio('pickup_method', $key, null, ['class' => 'flat-red']) !!} 
+                            <span style="margin-right: 10px">{{ $value }}</span>
+                        </label>
+                    @endforeach
+                    <br class="pickup_methodError">
+                    @if ($errors->has('pickup_method'))
+                        <span class="text-danger" id="pickup_methodError">
+                            <strong>{{ $errors->first('pickup_method') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <div class="col-md-12">
+        <h5><b>Footer Content</b></h5>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('logo_content') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="logo_content">Logo Content <span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    {!! Form::textarea('logo_content', null, ['class' => 'form-control', 'placeholder' => 'Enter Logo Content']) !!}
+                    @if ($errors->has('logo_content'))
+                        <span class="text-danger">
+                            <strong>{{ $errors->first('logo_content') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('contact_content') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="contact_content">Contact Us Content <span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    {!! Form::textarea('contact_content', null, ['class' => 'form-control', 'placeholder' => 'Enter Logo Content']) !!}
+                    @if ($errors->has('contact_content'))
+                        <span class="text-danger">
+                            <strong>{{ $errors->first('contact_content') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="contact_number">Contact Us Number <span class="text-red">*</span></label>
+                <div class="col-md-12">
+                    {!! Form::text('contact_number', null, ['class' => 'form-control', 'placeholder' => 'Enter Logo Content']) !!}
+                    @if ($errors->has('contact_number'))
+                        <span class="text-danger">
+                            <strong>{{ $errors->first('contact_number') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Admin\PickupPointsController;
+use App\Http\Controllers\Admin\DeliveryChargesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,6 +77,11 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('pickuppoints/assign', [PickupPointsController::class,'assign'])->name('pickuppoints.assign');
     Route::post('pickuppoints/unassign', [PickupPointsController::class,'unassign'])->name('pickuppoints.unassign');
     Route::resource('pickuppoints', PickupPointsController::class);
+
+    /* PICKUP POINT MANAGEMENT */
+    Route::post('deliverycharges/assign', [DeliveryChargesController::class,'assign'])->name('deliverycharges.assign');
+    Route::post('deliverycharges/unassign', [DeliveryChargesController::class,'unassign'])->name('deliverycharges.unassign');
+    Route::resource('deliverycharges', DeliveryChargesController::class);
 
     Auth::routes();
 });

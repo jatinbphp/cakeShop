@@ -11,6 +11,7 @@ use App\Models\Products;
 use App\Models\Orders;
 use App\Models\OrderItems;
 use App\Models\PickupPoints;
+use App\Models\DeliveryCharges;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,7 @@ class HomeController extends Controller
     {
         $data['products'] = Products::with('ProductImages')->where('status', 'active')->get();
         $data['pickup_points'] = PickupPoints::where('status','active')->get();
+        $data['delivery_charges'] = DeliveryCharges::where('status','active')->get();
 
         $data['cart_products'] = [];
         $data['user'] = [];

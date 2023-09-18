@@ -177,8 +177,15 @@
 
                     <li class="nav-item">
                         <a href="{{ route('pickuppoints.index') }}" class="nav-link @if($menu=='Pickup Points') active @endif">
-                            <i class="nav-icon fa fa-shopping-cart"></i>
+                            <i class="nav-icon fa fa-truck"></i>
                             <p>Manage Pickup Points</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('deliverycharges.index') }}" class="nav-link @if($menu=='Delivery Charges') active @endif">
+                            <i class="nav-icon fa fa-truck"></i>
+                            <p>Manage Delivery Charges</p>
                         </a>
                     </li>
 
