@@ -72,6 +72,8 @@ class OrderController extends Controller
                     $orderPaid = '';
                     $orderPending = '';
                     $orderRejected = '';
+                    $orderDelivered = '';
+                    $orderArchived = '';
                     if($row->status == 'paid'){
                         $orderPaid = 'selected';
                     }
@@ -81,10 +83,18 @@ class OrderController extends Controller
                     if($row->status == 'rejected'){
                         $orderRejected = 'selected';
                     }
-                    $select = '<select class="form-control select2 orderStatus" data-id="'.$row->id.'" >
+                    if($row->status == 'delivered'){
+                        $orderDelivered = 'selected';
+                    }
+                    if($row->status == 'archived'){
+                        $orderArchived = 'selected';
+                    }
+                    $select = '<select class="form-control select2 orderStatus" id="status'.$row->unique_id.'"  data-id="'.$row->id.'" >
                                     <option value="paid" '.$orderPaid.'>Paid</option>
                                     <option value="pending" '.$orderPending.'>Pending</option>
                                     <option value="rejected" '.$orderRejected.'>Rejected</option>
+                                    <option value="delivered" '.$orderDelivered.'>Delivered</option>
+                                    <option value="archived" '.$orderArchived.'>Archived</option>
                                 </select>';
 
                     /*$statusBtn = '';
@@ -109,6 +119,9 @@ class OrderController extends Controller
                                     </button>
                                 </a>
                             </div>';
+                    $btn .= '<span class="cpBtn" data-toggle="tooltip" title="Copy Order Data" data-trigger="hover">
+                                <button class="btn btn-sm btn-warning copyOrder" data-id="'.$row->id.'" type="button"><i class="fa fa-clone"></i></button>
+                            </span>';
                     return $btn;
                 })
                 ->rawColumns(['user','order_total','status','action','order_date', 'order_items'])
@@ -315,7 +328,7 @@ class OrderController extends Controller
         }
         $input['payment_type'] = 'cod';
         $input['customer_phone'] = $request['customer_phone'];
-        
+
         $order = Orders::findorFail($id);
         $order->update($input);
 

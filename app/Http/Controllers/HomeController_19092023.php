@@ -11,7 +11,6 @@ use App\Models\Products;
 use App\Models\Orders;
 use App\Models\OrderItems;
 use App\Models\PickupPoints;
-use App\Models\DeliveryCharges;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +27,6 @@ class HomeController extends Controller
     {
         $data['products'] = Products::with('ProductImages')->where('status', 'active')->get();
         $data['pickup_points'] = PickupPoints::where('status','active')->get();
-        $data['delivery_charges'] = DeliveryCharges::where('status','active')->get();
 
         $data['cart_products'] = [];
         $data['user'] = [];
@@ -250,17 +248,6 @@ class HomeController extends Controller
                     $totalOrder = count($userDetails['Orders']) > 0 ? count($userDetails['Orders']) + 1 : 1;
                     $input['unique_id'] = strtoupper(substr($userDetails['name'], 0, 3)) . '0' . $totalOrder;
 
-                    if(!empty($request['pickup_type'])){
-                        $pickup_points = PickupPoints::where('status','active')->where('id',$request['pickup_type'])->first();
-                        $input['pickup_address'] = $pickup_points['address'];
-                    }
-
-                    if(!empty($request['delivery_address_id']) && $request['delivery_address_id'] > 0){
-                        $delivery_charges = DeliveryCharges::where('status','active')->where('id',$request['delivery_address_id'])->first();
-                        $input['delivery_address'] = $delivery_charges['city'];
-                        $input['delivery_fee'] = $delivery_charges['charge'];
-                    }
-
                     $input['customer_id'] = $user;
                     $input['order_total'] = number_format(Cart::where('user_id', $user)->sum('sub_total'), 2, '.', '');
                     $input['status'] = $request['payment_type'] == 'cod' ? 'pending' : 'bank_manually';
@@ -313,17 +300,6 @@ class HomeController extends Controller
                     $totalOrder = Orders::where('customer_id', 0)->count();
                     $uniqueId = $totalOrder+1;
                     $input['unique_id'] = 'GUEST0'.$uniqueId;
-
-                    if(!empty($request['pickup_type'])){
-                        $pickup_points = PickupPoints::where('status','active')->where('id',$request['pickup_type'])->first();
-                        $input['pickup_address'] = $pickup_points['address'];
-                    }
-
-                    if(!empty($request['delivery_address_id'])){
-                        $delivery_charges = DeliveryCharges::where('status','active')->where('id',$request['delivery_address_id'])->first();
-                        $input['delivery_address'] = $delivery_charges['city'];
-                        $input['delivery_fee'] = $delivery_charges['charge'];
-                    }
 
                     $input['customer_id'] = 0;
 
@@ -382,15 +358,6 @@ class HomeController extends Controller
     }
 
     public function getConfirmOrderSection(Request $request){
-
-        if(!empty($request['delivery_address_id'])){
-            $data['delivery_charges'] = DeliveryCharges::where('status','active')->where('id',$request['delivery_address_id'])->first();
-        }
-
-        if(!empty($request['pickup_type'])){
-            $data['pickup_point'] = PickupPoints::where('status','active')->where('id',$request['pickup_type'])->first();
-        }        
-
         if(Auth::check()){
             $user = Auth::user()->id;
             $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user)->get()->all();

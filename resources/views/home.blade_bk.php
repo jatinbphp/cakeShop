@@ -127,9 +127,6 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-primary" onclick="btnPreviewCart()" style="width: 100%;border-radius: 0;">Next</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,7 +135,7 @@
     </div>
 </section>
 
-<section class="popular-items section-padding40" id="calendarDiv" style="display: none;">
+<section class="popular-items section-padding40" id="calendarDiv">
     <div class="container">
 
         <div class="row justify-content-center" id="errorMsgDate" style="display:none;">
@@ -156,7 +153,7 @@
                 </div>
             </div>
         </div>
-        <div class="orderProcess" id="timeDiv">
+        <div class="orderProcess">
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="rescalendar" id="my_calendar_calSize"></div>
@@ -290,110 +287,6 @@
     </div>
 </section>
 
-@if((!empty($delivery_charges) && ($settings['delivery_method']==1)) || (!empty($pickup_points) && ($settings['pickup_method']==1)))
-<section class="popular-items section-padding40" id="deliveryDiv" style="display: none;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                <div class="section-tittle mb-60">
-                    <h2>How do you want to take your order?</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="orderProcess">
-            <div class="row justify-content-center">
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                    <div class="radio-group-list" id="delivery_type_radio">
-                        @if(!empty($delivery_charges) && ($settings['delivery_method']==1))
-                            <div class="radio-group-item" >
-                                <input type="radio" id="take_delivery" name="delivery_type" value="take_delivery">
-                                <label for="take_delivery">Delivery</label>
-                            </div>
-                        @endif
-                        @if(!empty($pickup_points) && ($settings['pickup_method']==1))
-                        <div class="radio-group-item">
-                                <input type="radio" id="take_pickup" name="delivery_type" value="take_pickup">
-                                <label for="take_pickup">Pickup</label>
-                            </div>
-                        @endif
-                    </div>
-
-                    <p id="whatsYourDeliveryFieldError" class="error"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
-
-<section class="popular-items section-padding40" id="deliveryAddressDiv" style="display: none;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                <div class="section-tittle mb-60">
-                    <h2>Where do you want to delivery?</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="orderProcess">
-            <div class="row justify-content-center">
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                    <div class="radio-group-list" id="delivery_address_radio">
-
-                        @if(!empty($delivery_charges))
-                            @foreach ($delivery_charges as $listc)
-                                <div class="radio-group-item" >
-                                    <input type="radio" id="city_{{$listc['id']}}" name="city" value="{{$listc['id']}}" data-value="{{$listc['city']}}">
-                                    <label for="city_{{$listc['id']}}">
-                                        {{$listc['city']}}</br>
-                                        <b>Charge :</b> ₱ {{number_format($listc['charge'], 2, '.', '')}}
-                                    </label>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-
-                    <p id="whatsYourPickupFieldError" class="error"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="popular-items section-padding40" id="pickupDiv" style="display: none;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                <div class="section-tittle mb-60">
-                    <h2>Where do you want to pickuo?</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="orderProcess">
-            <div class="row justify-content-center">
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                    <div class="radio-group-list" id="pickup_type_radio">
-
-                        @if(!empty($pickup_points))
-                            @foreach ($pickup_points as $lista)
-                                <div class="radio-group-item" >
-                                    <input type="radio" id="address_{{$lista['id']}}" name="address" value="{{$lista['id']}}" data-value="{{$lista['address']}}">
-                                    <label for="address_{{$lista['id']}}">{{$lista['address']}}</label>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-
-                    <p id="whatsYourPickupFieldError" class="error"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="popular-items section-padding40" id="paymentDiv" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
@@ -408,36 +301,29 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="radio-group-list" id="payment_type_radio">
-                        @if($settings['p_cod']==1)
-                            <div class="radio-group-item" >
-                                <input type="radio" id="cod" name="payment_type" value="cod">
-                                <label for="cod">Cash On Delivery</label>
-                            </div>
-                        @endif
-
-                        @if($settings['p_gcash']==1)
-                            <div class="radio-group-item">
-                                <input type="radio" id="gcash" name="payment_type" value="gcash">
-                                <label for="gcash">GCash</label>
-                            </div>
-                        @endif
-
-                        @if($settings['p_bank']==1)
-                            <div class="radio-group-item">
-                                <input type="radio" id="bank" name="payment_type" value="bank">
-                                <label for="bank">Bank To Bank</label>
-                            </div>
-                        @endif
+                        <div class="radio-group-item" >
+                            <input type="radio" id="cod" name="payment_type" value="cod">
+                            <label for="cod">Cash On Delivery</label>
+                        </div>
+                        <div class="radio-group-item">
+                            <input type="radio" id="gcash" name="payment_type" value="gcash">
+                            <label for="gcash">
+                                <span>Please pay Gcash to</span><br>
+                                <span><strong>{{$settings['gcash_mobile']}}</strong></span><br>
+                                <span>Please send screenshot to</span><br>
+                                <span><strong>{{$settings['gcash_screenshot_mobile']}}</strong></span>
+                            </label>
+                        </div>
+                        <!--<div class="radio-group-item">
+                            <input type="radio" id="gcash" name="payment_type" value="gcash">
+                            <label for="gcash">GCash</label>
+                        </div>
+                        <div class="radio-group-item">
+                            <input type="radio" id="paypal" name="payment_type" value="paypal">
+                            <label for="paypal">Paypal</label>
+                        </div>-->
                     </div>
-
                     <p id="whatsYourPaymentFieldError" class="error"></p>
-                </div>
-
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10" id="paymentNoteDiv" style="display: none;">
-                    <div class="form-group">
-                        <span class="form-control" style="height: auto; display: none;" id="payment_notes" >{!!$settings["gcash_mobile"]!!}</span>
-                        <span class="form-control" style="height: auto; display: none;" id="payment_notes1">{!!$settings["gcash_screenshot_mobile"]!!}</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -477,16 +363,12 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="pickup-txt" id="pickuptxtid">
-                                <h6 id="pickuptxtnameType">Pickup - <span>Free</span></h6>
-                                <p><span id="pickuptxtname">Quezon City</span> • <span id="selectedTime"></span></p>
+                            <div class="pickup-txt">
+                                <h6>Pickup<span>Free</span></h6>
+                                <p>Quezon City • <span id="selectedTime"></span></p>
                             </div>
                             <div class="total-txt">
-                                <h5>Sub Total</h5>
-                                <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
-                            </div>
-                            <div class="total-txt">
-                                <h5>Grand Total</h5>
+                                <h5>Total</h5>
                                 <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
                             </div>
                         @endif
@@ -535,9 +417,6 @@
 <input type="hidden" name="hidden_customer_phone" id="hidden_customer_phone" @if(!empty($user->phone)) value="{{$user->phone}}" @endif>
 <input type="hidden" name="hidden_short_notes" id="hidden_short_notes">
 <input type="hidden" name="hidden_payment_type" id="hidden_payment_type">
-<input type="hidden" name="hidden_delivery_type" id="hidden_delivery_type">
-<input type="hidden" name="hidden_pickup_type" id="hidden_pickup_type">
-<input type="hidden" name="hidden_delivery_address_id" id="hidden_delivery_address_id">
 {!! Form::close() !!}
 
 @endsection
@@ -612,13 +491,8 @@
                                 swal($('#proName').text(), "Added!", "success");
 
                                 $("html, body").animate({
-                                    //scrollTop: $("#calendarDiv").offset().top-200
-                                    scrollTop: $("#cartMainListDiv").offset().top-100
+                                    scrollTop: $("#cartMainListDiv").offset().top-200
                                 }, 1000);
-
-                                if($('#cartListDiv').css('display') == 'none'){
-                                    $('#previewCart').trigger("click");
-                                }
 
                                 $("#errorMsg").css("display", "none");
 
@@ -778,10 +652,6 @@
             element.classList.add("open");
             //element.niceSelect('update');
             selectionCheck(0);
-
-            $("html, body").animate({
-                scrollTop: $("#timeDiv").offset().top-5
-            }, 1000);
         });
 
         $('#datepickerModal').on('shown.bs.modal', function () {
@@ -824,10 +694,6 @@
                 $('.list li:first-child').addClass('selected');
                 $('.order_time option[value="09:00"]').attr('selected','selected');
                 element.classList.add("open");
-
-                $("html, body").animate({
-                    scrollTop: $("#timeDiv").offset().top-5
-                }, 1000);
                 element.niceSelect('update');
             } else {
                 selectionCheck(0);
@@ -875,24 +741,15 @@
                         @if(empty($user))
                         //if(type==1){
 
-                            if($("#hidden_order_date").val()==''){
+                            if(($("#hidden_order_date").val()=='') || ($("#hidden_order_time").val()=='')){
 
                                 $("#errorMsgDate").css("display", "");
 
-                                //$("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
+                                $("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
+
 
                                 $("html, body").animate({
                                     scrollTop: $("#calendarDiv").offset().top
-                                }, 1000);
-
-                            } else if($("#hidden_order_time").val()==''){
-
-                                $("#errorMsgDate").css("display", "");
-
-                                //$("#errorMsgDateAlert").html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button>Please select the date & time,</div>');
-
-                                $("html, body").animate({
-                                    scrollTop: $("#timeDiv").offset().top-5
                                 }, 1000);
 
                             } else if($("#whatsYourNameField").val()==''){
@@ -908,7 +765,7 @@
                                     scrollTop: $("#whatsYourName").offset().top-100
                                 }, 1000);
 
-                            } /*else if($("#whatsYourEmailField").val()==''){
+                            } else if($("#whatsYourEmailField").val()==''){
 
                                 $("#btnwhatsYourEmail").trigger("click");
                                 $("#whatsYourEmail").css("display", "");
@@ -917,7 +774,7 @@
                                     scrollTop: $("#whatsYourEmail").offset().top-100
                                 }, 1000);
 
-                            }*/ else if($("#whatsYourPhoneField").val()==''){
+                            } else if($("#whatsYourPhoneField").val()==''){
 
                                 $("#btnwhatsYourPhone").trigger("click");
                                 $("#whatsYourPhone").css("display", "");
@@ -948,12 +805,7 @@
                                 $("#whatsYourEmail").css("display", "");
                                 $("#whatsYourPhone").css("display", "");
                                 $("#whatsYourNotes").css("display", "");
-
-                                @if((!empty($delivery_charges) && ($settings['delivery_method']==1)) || (!empty($pickup_points) && ($settings['pickup_method']==1)))
-                                    $("#deliveryDiv").css("display", "");
-                                @else
-                                    $("#paymentDiv").css("display", "");
-                                @endif                                
+                                $("#paymentDiv").css("display", "");
 
                                 $("html, body").animate({
                                     scrollTop: $("#whatsYourName").offset().top-100
@@ -994,19 +846,7 @@
         $('#btnwhatsYourEmail').on('click', function(){
             var whatsYourEmailField = $('#whatsYourEmailField').val();
 
-            if(whatsYourEmailField==''){
-                $("#hidden_customer_email").val('');
-            } else {
-                $("#hidden_customer_email").val(whatsYourEmailField);
-            }
-
-            $("#whatsYourPhone").css("display", "");
-
-            $("html, body").animate({
-                scrollTop: $("#whatsYourPhone").offset().top-100
-            }, 1000);
-
-            /*if(whatsYourEmailField!=''){
+            if(whatsYourEmailField!=''){
 
                 var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                 if(!regex.test(whatsYourEmailField)){
@@ -1024,7 +864,7 @@
                 }
             } else {
                 $("#whatsYourEmailFieldError").text('Please fill in a valid value.');
-            }*/
+            }
         });
 
         $('#btnwhatsYourPhone').on('click', function(){
@@ -1032,18 +872,14 @@
 
             if(whatsYourPhoneField!=''){
 
-                if(whatsYourPhoneField.length==11){
-                    $("#hidden_customer_phone").val(whatsYourPhoneField);
-                    $("#whatsYourNotes").css("display", "");
+                $("#hidden_customer_phone").val(whatsYourPhoneField);
+                $("#whatsYourNotes").css("display", "");
 
-                    $("html, body").animate({
-                        scrollTop: $("#whatsYourNotes").offset().top-100
-                    }, 1000);
+                $("html, body").animate({
+                    scrollTop: $("#whatsYourNotes").offset().top-100
+                }, 1000);
 
-                    $("#whatsYourPhoneFieldError").text('');
-                } else {
-                    $("#whatsYourPhoneFieldError").text('Please enter valid number.');
-                }
+                $("#whatsYourPhoneFieldError").text('');
             } else {
                 $("#whatsYourPhoneFieldError").text('Please fill in a value.');
             }
@@ -1095,94 +931,6 @@
                 $("#hidden_short_notes").val(whatsYourNotesField);
             }
 
-            @if((!empty($delivery_charges) && ($settings['delivery_method']==1)) || (!empty($pickup_points) && ($settings['pickup_method']==1)))
-                $("#deliveryDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#deliveryDiv").offset().top-100
-                }, 1000);
-            @else
-                $("#paymentDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#paymentDiv").offset().top-100
-                }, 1000);
-            @endif
-        });
-
-        /*$('#btnwhatsYourNotes').on('click', function(){
-            var whatsYourNotesField = $('#whatsYourNotesField').val();
-
-            if(whatsYourNotesField!=''){
-                $("#hidden_short_notes").val(whatsYourNotesField);
-            }
-
-            $("#paymentDiv").css("display", "");
-
-            $("html, body").animate({
-                scrollTop: $("#paymentDiv").offset().top-100
-            }, 1000);
-        });*/
-
-        $('#delivery_type_radio input:radio').click(function() {
-            $("#hidden_delivery_type").val($(this).val());
-
-            $("#confirmOrderDiv").css("display", 'none');
-            $("#payment_type_radio input:radio").prop('checked', false);
-
-            if($(this).val()=='take_pickup'){
-
-                $("#delivery_address_radio input:radio").prop('checked', false);
-
-                $("#paymentDiv").css("display", "none");
-                $("#deliveryAddressDiv").css("display", "none");
-                $("#pickupDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#pickupDiv").offset().top-100
-                }, 1000);
-
-            } else if($(this).val()=='take_delivery'){
-
-                $("#pickup_type_radio input:radio").prop('checked', false);
-
-                $("#paymentDiv").css("display", "none");
-                $("#deliveryAddressDiv").css("display", "");
-                $("#pickupDiv").css("display", "none");
-
-                $("html, body").animate({
-                    scrollTop: $("#deliveryAddressDiv").offset().top-100
-                }, 1000);
-
-                
-            }
-        });
-
-        $('#delivery_address_radio input:radio').click(function() {
-            $("#hidden_delivery_address_id").val($(this).val());
-
-            $("#pickuptxtnameType").html('Delivery');
-            $("#pickuptxtnameTypeAjax").html('Delivery');
-            
-            $("#pickuptxtname").text($(this).attr('data-value'));
-            $("#pickuptxtnameAjax").text($(this).attr('data-value'));
-
-            $("#paymentDiv").css("display", "");
-
-            $("html, body").animate({
-                scrollTop: $("#paymentDiv").offset().top-100
-            }, 1000);
-        });
-
-        $('#pickup_type_radio input:radio').click(function() {
-            $("#hidden_pickup_type").val($(this).val());
-
-            $("#pickuptxtnameType").html('Pickup - <span>Free</span>');
-            $("#pickuptxtnameTypeAjax").html('Pickup - <span>Free</span>');
-            
-            $("#pickuptxtname").text($(this).attr('data-value'));
-            $("#pickuptxtnameAjax").text($(this).attr('data-value'));
-
             $("#paymentDiv").css("display", "");
 
             $("html, body").animate({
@@ -1193,59 +941,12 @@
         $('#payment_type_radio input:radio').click(function() {
             $("#hidden_payment_type").val($(this).val());
 
-            var delivery_address_id = $('#hidden_delivery_address_id').val();
-            var pickup_type = $('#hidden_pickup_type').val();
-
-            $.ajax({
-                url: "{{route('getConfirmOrderSection')}}",
-                type: "post",
-                data: {'_token' : $('meta[name=_token]').attr('content'), 'delivery_address_id': delivery_address_id, 'pickup_type': pickup_type },
-                success: function(data){
-                    $("#itemList").html(data);
-
-                    var timingVar = $("#hidden_order_date").val()+' '+$("#hidden_order_time").val();
-
-                    $("#selectedTimeAjax").text(dateFormat(timingVar, "ddd, mmm dS, yyyy, h:MM TT"));
-                }
-            });
-
             $("#confirmOrderDiv").css("display", "");
 
-            if($(this).val()=='gcash'){
-                $("#payment_notes1").css("display", 'none');
-                $("#payment_notes").css("display", "");
-                $("#paymentNoteDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#paymentNoteDiv").offset().top-100
-                }, 1000);
-
-            } else if($(this).val()=='bank'){
-                $("#payment_notes").css("display", 'none');
-                $("#payment_notes1").css("display", "");
-                $("#paymentNoteDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#paymentNoteDiv").offset().top-100
-                }, 1000);
-            } else {
-                $("#payment_notes").css("display", 'none');
-                $("#payment_notes1").css("display", 'none');
-                $("#paymentNoteDiv").css("display", "none");
-
-                $("html, body").animate({
-                    scrollTop: $("#confirmOrderDiv").offset().top-100
-                }, 1000);
-            }
-        });
-            
-        function btnPreviewCart() {
-            $("#calendarDiv").css("display", "");
-
             $("html, body").animate({
-                scrollTop: $("#calendarDiv").offset().top
+                scrollTop: $("#confirmOrderDiv").offset().top-100
             }, 1000);
-        }
+        });
 
         $('#confirmOrder').on('click', function(){
             var order_date = $('#hidden_order_date').val();
@@ -1255,31 +956,18 @@
             var customer_phone = $('#hidden_customer_phone').val();
             var short_notes = $('#hidden_short_notes').val();
             var payment_type = $('#hidden_payment_type').val();
-            var delivery_type = $('#hidden_delivery_type').val();
-            var pickup_type = $('#hidden_pickup_type').val();
-            var delivery_address_id = $('#hidden_delivery_address_id').val();
 
-            if(customer_phone.length!=11){
-
-                $("html, body").animate({
-                    scrollTop: $("#whatsYourPhone").offset().top-100
-                }, 1000);
-
-                $("#whatsYourPhoneFieldError").text('Please enter valid number.');
-                return false;
-            }
-
-            if(order_date=='' || order_time=='' || customer_name=='' || customer_phone=='' || payment_type=='' || delivery_type==''){
+            if(order_date=='' || order_time=='' || customer_name=='' || customer_email=='' || customer_phone=='' || payment_type==''){
                 selectionCheck(1);
             }  else {
 
-                /*if(payment_type == 'gcash'){
+                if(payment_type == 'paypal'){
                     processPayPalPayment();
-                } else {*/
+                } else {
                     $.ajax({
                         url: "{{route('addOrder')}}",
                         type: "post",
-                        data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, 'delivery_type': delivery_type, 'pickup_type': pickup_type, 'delivery_address_id': delivery_address_id, '_token' : $('meta[name=_token]').attr('content') },
+                        data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, '_token' : $('meta[name=_token]').attr('content') },
                         success: function(data){
                             if(data.status == 0){
                                 window.location.href = "{{url('/login')}}";
@@ -1315,7 +1003,7 @@
                             } else if(data.status == 3){
                                 $("#paymentDiv").css("display", "");
 
-                                $("#whatsYourPaymentFieldError").text('for now, Only GCash payment method implemented.');
+                                $("#whatsYourPaymentFieldError").text('for now, Only Cod payment method implemented.');
 
                                 $("html, body").animate({
                                     scrollTop: $("#paymentDiv").offset().top-100
@@ -1323,7 +1011,7 @@
                             }
                         }
                     });
-                //}
+                }
             }
         });
 

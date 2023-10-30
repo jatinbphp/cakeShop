@@ -290,7 +290,6 @@
     </div>
 </section>
 
-@if((!empty($delivery_charges) && ($settings['delivery_method']==1)) || (!empty($pickup_points) && ($settings['pickup_method']==1)))
 <section class="popular-items section-padding40" id="deliveryDiv" style="display: none;">
     <div class="container">
         <div class="row justify-content-center">
@@ -305,13 +304,11 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                     <div class="radio-group-list" id="delivery_type_radio">
-                        @if(!empty($delivery_charges) && ($settings['delivery_method']==1))
-                            <div class="radio-group-item" >
-                                <input type="radio" id="take_delivery" name="delivery_type" value="take_delivery">
-                                <label for="take_delivery">Delivery</label>
-                            </div>
-                        @endif
-                        @if(!empty($pickup_points) && ($settings['pickup_method']==1))
+                        <div class="radio-group-item" >
+                            <input type="radio" id="take_delivery" name="delivery_type" value="take_delivery">
+                            <label for="take_delivery">Delivery</label>
+                        </div>
+                        @if(!empty($pickup_points))
                         <div class="radio-group-item">
                                 <input type="radio" id="take_pickup" name="delivery_type" value="take_pickup">
                                 <label for="take_pickup">Pickup</label>
@@ -320,42 +317,6 @@
                     </div>
 
                     <p id="whatsYourDeliveryFieldError" class="error"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
-
-<section class="popular-items section-padding40" id="deliveryAddressDiv" style="display: none;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                <div class="section-tittle mb-60">
-                    <h2>Where do you want to delivery?</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="orderProcess">
-            <div class="row justify-content-center">
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                    <div class="radio-group-list" id="delivery_address_radio">
-
-                        @if(!empty($delivery_charges))
-                            @foreach ($delivery_charges as $listc)
-                                <div class="radio-group-item" >
-                                    <input type="radio" id="city_{{$listc['id']}}" name="city" value="{{$listc['id']}}" data-value="{{$listc['city']}}">
-                                    <label for="city_{{$listc['id']}}">
-                                        {{$listc['city']}}</br>
-                                        <b>Charge :</b> ₱ {{number_format($listc['charge'], 2, '.', '')}}
-                                    </label>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-
-                    <p id="whatsYourPickupFieldError" class="error"></p>
                 </div>
             </div>
         </div>
@@ -380,7 +341,7 @@
                         @if(!empty($pickup_points))
                             @foreach ($pickup_points as $lista)
                                 <div class="radio-group-item" >
-                                    <input type="radio" id="address_{{$lista['id']}}" name="address" value="{{$lista['id']}}" data-value="{{$lista['address']}}">
+                                    <input type="radio" id="address_{{$lista['id']}}" name="address" value="{{$lista['id']}}">
                                     <label for="address_{{$lista['id']}}">{{$lista['address']}}</label>
                                 </div>
                             @endforeach
@@ -477,16 +438,12 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="pickup-txt" id="pickuptxtid">
-                                <h6 id="pickuptxtnameType">Pickup - <span>Free</span></h6>
-                                <p><span id="pickuptxtname">Quezon City</span> • <span id="selectedTime"></span></p>
+                            <div class="pickup-txt">
+                                <h6>Pickup<span>Free</span></h6>
+                                <p>Quezon City • <span id="selectedTime"></span></p>
                             </div>
                             <div class="total-txt">
-                                <h5>Sub Total</h5>
-                                <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
-                            </div>
-                            <div class="total-txt">
-                                <h5>Grand Total</h5>
+                                <h5>Total</h5>
                                 <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
                             </div>
                         @endif
@@ -537,7 +494,6 @@
 <input type="hidden" name="hidden_payment_type" id="hidden_payment_type">
 <input type="hidden" name="hidden_delivery_type" id="hidden_delivery_type">
 <input type="hidden" name="hidden_pickup_type" id="hidden_pickup_type">
-<input type="hidden" name="hidden_delivery_address_id" id="hidden_delivery_address_id">
 {!! Form::close() !!}
 
 @endsection
@@ -948,12 +904,7 @@
                                 $("#whatsYourEmail").css("display", "");
                                 $("#whatsYourPhone").css("display", "");
                                 $("#whatsYourNotes").css("display", "");
-
-                                @if((!empty($delivery_charges) && ($settings['delivery_method']==1)) || (!empty($pickup_points) && ($settings['pickup_method']==1)))
-                                    $("#deliveryDiv").css("display", "");
-                                @else
-                                    $("#paymentDiv").css("display", "");
-                                @endif                                
+                                $("#deliveryDiv").css("display", "");
 
                                 $("html, body").animate({
                                     scrollTop: $("#whatsYourName").offset().top-100
@@ -1095,19 +1046,11 @@
                 $("#hidden_short_notes").val(whatsYourNotesField);
             }
 
-            @if((!empty($delivery_charges) && ($settings['delivery_method']==1)) || (!empty($pickup_points) && ($settings['pickup_method']==1)))
-                $("#deliveryDiv").css("display", "");
+            $("#deliveryDiv").css("display", "");
 
-                $("html, body").animate({
-                    scrollTop: $("#deliveryDiv").offset().top-100
-                }, 1000);
-            @else
-                $("#paymentDiv").css("display", "");
-
-                $("html, body").animate({
-                    scrollTop: $("#paymentDiv").offset().top-100
-                }, 1000);
-            @endif
+            $("html, body").animate({
+                scrollTop: $("#deliveryDiv").offset().top-100
+            }, 1000);
         });
 
         /*$('#btnwhatsYourNotes').on('click', function(){
@@ -1132,10 +1075,7 @@
 
             if($(this).val()=='take_pickup'){
 
-                $("#delivery_address_radio input:radio").prop('checked', false);
-
                 $("#paymentDiv").css("display", "none");
-                $("#deliveryAddressDiv").css("display", "none");
                 $("#pickupDiv").css("display", "");
 
                 $("html, body").animate({
@@ -1146,42 +1086,17 @@
 
                 $("#pickup_type_radio input:radio").prop('checked', false);
 
-                $("#paymentDiv").css("display", "none");
-                $("#deliveryAddressDiv").css("display", "");
+                $("#paymentDiv").css("display", "");
                 $("#pickupDiv").css("display", "none");
 
                 $("html, body").animate({
-                    scrollTop: $("#deliveryAddressDiv").offset().top-100
+                    scrollTop: $("#paymentDiv").offset().top-100
                 }, 1000);
-
-                
             }
-        });
-
-        $('#delivery_address_radio input:radio').click(function() {
-            $("#hidden_delivery_address_id").val($(this).val());
-
-            $("#pickuptxtnameType").html('Delivery');
-            $("#pickuptxtnameTypeAjax").html('Delivery');
-            
-            $("#pickuptxtname").text($(this).attr('data-value'));
-            $("#pickuptxtnameAjax").text($(this).attr('data-value'));
-
-            $("#paymentDiv").css("display", "");
-
-            $("html, body").animate({
-                scrollTop: $("#paymentDiv").offset().top-100
-            }, 1000);
         });
 
         $('#pickup_type_radio input:radio').click(function() {
             $("#hidden_pickup_type").val($(this).val());
-
-            $("#pickuptxtnameType").html('Pickup - <span>Free</span>');
-            $("#pickuptxtnameTypeAjax").html('Pickup - <span>Free</span>');
-            
-            $("#pickuptxtname").text($(this).attr('data-value'));
-            $("#pickuptxtnameAjax").text($(this).attr('data-value'));
 
             $("#paymentDiv").css("display", "");
 
@@ -1192,22 +1107,6 @@
 
         $('#payment_type_radio input:radio').click(function() {
             $("#hidden_payment_type").val($(this).val());
-
-            var delivery_address_id = $('#hidden_delivery_address_id').val();
-            var pickup_type = $('#hidden_pickup_type').val();
-
-            $.ajax({
-                url: "{{route('getConfirmOrderSection')}}",
-                type: "post",
-                data: {'_token' : $('meta[name=_token]').attr('content'), 'delivery_address_id': delivery_address_id, 'pickup_type': pickup_type },
-                success: function(data){
-                    $("#itemList").html(data);
-
-                    var timingVar = $("#hidden_order_date").val()+' '+$("#hidden_order_time").val();
-
-                    $("#selectedTimeAjax").text(dateFormat(timingVar, "ddd, mmm dS, yyyy, h:MM TT"));
-                }
-            });
 
             $("#confirmOrderDiv").css("display", "");
 
@@ -1257,7 +1156,6 @@
             var payment_type = $('#hidden_payment_type').val();
             var delivery_type = $('#hidden_delivery_type').val();
             var pickup_type = $('#hidden_pickup_type').val();
-            var delivery_address_id = $('#hidden_delivery_address_id').val();
 
             if(customer_phone.length!=11){
 
@@ -1279,7 +1177,7 @@
                     $.ajax({
                         url: "{{route('addOrder')}}",
                         type: "post",
-                        data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, 'delivery_type': delivery_type, 'pickup_type': pickup_type, 'delivery_address_id': delivery_address_id, '_token' : $('meta[name=_token]').attr('content') },
+                        data: {'order_date': order_date, 'order_time': order_time, 'customer_name': customer_name, 'customer_email': customer_email, 'customer_phone': customer_phone, 'short_notes': short_notes, 'payment_type': payment_type, 'delivery_type': delivery_type, 'pickup_type': pickup_type, '_token' : $('meta[name=_token]').attr('content') },
                         success: function(data){
                             if(data.status == 0){
                                 window.location.href = "{{url('/login')}}";

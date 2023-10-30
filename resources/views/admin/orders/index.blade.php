@@ -50,7 +50,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" id="customerSearch">
                                     <label for="customer" class="form-label">Customer :</label>
                                     <input type="text" id="customer" onKeyup="showData();" class="form-control">
                                 </div>
@@ -71,15 +71,16 @@
                                     <table id="ordersTable" class="table table-bordered display nowrap" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Customer Information</th>
-                                                <th>Cellphone</th>
-                                                <th>Products</th>
-                                                <th style="width: 12%;">Status</th>
-                                                <th style="width: 12%;">Total</th>
-                                                <th style="width: 18%;" >Delivery Date</th>
-                                                <!-- <th style="width: 18%;" >Fullfillment Date</th> -->
-                                                <th>Action</th>
+                                                <th class="tablet-p table-l desktop">ID</th>
+                                                <th class="all">Customer Information</th>
+                                                <th class="tablet-p table-l desktop">Cellphone</th>
+                                                <th class="tablet-p table-l desktop">Products</th>
+                                                <th class="tablet-p table-l desktop" style="width: 20%">Status</th>
+                                                <th class="tablet-p table-l desktop">Total</th>
+                                                <th class="all">Delivery Date</th>
+                                                <th class="tablet-p table-l desktop" style="width: 20%">Pickup</th>
+                                                <th class="tablet-p table-l desktop">Delivery Address</th>
+                                                <th class="tablet-p table-l desktop">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -123,7 +124,7 @@ function datatables(){
             {
                 text: 'csv',
                 extend: 'csvHtml5',
-            },
+            }
         ],
         ajax: {
             url: ajaxUrl,
@@ -140,10 +141,11 @@ function datatables(){
             {data: 'customer_name', name: 'customer_name', orderable: false},
             {data: 'customer_phone', name: 'customer_phone', orderable: false},
             {data: 'order_items', name: 'order_items', orderable: false},
-            {data: 'status', name: 'status', orderable: false},
+            {data: 'status', width: '35%', name: 'status', orderable: false},
             {data: 'order_total', name: 'order_total'},
             {data: 'order_date', name: 'order_date'},
-            /*{data: 'order_date', name: 'order_date'},*/
+            {data: 'pickup_address', width: '35%', name: 'pickup_address'},
+            {data: 'delivery_address', width: '35%', name: 'delivery_address'},
             {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -258,7 +260,42 @@ $(function () {
         });
     });
 
+    $('#ordersTable tbody').on('click', '.copyOrder', function() {
+        if($(window).width() < 500){
+            var data = $('#ordersTable').DataTable().row($(this).parents('li')).data();
+        }else{
+            var data = $('#ordersTable').DataTable().row($(this).parents('tr')).data();
+        }
+        var orderStatus = $('#status'+data.unique_id).val();
 
+        var textToCopy = data.unique_id +', ' + data.customer_name +', ' + data.customer_phone +', ' + data.order_items +', ' + orderStatus[0].toUpperCase() + orderStatus.slice(1) +', ' + data.order_total +', ' + data.order_date +', ' + data.pickup_address +', ' + data.delivery_address;
+
+        var clipboard = new ClipboardJS(this, {
+            text: function() {
+                return textToCopy;
+            }
+        });
+        clipboard.on('success', function(e) {
+            console.log('Copied: ' + e.text);
+            swal("Success", "Order data copied", "success");
+        });
+        clipboard.on('error', function(e) {
+            swal("Error", "Something is wrong", "error");
+        });
+    });
 });
+
+$(window).resize(function(){
+    if($(window).width() < 500){
+        $('#customerSearch').hide();
+        $(".cpBtn").show();
+    }else{
+        if($('#obj_id').is(':hidden')){
+            $('#customerSearch').show();
+            $(".cpBtn").hide();
+        }
+    }
+});
+$(window).trigger('resize');
 </script>
 @endsection

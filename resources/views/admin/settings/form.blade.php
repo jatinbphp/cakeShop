@@ -133,7 +133,7 @@
 
 <div class="">
     <div class="col-md-12">
-        <h5><b>Delivery Options</b></h5>
+        <h5><b>Delivery Address</b></h5>
         <hr>
     </div>
     <div class="row">

@@ -244,7 +244,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-8">
         <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
             <label class="col-md-12 control-label" for="status">Status :<span class="text-red">*</span></label>
             <div class="col-md-12">
@@ -263,7 +263,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-4">
         <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
             <label class="control-label" for="name">Delivery Fee :<span class="text-red">*</span></label>
             {!! Form::text('delivery_fee', null, ['class' => 'form-control']) !!}

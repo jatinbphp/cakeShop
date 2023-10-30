@@ -50,6 +50,8 @@ class CustomerController extends Controller
                         $btn .= '<span data-toggle="tooltip" title="Delete User" data-trigger="hover">
                                     <button class="btn btn-sm btn-danger deleteUser" data-id="'.$row->id.'" type="button"><i class="fa fa-trash"></i></button>
                                 </span>';
+
+                        $btn .= '<div class="btn-group btn-group-sm"><a href="'.url('admin/orders/'.$row->id).'"><button class="btn btn-sm btn-warning tip" data-toggle="tooltip" title="View Orders" data-trigger="hover" type="submit" ><i class="fa fa-shopping-cart"></i></button></a></div>';
                         return $btn;
                     })
                     ->rawColumns(['status','action'])

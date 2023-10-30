@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/select2/select2.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/iCheck/flat/blue.css')}}">
@@ -178,14 +179,14 @@
                     <li class="nav-item">
                         <a href="{{ route('pickuppoints.index') }}" class="nav-link @if($menu=='Pickup Points') active @endif">
                             <i class="nav-icon fa fa-truck"></i>
-                            <p>Manage Pickup Points</p>
+                            <p>Pickup Points</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ route('deliverycharges.index') }}" class="nav-link @if($menu=='Delivery Charges') active @endif">
                             <i class="nav-icon fa fa-truck"></i>
-                            <p>Manage Delivery Charges</p>
+                            <p>Delivery Addresses</p>
                         </a>
                     </li>
 
@@ -221,6 +222,7 @@
 <script src="{{ URL('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ URL('assets/plugins/datatables-colreorder/js/dataTables.colReorder.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{ URL('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
@@ -248,6 +250,7 @@
 <script src="{{ URL('assets/dist/js/jquery.validate.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/jSignature/libs/jSignature.min.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/jSignature/libs/modernizr.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 
 <script>Ladda.bind( 'input[type=submit]' );</script>
 <script>

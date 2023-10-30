@@ -160,9 +160,24 @@
                                                                     </tbody>
                                                                     <tfoot>
                                                                         <tr>
-                                                                            <td><span style="font-weight:600;">Total</span></td>
+                                                                            <td><span style="font-weight:600;">Sub Total</span></td>
                                                                             <td align="right"><span>₱</span>{{number_format($order->order_total,2, '.', '')}}</td>
                                                                         </tr>
+                                                                        @if(!empty($order->delivery_fee))
+                                                                            <tr>
+                                                                                <td><span style="font-weight:600;">Delivery Charge</span></td>
+                                                                                <td align="right"><span>₱</span>{{number_format($order->delivery_fee,2, '.', '')}}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><span style="font-weight:600;">Grand Total</span></td>
+                                                                                <td align="right"><span>₱</span>{{number_format(($order->order_total+$order->delivery_fee),2, '.', '')}}</td>
+                                                                            </tr>
+                                                                        @else 
+                                                                            <tr>
+                                                                                <td><span style="font-weight:600;">Grand Total</span></td>
+                                                                                <td align="right"><span>₱</span>{{number_format($order->order_total,2, '.', '')}}</td>
+                                                                            </tr>
+                                                                        @endif
                                                                     </tfoot>
                                                                 </table>
                                                             </div>

@@ -1,3 +1,7 @@
+@php
+    $categories = \App\Models\Category::where('status', 'active')->take(5)->get();
+    $settings = \App\Models\Setting::where('id', '1')->first();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -108,9 +112,12 @@
                                         <a href="{{ route('home') }}"><img src="{{ asset('website/images/logo-transparent.png') }}" alt=""></a>
                                     </div>
                                     <div class="footer-tittle">
-                                        <div class="footer-pera">
-                                            <p>Land behold it created good saw after she'd Our set living. Signs midst dominion creepeth.</p>
-                                        </div>
+                                        @if(!empty($settings->logo_content))
+                                            <div class="footer-pera">
+                                                <p>{{$settings->logo_content}}</p>
+                                            </div>
+                                        @endif
+                                        
                                         <div class="footer-social">
                                             <a href="#"><i class="fab fa-twitter-square"></i></a>
                                             <a href="#"><i class="fab fa-facebook-square"></i></a>
@@ -127,35 +134,44 @@
                                     <h4>Quick Links</h4>
                                     <ul>
                                         <li><a href="{{ route('home') }}">Home</a></li>
-                                        <li><a href="{{ route('contact_us') }}">Contact</a></li>
+                                        <li><a href="{{ route('contact_us') }}">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                        @if(!empty($categories))
                         <div class="col-xl-2 col-lg-2 col-md-8 col-sm-6">
                             <div class="single-footer-caption">
                                 <div class="footer-tittle">
                                     <h4>Cakes</h4>
                                     <ul>
-                                        <li><a href="#">Blackforest</a></li>
-                                        <li><a href="#">Bodhubon</a></li>
-                                        <li><a href="#">Rongdhonu</a></li>
-                                        <li><a href="#">Meghrong</a></li>
+                                        @foreach ($categories as $key => $value)
+                                            <li><a href="#">{{$value->name}}</a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                        @endif
+
+                        @if(!empty($settings->contact_number) || !empty($settings->contact_content))
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-8">
                             <div class="single-footer-caption">
+                                @if(!empty($settings->contact_content))
                                 <div class="footer-tittle">
                                     <h4>Contact Us</h4>
-                                    <p>76/A, Green Lane, Dhanmondi, NYC</p>
+                                    <p>{{$settings->contact_content}}</p>
                                 </div>
+                                @endif
+
+                                @if(!empty($settings->contact_number))
                                 <ul>
-                                    <li class="number"><a href="#">+10 (78) 738-9083</a></li>
+                                    <li class="number"><a href="#">{{$settings->contact_number}}</a></li>
                                 </ul>
+                                @endif
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

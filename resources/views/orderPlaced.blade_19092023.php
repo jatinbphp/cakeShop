@@ -13,11 +13,7 @@
                         <div class="section-tittle">
                             <h3><strong>Total</strong></h3>
                             <div class="edit-cart">
-                                @if(!empty($order['delivery_fee']))
-                                    <h3><strong>₱ {{number_format(($order['order_total']+$order['delivery_fee']), 2, '.', '')}}</strong></h3>
-                                @else
-                                    <h3><strong>₱ {{number_format($order['order_total'], 2, '.', '')}}</strong></h3>
-                                @endif                                
+                                <h3><strong>₱ {{number_format($order['order_total'], 2, '.', '')}}</strong></h3>
                                 <p class="text-danger">{{ucfirst(str_replace('_',' ',$order['status']))}}</p>
                             </div>
                         </div>

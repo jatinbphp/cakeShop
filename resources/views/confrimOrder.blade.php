@@ -21,12 +21,38 @@
             </div>
         @endforeach
     </div>
-    <div class="pickup-txt">
-        <h6>Pickup<span>Free</span></h6>
-        <p>Quezon City • <span id="selectedTimeAjax"></span></p>
-    </div>
-    <div class="total-txt">
-        <h5>Total</h5>
-        <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
-    </div>
+    @if(isset($delivery_charges) && !empty($delivery_charges))
+        <div class="pickup-txt">
+            <h6 id="pickuptxtnameTypeAjax">Delivery</h6>
+            <p><span id="pickuptxtnameAjax">Quezon City</span> • <span id="selectedTimeAjax"></span></p>
+        </div>
+        <div class="total-txt">
+            <h5>Sub Total</h5>
+            <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
+        </div>
+        <div class="total-txt">
+            <h5>Delivery Charge</h5>
+            <h3>₱ {{number_format($delivery_charges['charge'], 2, '.', '')}}</h3>
+        </div>
+
+        <div class="total-txt">
+            <h5>Grand Total</h5>
+            <h3>₱ {{number_format(($cart_total+$delivery_charges['charge']), 2, '.', '')}}</h3>
+        </div>
+    @else
+        @if(isset($pickup_point) && !empty($pickup_point))
+            <div class="pickup-txt">
+                <h6 id="pickuptxtnameTypeAjax">Pickup - <span>Free</span></h6>
+                <p><span id="pickuptxtnameAjax">{{$pickup_point['address']}}</span> • <span id="selectedTimeAjax"></span></p>
+            </div>
+        @endif
+        <div class="total-txt">
+            <h5>Sub Total</h5>
+            <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
+        </div>
+        <div class="total-txt">
+            <h5>Grand Total</h5>
+            <h3>₱ {{number_format($cart_total, 2, '.', '')}}</h3>
+        </div>
+    @endif
 @endif
