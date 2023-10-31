@@ -75,7 +75,7 @@
                 <div class="col-md-12">
                     @foreach (\App\Models\Setting::$status as $key => $value)
                         <label>
-                            {!! Form::radio('p_cod', $key, null, ['class' => 'flat-red']) !!} 
+                            {!! Form::radio('p_cod', $key, null, ['class' => 'flat-red']) !!}
                             <span style="margin-right: 10px">{{ $value }}</span>
                         </label>
                     @endforeach
@@ -95,7 +95,7 @@
                 <div class="col-md-12">
                     @foreach (\App\Models\Setting::$status as $key => $value)
                         <label>
-                            {!! Form::radio('p_gcash', $key, null, ['class' => 'flat-red']) !!} 
+                            {!! Form::radio('p_gcash', $key, null, ['class' => 'flat-red']) !!}
                             <span style="margin-right: 10px">{{ $value }}</span>
                         </label>
                     @endforeach
@@ -115,7 +115,7 @@
                 <div class="col-md-12">
                     @foreach (\App\Models\Setting::$status as $key => $value)
                         <label>
-                            {!! Form::radio('p_bank', $key, null, ['class' => 'flat-red']) !!} 
+                            {!! Form::radio('p_bank', $key, null, ['class' => 'flat-red']) !!}
                             <span style="margin-right: 10px">{{ $value }}</span>
                         </label>
                     @endforeach
@@ -143,7 +143,7 @@
                 <div class="col-md-12">
                     @foreach (\App\Models\Setting::$status as $key => $value)
                         <label>
-                            {!! Form::radio('delivery_method', $key, null, ['class' => 'flat-red']) !!} 
+                            {!! Form::radio('delivery_method', $key, null, ['class' => 'flat-red']) !!}
                             <span style="margin-right: 10px">{{ $value }}</span>
                         </label>
                     @endforeach
@@ -163,7 +163,7 @@
                 <div class="col-md-12">
                     @foreach (\App\Models\Setting::$status as $key => $value)
                         <label>
-                            {!! Form::radio('pickup_method', $key, null, ['class' => 'flat-red']) !!} 
+                            {!! Form::radio('pickup_method', $key, null, ['class' => 'flat-red']) !!}
                             <span style="margin-right: 10px">{{ $value }}</span>
                         </label>
                     @endforeach
@@ -226,6 +226,21 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('holidays_date') ? ' has-error' : '' }}">
+                <label class="col-md-12 control-label" for="holidays_date">Holidays Date<span class="text-red"></span></label>
+                <div class="col-md-12">
+                    {!! Form::text('holidays_date', null, ['class' => 'form-control datepicker', 'placeholder' => 'Enter Logo Content']) !!}
+                    @if ($errors->has('holidays_date'))
+                        <span class="text-danger">
+                            <strong>{{ $errors->first('holidays_date') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

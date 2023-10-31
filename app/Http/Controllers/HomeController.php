@@ -29,32 +29,25 @@ class HomeController extends Controller
         $data['products'] = Products::with('ProductImages')->where('status', 'active')->get();
         $data['pickup_points'] = PickupPoints::where('status','active')->get();
         $data['delivery_charges'] = DeliveryCharges::where('status','active')->get();
-
         $data['cart_products'] = [];
         $data['user'] = [];
         if(Auth::check()){
             $user = Auth::user();
             $data['cart_products'] = Cart::with('Product','Product.ProductImages')->where('user_id',$user->id)->get();
-
             $data['user'] = $user;
-
             $data['cart_total'] = Cart::where('user_id', $user->id)->sum('sub_total');
-
         } else {
-
             if(!empty(session()->get('cart'))){
                $data['cart_products'] = session()->get('cart');
             }
-
-
             $cart_total = 0;
             if(!empty($data['cart_products'])){
                 $cart_total = array_sum(array_column($data['cart_products'],'sub_total'));
             }
-
             $data['cart_total'] = number_format($cart_total,2, '.', '');
         }
         $data['settings'] = Setting::findOrFail(1);
+        $data['holidays'] = !empty($data['settings']['holidays_date']) ? explode(',',$data['settings']['holidays_date']) : [];
         return view('home',$data);
     }
 
@@ -389,7 +382,7 @@ class HomeController extends Controller
 
         if(!empty($request['pickup_type'])){
             $data['pickup_point'] = PickupPoints::where('status','active')->where('id',$request['pickup_type'])->first();
-        }        
+        }
 
         if(Auth::check()){
             $user = Auth::user()->id;

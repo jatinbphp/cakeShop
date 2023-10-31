@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <link rel="stylesheet" href="{{ URL::asset('assets/dist/css/custom.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/plugins/ladda/ladda-themeless.min.css')}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+
     <style>
         a.disabled {
             pointer-events: none;
@@ -251,6 +253,7 @@
 <script src="{{ URL::asset('assets/plugins/jSignature/libs/jSignature.min.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/jSignature/libs/modernizr.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 
 <script>Ladda.bind( 'input[type=submit]' );</script>
 <script>
@@ -269,8 +272,10 @@
 
         /*Datepicker*/
         $('.datepicker').datepicker({
-            format: 'yyyy-m-d',
+            format: 'yyyy-mm-dd',
+            multidate: true,
             autoclose: true,
+            startDate: '-0m'
         });
 
         $('.datepicker2').datepicker({

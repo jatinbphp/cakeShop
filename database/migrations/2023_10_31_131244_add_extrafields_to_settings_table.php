@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddGcashMobileToSettingsTable extends Migration
+class AddExtrafieldsToSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,9 @@ class AddGcashMobileToSettingsTable extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->longText('gcash_mobile')->nullable()->after('image');
-            $table->longText('gcash_screenshot_mobile')->nullable()->after('gcash_mobile');
+            $table->longText('logo_content')->nullable()->after('p_bank');
+            $table->longText('contact_content')->nullable()->after('logo_content');
+            $table->string('contact_number')->nullable()->after('contact_content');
         });
     }
 
@@ -27,7 +28,9 @@ class AddGcashMobileToSettingsTable extends Migration
     public function down()
     {
         Schema::table('settings', function (Blueprint $table) {
-            //
+            $table->dropColumn('logo_content');
+            $table->dropColumn('contact_content');
+            $table->dropColumn('contact_number');
         });
     }
 }

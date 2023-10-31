@@ -25,6 +25,15 @@
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <style>
+        .disabled-date {
+            color: #f90505 !important;
+            background-color: #efefef!important;
+        }
+        .disabledDay {
+            pointer-events: none!important;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -117,7 +126,7 @@
                                                 <p>{{$settings->logo_content}}</p>
                                             </div>
                                         @endif
-                                        
+
                                         <div class="footer-social">
                                             <a href="#"><i class="fab fa-twitter-square"></i></a>
                                             <a href="#"><i class="fab fa-facebook-square"></i></a>

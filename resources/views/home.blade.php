@@ -86,10 +86,7 @@
     </div>
 
     <div id="cartListDiv" class="mt-40" style="display: none;">
-
         @if(isset($cart_products) && count($cart_products)>0)
-
-
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
@@ -140,14 +137,12 @@
 
 <section class="popular-items section-padding40" id="calendarDiv" style="display: none;">
     <div class="container">
-
         <div class="row justify-content-center" id="errorMsgDate" style="display:none;">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                 <div class="section-tittle text-center" id="errorMsgDateAlert">
                 </div>
             </div>
         </div>
-
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
                 <div class="section-tittle mb-60">
@@ -543,11 +538,15 @@
 @endsection
 @section('jQuery')
     <script>
+        var holidays = '{{$settings['holidays_date']}}';
+        var dates = holidays.split(',');
+
         $(function(){
             $('#my_calendar_calSize').rescalendar({
                 id: 'my_calendar_calSize',
                 dateFormat: "yy-mm-dd",
                 jumpSize: -1,
+                disabledDays: dates,
                 calSize: 5,
                 dataKeyField: 'name',
                 dataKeyValues: ['']
@@ -740,6 +739,7 @@
                 autoclose: true,
                 startDate: '+1d',
                 minDate : 1,
+                datesDisabled: dates,
                 onSelect: function(dateText, inst) {
                   // Close the datepicker after date selection
                   $(this).datepicker("hide");
@@ -754,6 +754,7 @@
                 id: 'my_calendar_calSize',
                 dateFormat: "yy-mm-dd",
                 jumpSize: 0,
+                disabledDays: dates,
                 calSize: 5,
                 dataKeyField: 'name',
                 dataKeyValues: ['']
@@ -953,7 +954,7 @@
                                     $("#deliveryDiv").css("display", "");
                                 @else
                                     $("#paymentDiv").css("display", "");
-                                @endif                                
+                                @endif
 
                                 $("html, body").animate({
                                     scrollTop: $("#whatsYourName").offset().top-100
@@ -1154,7 +1155,7 @@
                     scrollTop: $("#deliveryAddressDiv").offset().top-100
                 }, 1000);
 
-                
+
             }
         });
 
@@ -1163,7 +1164,7 @@
 
             $("#pickuptxtnameType").html('Delivery');
             $("#pickuptxtnameTypeAjax").html('Delivery');
-            
+
             $("#pickuptxtname").text($(this).attr('data-value'));
             $("#pickuptxtnameAjax").text($(this).attr('data-value'));
 
@@ -1179,7 +1180,7 @@
 
             $("#pickuptxtnameType").html('Pickup - <span>Free</span>');
             $("#pickuptxtnameTypeAjax").html('Pickup - <span>Free</span>');
-            
+
             $("#pickuptxtname").text($(this).attr('data-value'));
             $("#pickuptxtnameAjax").text($(this).attr('data-value'));
 
@@ -1238,7 +1239,7 @@
                 }, 1000);
             }
         });
-            
+
         function btnPreviewCart() {
             $("#calendarDiv").css("display", "");
 
